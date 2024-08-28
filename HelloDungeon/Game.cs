@@ -25,7 +25,7 @@ namespace HelloDungeon
             string playerAlignment = "Neutral";
             float playerProximityToNearestLivingSkeleton = 12.0f;
             bool playerAlive = true;
-            string playerRole;
+            string playerRole = "";
 
 
             Console.WriteLine("Hello, " + playerName + "!");
@@ -40,24 +40,23 @@ namespace HelloDungeon
             Console.WriteLine("Proximity to Nearest Living Skeleton: " + playerProximityToNearestLivingSkeleton + " meters");
             Console.WriteLine();
             Console.WriteLine("Are you a Wizard, or a Warrior?");
-            Console.Write("1: Wizard | 2: Warrior");
+            
 
-            string? playerChoice = Console.ReadLine();
+            string? playerChoice = "";
             while (playerChoice != "1" && playerChoice != "2")
             {
-                Console.WriteLine("Invalid Choice, try again!");
+                Console.WriteLine("1: Wizard | 2: Warrior");
                 playerChoice = Console.ReadLine();
+                if (playerChoice == "1")
+                {
+                    playerRole = "Wizard";
+                }
+                else
+                {
+                    playerRole = "Warrior";
+                }
             }
-            if (playerChoice == "1")
-            {
-                Console.WriteLine("You are a wizard!");
-                playerRole = "Wizard";
-            }
-            else
-            {
-                Console.WriteLine("You are a warrior!");
-                playerRole = "Warrior";
-            }
+            Console.WriteLine("Player Role: " + playerRole);
 
             Console.WriteLine("Gray bricks line the walls of the dungeon,"
                 + " and dust and dread permeate the air.");
@@ -83,7 +82,6 @@ namespace HelloDungeon
                 Console.WriteLine("You enter the right door.");
                 Console.WriteLine("");
             }
-
 
         }
     }
