@@ -13,10 +13,10 @@ namespace HelloDungeon
         {
             Console.WriteLine("What's your name, adventurer?");
             string? playerName = Console.ReadLine();
-            while (string.IsNullOrEmpty(playerName))
+            while (string.IsNullOrWhiteSpace(playerName))
             {
-                Console.WriteLine("Sorry, what was that?");
-                    playerName = Console.ReadLine();
+                Console.WriteLine("Sorry, what didya say?");
+                playerName = Console.ReadLine();
             }
 
             float playerHealth = 10.0f;
@@ -40,9 +40,27 @@ namespace HelloDungeon
             Console.WriteLine();
             Console.WriteLine("Gray bricks line the walls of the dungeon,"
                 + " and dust and dread permeate the air.");
-                Console.WriteLine("Two doors stand side by side on the wall in front of you."
-                + " Which do you choose?");
+            Console.WriteLine("Two doors stand side by side on the wall in front of you."
+            + " Which do you choose?");
             Console.WriteLine();
+            Console.WriteLine("1: Left | 2: Right");
+            string? playerChoice = Console.ReadLine();
+
+            // While loop to prevent the player from making an invalid choice
+            while (playerChoice != "1" && playerChoice != "2")
+            {
+                Console.WriteLine("Invalid Choice, try again!");
+                playerChoice = Console.ReadLine();
+            }
+            if (playerChoice == "1")
+            {
+                Console.WriteLine("You enter the left door.");
+            }
+            else
+            {
+                Console.WriteLine("You enter the right door.");
+            }
+
         }
     }
 }
