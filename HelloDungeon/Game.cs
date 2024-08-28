@@ -123,7 +123,13 @@ namespace HelloDungeon
                     }
                     else if (playerChoice == "2")
                     {
-                        Console.WriteLine("");
+                        Console.WriteLine("As you turn the corner, you stumble into a small, green slime.");
+                        Console.WriteLine("It squelches with an immense rage that has been stewing for years upon years.");
+                        Console.WriteLine("The Slime leaps toward you!");
+                        Console.WriteLine("COMBAT START!");
+                        gameCombat.RunCombat();
+
+                        // combat will happen eventually dw about it rn
                     }
                 }
             }
@@ -158,14 +164,19 @@ namespace HelloDungeon
                         A: 2
                         -- FOUR BAJILLION AND TWO - 1
                         A: FOUR BAJILLION AND ONE
-
-
-
+                        --
+                        A:
+                        --
+                        A:
                         */
                     }
                     else if (playerChoice == "2")
                     {
                         Console.WriteLine("The moment you touch the doorknob, the door falls over like a domino away from you.");
+                        Console.WriteLine("I dont know whats behind this other than a lever code thing");
+                        Console.WriteLine("uhhh HEY LOOK AT THIS -> left left right ");
+                        Console.WriteLine("wait right a slime");
+                        Console.WriteLine("The Slime leaps towards you!");
                     }
                 }
 
