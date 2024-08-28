@@ -19,6 +19,8 @@ namespace HelloDungeon
                 playerName = Console.ReadLine();
             }
 
+            GameCombat gameCombat = new GameCombat();
+
             float playerHealth = 10.0f;
             float playerMana = 5.0f;
             int playerGold = 3;
@@ -26,7 +28,6 @@ namespace HelloDungeon
             float playerProximityToNearestLivingSkeleton = 20.0f;
             bool playerAlive = true;
             string playerRole = "";
-            string enemyName = "";
 
 
             Console.WriteLine("Hello, " + playerName + "!");
@@ -107,7 +108,7 @@ namespace HelloDungeon
                                 Console.WriteLine("That was pretty obvious, though.");
                                 Console.WriteLine("The Mimic lunges at you!");
                                 Console.WriteLine("COMBAT START!");
-                                enemyName = "Mimic";
+                                gameCombat.RunCombat();
 
                                 // we're gonna learn how to make our own functions eventually
                                 // that's when i figure out the combat
@@ -115,7 +116,7 @@ namespace HelloDungeon
                             }
                             else if (playerChoice == "2")
                             {
-
+                                Console.WriteLine("You turn around, then go down the hallway that is now to your right.");
                             }
                         }
 
@@ -129,10 +130,32 @@ namespace HelloDungeon
             else if (playerChoice == "2")
             {
                 Console.WriteLine("You enter the right door.");
-                Console.WriteLine("the swag");
-                Console.WriteLine("");
-                Console.WriteLine("");
-                Console.WriteLine("");
+                Console.WriteLine("Dust and dread are replaced by ash and flame. Magma pours around you, but never on you.");
+                Console.WriteLine("You feel a general lack of dreadful presences in this direction.");
+                playerProximityToNearestLivingSkeleton += 6;
+                Console.WriteLine();
+                Console.WriteLine("Proximity to Nearest Living Skeleton: " + playerProximityToNearestLivingSkeleton + " meters (+6)");
+                Console.WriteLine();
+                Console.WriteLine("Soon enough, you come across a fork in your path.");
+                Console.WriteLine("Straight ahead is a Sphinx, encrusted in magma. To the right is a large door.");
+                Console.WriteLine("Which way will you go?");
+                playerChoice = "not 1 or 2";
+                while (playerChoice != "1" && playerChoice != "2")
+                {
+                    Console.WriteLine("1: Straight | 2: Right");
+                    playerChoice = Console.ReadLine();
+                    if (playerChoice == "1")
+                    {
+                        Console.WriteLine("You approach the molten Sphinx with great caution.");
+                        Console.WriteLine("The Sphinx immediately fixes its gaze upon you.");
+                        Console.WriteLine("''HUMAN,'' It bellows. ''TO PASS THROUGH YOU MUST ANSWER MY RIDDLES.''");
+                    }
+                    else if (playerChoice == "2")
+                    {
+                        Console.WriteLine("The moment you touch the doorknob, the door falls over like a domino away from you.");
+                    }
+                }
+
             }
 
         }
