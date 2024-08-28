@@ -25,6 +25,7 @@ namespace HelloDungeon
             string playerAlignment = "Neutral";
             float playerProximityToNearestLivingSkeleton = 12.0f;
             bool playerAlive = true;
+            string playerRole;
 
 
             Console.WriteLine("Hello, " + playerName + "!");
@@ -38,13 +39,33 @@ namespace HelloDungeon
             Console.WriteLine("Alive?: " + playerAlive);
             Console.WriteLine("Proximity to Nearest Living Skeleton: " + playerProximityToNearestLivingSkeleton + " meters");
             Console.WriteLine();
+            Console.WriteLine("Are you a Wizard, or a Warrior?");
+            Console.Write("1: Wizard | 2: Warrior");
+
+            string? playerChoice = Console.ReadLine();
+            while (playerChoice != "1" && playerChoice != "2")
+            {
+                Console.WriteLine("Invalid Choice, try again!");
+                playerChoice = Console.ReadLine();
+            }
+            if (playerChoice == "1")
+            {
+                Console.WriteLine("You are a wizard!");
+                playerRole = "Wizard";
+            }
+            else
+            {
+                Console.WriteLine("You are a warrior!");
+                playerRole = "Warrior";
+            }
+
             Console.WriteLine("Gray bricks line the walls of the dungeon,"
                 + " and dust and dread permeate the air.");
             Console.WriteLine("Two doors stand side by side on the wall in front of you."
             + " Which do you choose?");
             Console.WriteLine();
             Console.WriteLine("1: Left | 2: Right");
-            string? playerChoice = Console.ReadLine();
+            playerChoice = Console.ReadLine();
 
             // While loop to prevent the player from making an invalid choice
             while (playerChoice != "1" && playerChoice != "2")
@@ -55,11 +76,14 @@ namespace HelloDungeon
             if (playerChoice == "1")
             {
                 Console.WriteLine("You enter the left door.");
+                Console.WriteLine("");
             }
             else
             {
                 Console.WriteLine("You enter the right door.");
+                Console.WriteLine("");
             }
+
 
         }
     }
