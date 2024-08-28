@@ -23,9 +23,10 @@ namespace HelloDungeon
             float playerMana = 5.0f;
             int playerGold = 3;
             string playerAlignment = "Neutral";
-            float playerProximityToNearestLivingSkeleton = 12.0f;
+            float playerProximityToNearestLivingSkeleton = 20.0f;
             bool playerAlive = true;
             string playerRole = "";
+            string enemyName = "";
 
 
             Console.WriteLine("Hello, " + playerName + "!");
@@ -63,23 +64,74 @@ namespace HelloDungeon
             Console.WriteLine("Two doors stand side by side on the wall in front of you."
             + " Which do you choose?");
             Console.WriteLine();
-            Console.WriteLine("1: Left | 2: Right");
-            playerChoice = Console.ReadLine();
 
+            playerChoice = "fun cool placeholder message";
             // While loop to prevent the player from making an invalid choice
             while (playerChoice != "1" && playerChoice != "2")
             {
-                Console.WriteLine("Invalid Choice, try again!");
-                playerChoice = Console.ReadLine();
+            Console.WriteLine("1: Left | 2: Right");
+            playerChoice = Console.ReadLine();
             }
             if (playerChoice == "1")
             {
                 Console.WriteLine("You enter the left door.");
-                Console.WriteLine("");
+                Console.WriteLine("The scent of dust and dread is far stronger beyond this door.");
+                Console.WriteLine("Cracked stone bricks continue to line the walls."
+                    + "You feel a dreadful presence wandering these halls.");
+                playerProximityToNearestLivingSkeleton -= 6;
+                Console.WriteLine();
+                Console.WriteLine("Proximity to Nearest Living Skeleton: " + playerProximityToNearestLivingSkeleton + " meters (-6)");
+                Console.WriteLine();
+                Console.WriteLine("Nonetheless, you must perservere. You come across a fork in your path.");
+                Console.WriteLine("Continuing straight will lead you to what appears to be a treasure chest.");
+                Console.WriteLine("But taking a left will undoubtedly lead you closer to a Living Skeleton.");
+                Console.WriteLine("Which way do you choose?");
+                playerChoice = "e";
+                while (playerChoice != "1" && playerChoice != "2")
+                {
+                    Console.WriteLine("1: Straight | 2: Left");
+                    playerChoice = Console.ReadLine();
+                    if (playerChoice == "1")
+                    {
+                        Console.WriteLine("You approach the chest with the same caution you'd give a wild animal.");
+                        Console.WriteLine("You see a bit of clear fluid around the lid...");
+                        Console.WriteLine("Are you certain you wish to open this?");
+                        playerChoice = "4";
+                        while (playerChoice != "1" && playerChoice != "2")
+                        {
+                            Console.WriteLine("1: Yes, open it | 2: No, go down the other hall");
+                            playerChoice = Console.ReadLine();
+                            if (playerChoice == "1")
+                            {
+                                Console.WriteLine("Alas, the chest was a Mimic!");
+                                Console.WriteLine("That was pretty obvious, though.");
+                                Console.WriteLine("The Mimic lunges at you!");
+                                Console.WriteLine("COMBAT START!");
+                                enemyName = "Mimic";
+
+                                // we're gonna learn how to make our own functions eventually
+                                // that's when i figure out the combat
+
+                            }
+                            else if (playerChoice == "2")
+                            {
+
+                            }
+                        }
+
+                    }
+                    else if (playerChoice == "2")
+                    {
+                        Console.WriteLine("");
+                    }
+                }
             }
-            else
+            else if (playerChoice == "2")
             {
                 Console.WriteLine("You enter the right door.");
+                Console.WriteLine("the swag");
+                Console.WriteLine("");
+                Console.WriteLine("");
                 Console.WriteLine("");
             }
 
