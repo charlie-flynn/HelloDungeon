@@ -79,9 +79,9 @@ namespace HelloDungeon
                 Console.WriteLine("The scent of dust and dread is far stronger beyond this door.");
                 Console.WriteLine("Cracked stone bricks continue to line the walls."
                     + "You feel a dreadful presence wandering these halls.");
-                playerProximityToNearestLivingSkeleton -= 6;
+                playerProximityToNearestLivingSkeleton -= 3;
                 Console.WriteLine();
-                Console.WriteLine("Proximity to Nearest Living Skeleton: " + playerProximityToNearestLivingSkeleton + " meters (-6)");
+                Console.WriteLine("Proximity to Nearest Living Skeleton: " + playerProximityToNearestLivingSkeleton + " meters (-3)");
                 Console.WriteLine();
                 Console.WriteLine("Nonetheless, you must perservere. You come across a fork in your path.");
                 Console.WriteLine("Continuing straight will lead you to what appears to be a treasure chest.");
@@ -132,9 +132,9 @@ namespace HelloDungeon
                 Console.WriteLine("You enter the right door.");
                 Console.WriteLine("Dust and dread are replaced by ash and flame. Magma pours around you, but never on you.");
                 Console.WriteLine("You feel a general lack of dreadful presences in this direction.");
-                playerProximityToNearestLivingSkeleton += 6;
+                playerProximityToNearestLivingSkeleton += 3;
                 Console.WriteLine();
-                Console.WriteLine("Proximity to Nearest Living Skeleton: " + playerProximityToNearestLivingSkeleton + " meters (+6)");
+                Console.WriteLine("Proximity to Nearest Living Skeleton: " + playerProximityToNearestLivingSkeleton + " meters (+3)");
                 Console.WriteLine();
                 Console.WriteLine("Soon enough, you come across a fork in your path.");
                 Console.WriteLine("Straight ahead is a Sphinx, encrusted in magma. To the right is a large door.");
@@ -149,6 +149,19 @@ namespace HelloDungeon
                         Console.WriteLine("You approach the molten Sphinx with great caution.");
                         Console.WriteLine("The Sphinx immediately fixes its gaze upon you.");
                         Console.WriteLine("''HUMAN,'' It bellows. ''TO PASS THROUGH YOU MUST ANSWER MY RIDDLES.''");
+                        /*
+                        -- I walk on two legs in the morning, two legs in the evening, and two legs in the afternoon. What am I?
+                        A: Chicken
+                        -- I have a bank but no money, and a channel but no television. What am I?
+                        A: River
+                        -- 2 / x = 1
+                        A: 2
+                        -- FOUR BAJILLION AND TWO - 1
+                        A: FOUR BAJILLION AND ONE
+
+
+
+                        */
                     }
                     else if (playerChoice == "2")
                     {
