@@ -9,6 +9,9 @@ namespace HelloDungeon
 {
     internal class Game
     {
+
+
+
         public void Run()
         {
             Console.WriteLine("What's your name, adventurer?");
@@ -30,6 +33,9 @@ namespace HelloDungeon
             string playerRole = "";
 
 
+
+
+
             Console.WriteLine("Hello, " + playerName + "!");
             Console.WriteLine();
             Console.WriteLine("Welcome to the dungeon!");
@@ -42,67 +48,41 @@ namespace HelloDungeon
             Console.WriteLine("Proximity to Nearest Living Skeleton: " + playerProximityToNearestLivingSkeleton + " meters");
             Console.WriteLine();
             Console.WriteLine("Are you a Wizard, or a Warrior?");
-            
 
-            string? playerChoice = "";
-            while (playerChoice != "1" && playerChoice != "2")
+
+            int input = PlayerTwoChoices("Are you a warrior or a wizard?", "Warrior", "Wizard");
+            if (input == 1)
             {
-                Console.WriteLine("1: Wizard | 2: Warrior");
-                playerChoice = Console.ReadLine();
-                if (playerChoice == "1")
-                {
-                    playerRole = "Wizard";
-                }
-                else
-                {
-                    playerRole = "Warrior";
-                }
+                playerRole = "Warrior";
+            }
+            else if (input == 2)
+            {
+                playerRole = "Wizard";
             }
             Console.WriteLine("Player Role: " + playerRole);
 
             Console.WriteLine("Gray bricks line the walls of the dungeon,"
                 + " and dust and dread permeate the air.");
-            Console.WriteLine("Two doors stand side by side on the wall in front of you."
-            + " Which do you choose?");
-            Console.WriteLine();
 
-            playerChoice = "fun cool placeholder message";
-            // While loop to prevent the player from making an invalid choice
-            while (playerChoice != "1" && playerChoice != "2")
-            {
-            Console.WriteLine("1: Left | 2: Right");
-            playerChoice = Console.ReadLine();
-            }
-            if (playerChoice == "1")
+            input = PlayerTwoChoices("There are two doors on opposite walls from each other. Which do you choose?", "Left", "Right");
+            if (input == 1)
             {
                 Console.WriteLine("You enter the left door.");
                 Console.WriteLine("The scent of dust and dread is far stronger beyond this door.");
                 Console.WriteLine("Cracked stone bricks continue to line the walls."
-                    + "You feel a dreadful presence wandering these halls.");
+                    + " You feel a dreadful presence somewhere in these halls.");
                 playerProximityToNearestLivingSkeleton -= 3;
                 Console.WriteLine();
                 Console.WriteLine("Proximity to Nearest Living Skeleton: " + playerProximityToNearestLivingSkeleton + " meters (-3)");
                 Console.WriteLine();
                 Console.WriteLine("Nonetheless, you must perservere. You come across a fork in your path.");
-                Console.WriteLine("Continuing straight will lead you to what appears to be a treasure chest.");
-                Console.WriteLine("But taking a left will undoubtedly lead you closer to a Living Skeleton.");
-                Console.WriteLine("Which way do you choose?");
-                playerChoice = "e";
-                while (playerChoice != "1" && playerChoice != "2")
-                {
-                    Console.WriteLine("1: Straight | 2: Left");
-                    playerChoice = Console.ReadLine();
-                    if (playerChoice == "1")
+                input = PlayerTwoChoices("One path leads to a strange chest, and the other certainly leads you closer to a Living Skeleton. Which way do you choose?", "Straight", "Left");
+                    if (input == 1)
                     {
                         Console.WriteLine("You approach the chest with the same caution you'd give a wild animal.");
                         Console.WriteLine("You see a bit of clear fluid around the lid...");
-                        Console.WriteLine("Are you certain you wish to open this?");
-                        playerChoice = "4";
-                        while (playerChoice != "1" && playerChoice != "2")
-                        {
-                            Console.WriteLine("1: Yes, open it | 2: No, go down the other hall");
-                            playerChoice = Console.ReadLine();
-                            if (playerChoice == "1")
+                        input = PlayerTwoChoices("Are you certain you wish to open this chest?", "Yes", "No");
+                            if (input == 1)
                             {
                                 Console.WriteLine("Alas, the chest was a Mimic!");
                                 Console.WriteLine("That was pretty obvious, though.");
@@ -114,14 +94,13 @@ namespace HelloDungeon
                                 // that's when i figure out the combat
 
                             }
-                            else if (playerChoice == "2")
+                            else if (input == 2)
                             {
                                 Console.WriteLine("You turn around, then go down the hallway that is now to your right.");
                             }
-                        }
 
                     }
-                    else if (playerChoice == "2")
+                    else if (input == 2)
                     {
                         Console.WriteLine("As you turn the corner, you stumble into a small, green slime.");
                         Console.WriteLine("It squelches with an immense rage that has been stewing for years upon years.");
@@ -132,8 +111,7 @@ namespace HelloDungeon
                         // combat will happen eventually dw about it rn
                     }
                 }
-            }
-            else if (playerChoice == "2")
+            else if (input == 2)
             {
                 Console.WriteLine("You enter the right door.");
                 Console.WriteLine("Dust and dread are replaced by ash and flame. Magma pours around you, but never on you.");
@@ -143,14 +121,8 @@ namespace HelloDungeon
                 Console.WriteLine("Proximity to Nearest Living Skeleton: " + playerProximityToNearestLivingSkeleton + " meters (+3)");
                 Console.WriteLine();
                 Console.WriteLine("Soon enough, you come across a fork in your path.");
-                Console.WriteLine("Straight ahead is a Sphinx, encrusted in magma. To the right is a large door.");
-                Console.WriteLine("Which way will you go?");
-                playerChoice = "not 1 or 2";
-                while (playerChoice != "1" && playerChoice != "2")
-                {
-                    Console.WriteLine("1: Straight | 2: Right");
-                    playerChoice = Console.ReadLine();
-                    if (playerChoice == "1")
+                input = PlayerTwoChoices("Straight ahead is a Sphinx, encrusted in magma. To the right is a very tall door. Which way do you go?", "Straight", "Right");
+                    if (input == 1)
                     {
                         Console.WriteLine("You approach the molten Sphinx with great caution.");
                         Console.WriteLine("The Sphinx immediately fixes its gaze upon you.");
@@ -170,7 +142,7 @@ namespace HelloDungeon
                         A:
                         */
                     }
-                    else if (playerChoice == "2")
+                    else if (input == 2)
                     {
                         Console.WriteLine("The moment you touch the doorknob, the door falls over like a domino away from you.");
                         Console.WriteLine("I dont know whats behind this other than a lever code thing");
@@ -178,10 +150,49 @@ namespace HelloDungeon
                         Console.WriteLine("wait right a slime");
                         Console.WriteLine("The Slime leaps towards you!");
                     }
+           
+                    }
                 }
+        int PlayerTwoChoices(string description, string option1, string option2)
+        {
+            string input = "";
+            int inputRecieved = 0;
 
+            // while loop to prevent invalid input
+            while (inputRecieved != 1 && inputRecieved != 2)
+            {
+                // Print options
+                Console.WriteLine(description);
+                Console.WriteLine("1: " + option1 + " | 2: " + option2);
+                Console.Write("> ");
+
+                // Get input from player cause theyre so cool
+                input = Console.ReadLine();
+
+                // if player selected the first option
+                if (input == "1" || input == option1)
+                {
+                    // set input recieved to the first option
+                    inputRecieved = 1;
+                }
+                // if they chose the second option
+                else if (input == "2" || input == option2)
+                {
+                    // set it to the second option :3
+                    inputRecieved = 2;
+                }
+                // if its neither, however
+                else
+                {
+                    // display error
+                    Console.WriteLine("Invalid Input");
+                    Console.ReadKey();
+                }
             }
-
+            Console.Clear();
+            return inputRecieved;
         }
     }
-}
+
+        }
+
