@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,8 +10,19 @@ namespace HelloDungeon
 {
     internal class Game
     {
-
-
+        float playerHealth = 10.0f;
+        float playerMana = 5.0f;
+        int playerAttack = 3;
+        int playerDefense = 3;
+        int playerMagic = 3;
+        int playerMagicDefense = 3;
+        int playerGold = 3;
+        string playerAlignment = "Neutral";
+        float playerProximityToNearestLivingSkeleton = 20.0f;
+        bool playerAlive = true;
+        string playerRole = "";
+        int input = 0;
+        string playerName = "";
 
         public void Run()
         {
@@ -23,13 +35,7 @@ namespace HelloDungeon
             }
 
 
-            float playerHealth = 10.0f;
-            float playerMana = 5.0f;
-            int playerGold = 3;
-            string playerAlignment = "Neutral";
-            float playerProximityToNearestLivingSkeleton = 20.0f;
-            bool playerAlive = true;
-            string playerRole = "";
+            
 
 
             Console.WriteLine("Hello, " + playerName + "!");
@@ -59,6 +65,7 @@ namespace HelloDungeon
 
             Console.WriteLine("Gray bricks line the walls of the dungeon,"
                 + " and dust and dread permeate the air.");
+            Combat(42);
 
             input = PlayerTwoChoices("There are two doors on opposite walls from each other. Which do you choose?", "Left", "Right");
             if (input == 1)
@@ -100,7 +107,6 @@ namespace HelloDungeon
                     {
                         Console.WriteLine("As you turn the corner, you stumble into a small, green slime.");
                         Console.WriteLine("It squelches with an immense rage that has been stewing for years upon years.");
-                        Console.WriteLine("The Slime leaps toward you!");
                         Combat(1);
 
 
@@ -145,7 +151,6 @@ namespace HelloDungeon
                         Console.WriteLine("I dont know whats behind this other than a lever code thing");
                         Console.WriteLine("uhhh HEY LOOK AT THIS -> left left right ");
                         Console.WriteLine("wait right a slime");
-                        Console.WriteLine("The Slime leaps towards you!");
                     }
            
                     }
@@ -199,9 +204,67 @@ namespace HelloDungeon
             int enemyDefense = 0;
             int enemyMagic = 0;
             int enemyMagicDefense = 0;
+            int damageDealt = 0;
+            bool enemyAlive = true;
+
+
             // This function uses the enemyID to find the Enemy's stats
             FindEnemy(enemyID);
 
+
+            // announce the beginning of combat
+            Console.WriteLine("The " + enemyName + " approaches!");
+            Console.WriteLine("COMBAT START!");
+            Console.ReadKey();
+            Console.Clear();
+
+
+            // combat loop
+            while (enemyAlive == true)
+            {
+                Console.WriteLine("Your turn!");
+                Console.WriteLine("Your Health: " + playerHealth);
+                Console.WriteLine("Your Mana: " + playerMana);
+                input = PlayerTwoChoices("What type of attack will you do?", "Melee", "Magic");
+                if (input == 1)
+                {
+                    Console.WriteLine("You attack!");
+                    damageDealt = playerAttack - enemyDefense;
+                    Console.WriteLine(enemyName + " takes " + damageDealt + " damage!");
+                    enemyHealth -= damageDealt;
+                }
+                else if (input == 2)
+                {
+                    Console.WriteLine("You cast a spell!");
+                    Console.WriteLine("You use 1 mana");
+                    damageDealt = playerMagic - enemyMagicDefense;
+                    Console.WriteLine(enemyName + " takes " + damageDealt + " damage!");
+                    enemyHealth -= damageDealt;
+                }
+                if (enemyHealth <= 0)
+                {
+                    Console.WriteLine("The " + enemyName + " was defeated!");
+                }
+                else
+                {
+                    Console.WriteLine("Enemy Health: " + enemyHealth);
+                    Console.ReadKey();
+                    Console.Clear();
+
+                    // enemy decides what kind of attack to do
+                    if (enemyAttack > enemyMagic && enemyMana > 0)
+                    {
+                        Console.WriteLine("The enemy attacks!");
+                        damageDealt = enemyAttack - playerDefense;
+                        Console.WriteLine(playerName + " takes " + damageDealt + " damage!");
+                        enemyHealth -= damageDealt;
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
 
 
             void FindEnemy(int enemyID)
