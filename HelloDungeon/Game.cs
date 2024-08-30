@@ -22,7 +22,6 @@ namespace HelloDungeon
                 playerName = Console.ReadLine();
             }
 
-            GameCombat gameCombat = new GameCombat();
 
             float playerHealth = 10.0f;
             float playerMana = 5.0f;
@@ -31,9 +30,6 @@ namespace HelloDungeon
             float playerProximityToNearestLivingSkeleton = 20.0f;
             bool playerAlive = true;
             string playerRole = "";
-
-
-
 
 
             Console.WriteLine("Hello, " + playerName + "!");
@@ -76,7 +72,8 @@ namespace HelloDungeon
                 Console.WriteLine("Proximity to Nearest Living Skeleton: " + playerProximityToNearestLivingSkeleton + " meters (-3)");
                 Console.WriteLine();
                 Console.WriteLine("Nonetheless, you must perservere. You come across a fork in your path.");
-                input = PlayerTwoChoices("One path leads to a strange chest, and the other certainly leads you closer to a Living Skeleton. Which way do you choose?", "Straight", "Left");
+                input = PlayerTwoChoices("One path leads to a strange chest, and the other certainly leads you closer to a Living Skeleton." + 
+                    "Which way do you choose?", "Straight", "Left");
                     if (input == 1)
                     {
                         Console.WriteLine("You approach the chest with the same caution you'd give a wild animal.");
@@ -88,7 +85,6 @@ namespace HelloDungeon
                                 Console.WriteLine("That was pretty obvious, though.");
                                 Console.WriteLine("The Mimic lunges at you!");
                                 Console.WriteLine("COMBAT START!");
-                                gameCombat.RunCombat();
 
                                 // we're gonna learn how to make our own functions eventually
                                 // that's when i figure out the combat
@@ -105,8 +101,8 @@ namespace HelloDungeon
                         Console.WriteLine("As you turn the corner, you stumble into a small, green slime.");
                         Console.WriteLine("It squelches with an immense rage that has been stewing for years upon years.");
                         Console.WriteLine("The Slime leaps toward you!");
-                        Console.WriteLine("COMBAT START!");
-                        gameCombat.RunCombat();
+                        Combat(1);
+
 
                         // combat will happen eventually dw about it rn
                     }
@@ -121,7 +117,8 @@ namespace HelloDungeon
                 Console.WriteLine("Proximity to Nearest Living Skeleton: " + playerProximityToNearestLivingSkeleton + " meters (+3)");
                 Console.WriteLine();
                 Console.WriteLine("Soon enough, you come across a fork in your path.");
-                input = PlayerTwoChoices("Straight ahead is a Sphinx, encrusted in magma. To the right is a very tall door. Which way do you go?", "Straight", "Right");
+                input = PlayerTwoChoices("Straight ahead is a Sphinx, encrusted in magma. To the right is a very tall door." + 
+                    "Which way do you go?", "Straight", "Right");
                     if (input == 1)
                     {
                         Console.WriteLine("You approach the molten Sphinx with great caution.");
@@ -191,6 +188,59 @@ namespace HelloDungeon
             }
             Console.Clear();
             return inputRecieved;
+        }
+        void Combat(int enemyID)
+        {
+            // Declare the base enemy stats real quick
+            string enemyName = "";
+            float enemyHealth = 0.0f;
+            float enemyMana = 0.0f;
+            int enemyAttack = 0;
+            int enemyDefense = 0;
+            int enemyMagic = 0;
+            int enemyMagicDefense = 0;
+            // This function uses the enemyID to find the Enemy's stats
+            FindEnemy(enemyID);
+
+
+
+            void FindEnemy(int enemyID)
+            {
+                /* 
+                 * Okay youre gonna hate me for making 7 arguments for the set enemy stats function but look.
+                 * I have no idea how else to do it. sorry ):
+                 * Anyways, the order is as follows:
+                 * string setName, float setHealth, float setMana, int setAttack, int setDefense, int setMagic, int setMagicDefense
+                 */
+
+                // If enemyID is 1, the enemy is a Slime.
+                if (enemyID == 1)
+                {
+                    SetEnemyStats("Slime", 10, 0, 2, 0, 2000, 0);
+                    return;
+                }
+                else if (enemyID == 2)
+                {
+                    SetEnemyStats("Mimic", 15, 0, 5, 5, 0, 0);
+                    return;
+                }
+                else
+                {
+                    SetEnemyStats("CoolTestEnemy", 100, 10, 1, 1, 1, 1);
+                    return;
+                }
+            }
+            void SetEnemyStats(string setName, float setHealth, float setMana, int setAttack, int setDefense, int setMagic, int setMagicDefense)
+            {
+                enemyName = setName;
+                enemyHealth = setHealth;
+                enemyMana = setMana;
+                enemyAttack = setAttack;
+                enemyDefense = setDefense;
+                enemyMagic = setMagic;
+                enemyMagicDefense = setMagicDefense;
+                return;
+            }
         }
     }
 
