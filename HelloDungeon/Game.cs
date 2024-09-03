@@ -12,6 +12,7 @@ namespace HelloDungeon
     {
         float playerHealth = 10.0f;
         float playerMana = 5.0f;
+        float playerMaxMana = 5.0f;
         int playerAttack = 3;
         int playerDefense = 3;
         int playerMagic = 3;
@@ -42,12 +43,7 @@ namespace HelloDungeon
             Console.WriteLine();
             Console.WriteLine("Welcome to the dungeon!");
             Console.WriteLine();
-            Console.WriteLine("Health: " + playerHealth);
-            Console.WriteLine("Mana: " + playerMana);
-            Console.WriteLine("Gold: " + playerGold);
-            Console.WriteLine("Alignment: " + playerAlignment);
-            Console.WriteLine("Alive?: " + playerAlive);
-            Console.WriteLine("Proximity to Nearest Living Skeleton: " + playerProximityToNearestLivingSkeleton + " meters");
+
             Console.WriteLine();
             Console.WriteLine("Are you a Wizard, or a Warrior?");
 
@@ -56,11 +52,23 @@ namespace HelloDungeon
             if (input == 1)
             {
                 playerRole = "Warrior";
+                playerAttack += 2;
+                playerDefense += 2;
             }
             else if (input == 2)
             {
                 playerRole = "Wizard";
+                playerMagic += 2;
+                playerMagicDefense += 2;
+                playerMana += 2;
+                playerMaxMana += 2;
             }
+            Console.WriteLine("Health: " + playerHealth);
+            Console.WriteLine("Mana: " + playerMana);
+            Console.WriteLine("Gold: " + playerGold);
+            Console.WriteLine("Alignment: " + playerAlignment);
+            Console.WriteLine("Alive?: " + playerAlive);
+            Console.WriteLine("Proximity to Nearest Living Skeleton: " + playerProximityToNearestLivingSkeleton + " meters");
             Console.WriteLine("Player Role: " + playerRole);
 
             Console.WriteLine("Gray bricks line the walls of the dungeon,"
@@ -204,7 +212,7 @@ namespace HelloDungeon
             int enemyDefense = 0;
             int enemyMagic = 0;
             int enemyMagicDefense = 0;
-            int damageDealt = 0;
+            float damageDealt = 0.0f;
             bool enemyAlive = true;
 
 
@@ -228,21 +236,15 @@ namespace HelloDungeon
                 input = PlayerTwoChoices("What type of attack will you do?", "Melee", "Magic");
                 if (input == 1)
                 {
-                    Console.WriteLine("You attack!");
-                    damageDealt = playerAttack - enemyDefense;
-                    Console.WriteLine(enemyName + " takes " + damageDealt + " damage!");
-                    enemyHealth -= damageDealt;
+                    DamageRoll(false, playerAttack, enemyDefense, 0, "attack!");
                 }
                 else if (input == 2)
                 {
-                    Console.WriteLine("You cast a spell!");
-                    Console.WriteLine("You use 1 mana");
-                    damageDealt = playerMagic - enemyMagicDefense;
-                    Console.WriteLine(enemyName + " takes " + damageDealt + " damage!");
-                    enemyHealth -= damageDealt;
+                    DamageRoll(false, playerMagic, enemyMagicDefense, 1, "cast a spell!");
                 }
                 if (enemyHealth <= 0)
                 {
+                    enemyAlive = false;
                     Console.WriteLine("The " + enemyName + " was defeated!");
                 }
                 else
@@ -254,17 +256,103 @@ namespace HelloDungeon
                     // enemy decides what kind of attack to do
                     if (enemyAttack > enemyMagic && enemyMana > 0)
                     {
-                        Console.WriteLine("The enemy attacks!");
-                        damageDealt = enemyAttack - playerDefense;
-                        Console.WriteLine(playerName + " takes " + damageDealt + " damage!");
-                        enemyHealth -= damageDealt;
+                        DamageRoll(true, enemyMagic, playerMagicDefense, 1, "casts a spell!");
                     }
                     else
                     {
+                        DamageRoll(true, enemyAttack, playerDefense, 0, "attacks!");
+                    }
 
+                    if (playerHealth <= 0)
+                    {
+                        playerAlive = false;
+                        Console.WriteLine("You have been defeated!");
+                        Console.WriteLine();
+                        Console.WriteLine("GAME OVER");
+                        Console.WriteLine("Restart the program to try again!");
+                        Console.ReadLine();
+                        Environment.Exit(1);
+                        return;
                     }
                 }
             }
+            return;
+
+
+
+            void DamageRoll(bool isAttackingPlayer, int attackingStat, int defendingStat, float manaCost, string attackDescription)
+            {
+
+                // if the attack targets the player, print "The enemyName" amd then the attack description
+                // otherwise, print "You" and then the attack description
+                if (isAttackingPlayer == true)
+                {
+                    Console.WriteLine("The " + enemyName + " " + attackDescription);
+                }
+                else
+                {
+                    Console.WriteLine("You " + attackDescription);
+                }
+
+                if (manaCost > 0.0f)
+                {
+                    if (isAttackingPlayer == true)
+                    {
+                        enemyMana -= manaCost;
+                        Console.WriteLine("The " + enemyName + " used " + manaCost + " mana.");
+                    }
+                    else
+                    {
+                        if (playerMana >= manaCost)
+                        {
+                            playerMana -= manaCost;
+                            Console.WriteLine("You used " + manaCost + " mana.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("You tried to cast a spell, but you didn't have enough mana!");
+                            return;
+                        }
+                    }
+                }
+                else if (playerMana <= playerMaxMana && isAttackingPlayer == false)
+                {
+                    playerMana += playerMaxMana / 4;
+                    Console.WriteLine("You regenerated some mana!");
+                }
+
+                // Attack - defense = damage
+                damageDealt = attackingStat - defendingStat;
+
+                // if the damage is 0 or less, the damage is set to 1
+                if (damageDealt <= 0)
+                {
+                    damageDealt = 1;
+                }
+
+                // print damage dealt
+                if (isAttackingPlayer == true)
+                {
+                    Console.WriteLine("You take " + damageDealt + " damage!");
+                    playerHealth -= damageDealt;
+                }
+                else
+                {
+                    Console.WriteLine("The " + enemyName + " takes " + damageDealt + " damage!");
+                    enemyHealth -= damageDealt;
+                }
+
+                if (playerMana > playerMaxMana)
+                {
+                    playerMana = playerMaxMana;
+                }
+
+                //return
+                return;
+            }
+
+     
+
 
 
             void FindEnemy(int enemyID)
@@ -293,6 +381,9 @@ namespace HelloDungeon
                     return;
                 }
             }
+
+
+
             void SetEnemyStats(string setName, float setHealth, float setMana, int setAttack, int setDefense, int setMagic, int setMagicDefense)
             {
                 enemyName = setName;
@@ -304,6 +395,8 @@ namespace HelloDungeon
                 enemyMagicDefense = setMagicDefense;
                 return;
             }
+
+
         }
     }
 
