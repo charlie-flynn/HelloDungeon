@@ -23,9 +23,6 @@ namespace HelloDungeon
         int playerMagic = 3;
         int playerMagicDefense = 3;
         int playerGold = 3;
-        string playerAlignment = "Neutral";
-        float playerProximityToNearestLivingSkeleton = 20.0f;
-        bool playerAlive = true;
         string playerRole = "";
         int input = 0;
 
@@ -48,7 +45,7 @@ namespace HelloDungeon
             Console.WriteLine("Welcome to the dungeon!");
             Console.WriteLine();
 
-
+            
             int input = PlayerTwoChoices("Are you a Wizard or a Warrior?", "Wizard", "Warrior");
             if (input == 1)
             {
@@ -67,12 +64,16 @@ namespace HelloDungeon
                 playerHealth += 2;
 
             }
-            Console.WriteLine("Health: " + playerHealth);
-            Console.WriteLine("Mana: " + playerMana);
+            Console.WriteLine("Level: " + playerLevel);
+            Console.WriteLine("Experience: " + playerExp + "/" + playerNeededExpToLevel);
+            Console.WriteLine("Health: " + playerHealth + "/" + playerMaxHealth);
+            Console.WriteLine("Mana: " + playerMana + "/" + playerMaxMana);
             Console.WriteLine("Gold: " + playerGold);
-            Console.WriteLine("Alignment: " + playerAlignment);
-            Console.WriteLine("Alive?: " + playerAlive);
-            Console.WriteLine("Proximity to Nearest Living Skeleton: " + playerProximityToNearestLivingSkeleton + " meters");
+            Console.WriteLine("Attack: " + playerAttack);
+            Console.WriteLine("Defense: " + playerDefense);
+            Console.WriteLine("Magic: " + playerMagic);
+            Console.WriteLine("Magic Defense: " + playerMagicDefense);
+
             Console.WriteLine("Player Role: " + playerRole);
 
             Combat(42);
@@ -87,10 +88,6 @@ namespace HelloDungeon
                 Console.WriteLine("The scent of dust and dread is far stronger beyond this door.");
                 Console.WriteLine("Cracked stone bricks continue to line the walls."
                     + " You feel a dreadful presence somewhere in these halls.");
-                playerProximityToNearestLivingSkeleton -= 3;
-                Console.WriteLine();
-                Console.WriteLine("Proximity to Nearest Living Skeleton: " + playerProximityToNearestLivingSkeleton + " meters (-3)");
-                Console.WriteLine();
                 Console.WriteLine("Nonetheless, you must perservere. You come across a fork in your path.");
                 input = PlayerTwoChoices("One path leads to a strange chest, and the other certainly leads you closer to a Living Skeleton." + 
                     "Which way do you choose?", "Straight", "Left");
@@ -124,10 +121,6 @@ namespace HelloDungeon
                 Console.WriteLine("You enter the right door.");
                 Console.WriteLine("Dust and dread are replaced by ash and flame. Magma pours around you, but never on you.");
                 Console.WriteLine("You feel a general lack of dreadful presences in this direction.");
-                playerProximityToNearestLivingSkeleton += 3;
-                Console.WriteLine();
-                Console.WriteLine("Proximity to Nearest Living Skeleton: " + playerProximityToNearestLivingSkeleton + " meters (+3)");
-                Console.WriteLine();
                 Console.WriteLine("Soon enough, you come across a fork in your path.");
                 input = PlayerTwoChoices("Straight ahead is a Sphinx, encrusted in magma. To the right is a very tall door." + 
                     "Which way do you go?", "Straight", "Right");
@@ -265,7 +258,6 @@ namespace HelloDungeon
 
                     if (playerHealth <= 0)
                     {
-                        playerAlive = false;
                         Console.WriteLine("You have been defeated!");
                         Console.WriteLine();
                         Console.WriteLine("GAME OVER");
