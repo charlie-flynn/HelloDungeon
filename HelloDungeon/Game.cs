@@ -73,7 +73,6 @@ namespace HelloDungeon
             Console.WriteLine("Defense: " + playerDefense);
             Console.WriteLine("Magic: " + playerMagic);
             Console.WriteLine("Magic Defense: " + playerMagicDefense);
-
             Console.WriteLine("Player Role: " + playerRole);
 
             Combat(42);
@@ -109,7 +108,7 @@ namespace HelloDungeon
                             }
 
                     }
-                    else if (input == 2)
+                    if (input == 2)
                     {
                         Console.WriteLine("As you turn the corner, you stumble into a small, green slime.");
                         Console.WriteLine("It squelches with an immense rage that has been stewing for years upon years.");
@@ -236,8 +235,11 @@ namespace HelloDungeon
                 }
                 if (enemyHealth <= 0)
                 {
+                    // enemy is not alive, print that fact out
                     enemyAlive = false;
                     Console.WriteLine("The " + enemyName + " was defeated!");
+
+                    //finally, give experience to the player
                     GivePlayerExp(expDrop);
                 }
                 else
@@ -266,7 +268,7 @@ namespace HelloDungeon
                 }
             }
 
-            //at the end of combat, player health and mana is healed to max
+            // at the end of combat, player health and mana are healed to max
             playerHealth = playerMaxHealth;
             playerMana = playerMaxMana;
 
@@ -288,6 +290,7 @@ namespace HelloDungeon
                     Console.WriteLine("You " + attackDescription);
                 }
 
+                // if the attack costs mana, deduct the cost from the mana from whoever is using that attack
                 if (manaCost > 0.0f)
                 {
                     if (isAttackingPlayer == true)
@@ -309,6 +312,8 @@ namespace HelloDungeon
                         }
                     }
                 }
+
+                // if it doesn't cost mana and the player is not at max mana, regenerate some of the player's mana
                 else if (playerMana < playerMaxMana && isAttackingPlayer == false)
                 {
                     playerMana += playerMaxMana / 4;
@@ -406,10 +411,8 @@ namespace HelloDungeon
             int levelsGained = 0;
 
 
-            // print the amount of exp gained
+            // print the amount of exp gained amd then give the player the exp
             Console.WriteLine("You gained +" + expGained + " experience!");
-
-            // ok now actually give the exp
             playerExp += expGained;
 
             // while your exp is more than the amount needed to level up, level up
@@ -420,7 +423,7 @@ namespace HelloDungeon
                 playerLevel++;
                 levelsGained++;
 
-                // print a message for every time you level up
+                // print a message for every time you level up and also deduct the exp
                 Console.WriteLine("You leveled up to level " + playerLevel + "!");
                 playerExp -= playerNeededExpToLevel;
 
@@ -431,6 +434,7 @@ namespace HelloDungeon
             // increase the player's stats based on how many levels were gained and the player's class- er, role
             if (levelsGained > 0)
             {
+                Console.ReadKey();
                 if (playerRole == "Wizard")
                 {
                     playerMaxHealth += 1 * levelsGained;
@@ -449,6 +453,22 @@ namespace HelloDungeon
                     playerAttack += 2 * levelsGained;
                     playerDefense += 2 * levelsGained;
                 }
+
+                // set player's health and mana to their new maximum
+                playerHealth = playerMaxHealth;
+                playerMana = playerMaxMana;
+
+                // print the player's stats as they are now
+                Console.WriteLine("Level: " + playerLevel);
+                Console.WriteLine("Experience: " + playerExp + "/" + playerNeededExpToLevel);
+                Console.WriteLine("Health: " + playerHealth + "/" + playerMaxHealth);
+                Console.WriteLine("Mana: " + playerMana + "/" + playerMaxMana);
+                Console.WriteLine("Gold: " + playerGold);
+                Console.WriteLine("Attack: " + playerAttack);
+                Console.WriteLine("Defense: " + playerDefense);
+                Console.WriteLine("Magic: " + playerMagic);
+                Console.WriteLine("Magic Defense: " + playerMagicDefense);
+                Console.WriteLine("Player Role: " + playerRole);
             }
         }
     }
