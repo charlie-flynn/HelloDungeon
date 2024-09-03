@@ -10,6 +10,7 @@ namespace HelloDungeon
 {
     internal class Game
     {
+        bool runDebugCombat = true;
 
         string playerName = "";
         int playerExp = 0;
@@ -75,7 +76,11 @@ namespace HelloDungeon
             Console.WriteLine("Magic Defense: " + playerMagicDefense);
             Console.WriteLine("Player Role: " + playerRole);
 
+            if (runDebugCombat == true)
+            {
             Combat(42);
+            }
+            
 
             Console.WriteLine("Gray bricks line the walls of the dungeon,"
                 + " and dust and dread permeate the air.");
@@ -225,14 +230,20 @@ namespace HelloDungeon
                 Console.WriteLine("Your Health: " + playerHealth + "/" + playerMaxHealth);
                 Console.WriteLine("Your Mana: " + playerMana + "/" + playerMaxMana);
                 input = PlayerTwoChoices("What type of attack will you do?", "Melee", "Magic");
+
+                // if you pick a melee attack, you do an attack using your attack stat against the enemy's defense stat
                 if (input == 1)
                 {
                     DamageRoll(false, playerAttack, enemyDefense, 0, "attack!");
                 }
+
+                // otherwise, you do an attack using your magic stat against the enemy's magic stat
                 else if (input == 2)
                 {
                     DamageRoll(false, playerMagic, enemyMagicDefense, 1, "cast a spell!");
                 }
+
+                // check if the enemy has died
                 if (enemyHealth <= 0)
                 {
                     // enemy is not alive, print that fact out
@@ -242,6 +253,8 @@ namespace HelloDungeon
                     //finally, give experience to the player
                     GivePlayerExp(expDrop);
                 }
+
+                // if they haven't, print their health and let them attack
                 else
                 {
                     Console.WriteLine("Enemy Health: " + enemyHealth);
@@ -387,7 +400,7 @@ namespace HelloDungeon
                 }
                 else
                 {
-                    SetEnemyStats("CoolTestEnemy", 10, 5, 1, 1, 2, 1, 3);
+                    SetEnemyStats("CoolTestEnemy", 10, 5, 1, 1, 2, 1, 5);
                     return;
                 }
             }
@@ -473,6 +486,9 @@ namespace HelloDungeon
                 Console.WriteLine("Magic: " + playerMagic);
                 Console.WriteLine("Magic Defense: " + playerMagicDefense);
                 Console.WriteLine("Player Role: " + playerRole);
+
+                Console.ReadKey();
+                Console.Clear();
             }
         }
     }
