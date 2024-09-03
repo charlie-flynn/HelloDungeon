@@ -12,7 +12,7 @@ namespace HelloDungeon
     {
 
         int playerExp = 0;
-        int playerNeededExpToLevel = 2;
+        int playerNeededExpToLevel = 3;
         int playerLevel = 1;
         float playerHealth = 10.0f;
         float playerMaxHealth = 10.0f;
@@ -104,11 +104,7 @@ namespace HelloDungeon
                             {
                                 Console.WriteLine("Alas, the chest was a Mimic!");
                                 Console.WriteLine("That was pretty obvious, though.");
-                                Console.WriteLine("The Mimic lunges at you!");
-                                Console.WriteLine("COMBAT START!");
-
-                                // we're gonna learn how to make our own functions eventually
-                                // that's when i figure out the combat
+                                Combat(2);
 
                             }
                             else if (input == 2)
@@ -218,7 +214,6 @@ namespace HelloDungeon
             int expDrop = 0;
             float damageDealt = 0.0f;
             bool enemyAlive = true;
-            int levelsGained = 0;
 
 
             // This function uses the enemyID to find the Enemy's stats
@@ -249,19 +244,9 @@ namespace HelloDungeon
                 }
                 if (enemyHealth <= 0)
                 {
-                    Console.WriteLine("The " + enemyName + " was defeated!");
-                    Console.WriteLine("You gained +" + expDrop + " experience!");
-                    playerExp += expDrop;
                     enemyAlive = false;
-                    while (playerExp >= playerNeededExpToLevel)
-                    {
-                        playerLevel++;
-                        levelsGained++;
-                        Console.WriteLine("You leveled up to level " + playerLevel + "!");
-                        playerExp -= playerNeededExpToLevel;
-                        playerNeededExpToLevel *= 2;
-                        playerNeededExpToLevel -= 1;
-                    }
+                    Console.WriteLine("The " + enemyName + " was defeated!");
+                    GivePlayerExp(expDrop);
                 }
                 else
                 {
@@ -289,6 +274,11 @@ namespace HelloDungeon
                     }
                 }
             }
+
+            //at the end of combat, player health and mana is healed to max
+            playerHealth = playerMaxHealth;
+            playerMana = playerMaxMana;
+
             return;
 
 
@@ -418,6 +408,58 @@ namespace HelloDungeon
             }
 
 
+        }
+
+        void GivePlayerExp(int expGained)
+        {
+            int levelsGained = 0;
+
+
+            // print the amount of exp gained
+            Console.WriteLine("You gained +" + expGained + " experience!");
+
+            // ok now actually give the exp now
+            playerExp += expGained;
+
+            // while your exp is more than the amount needed to level up, level up
+            while (playerExp >= playerNeededExpToLevel)
+            {
+                // increment the player's level
+                // and also keep track of how many times you do that
+                playerLevel++;
+                levelsGained++;
+
+                // print a message for every time you level up
+                Console.WriteLine("You leveled up to level " + playerLevel + "!");
+                playerExp -= playerNeededExpToLevel;
+
+                // and finally, mulitiply the needed exp by 2
+                playerNeededExpToLevel *= 2;
+                playerNeededExpToLevel -= 2;
+            }
+
+            // increase the player's stats based on how many levels were gained
+            if (levelsGained > 0)
+            {
+                if (playerRole == "Wizard")
+                {
+                    playerMaxHealth += 1 * levelsGained;
+                    playerMagic += 2 * levelsGained;
+                    playerMagicDefense += 2 * levelsGained;
+                    playerMaxMana += 2 * levelsGained;
+                    playerAttack += 1 * levelsGained;
+                    playerDefense += 1 * levelsGained;
+                }
+                else
+                {
+                    playerMaxHealth += 2 * levelsGained;
+                    playerMagic += 1 * levelsGained;
+                    playerMagicDefense += 1 * levelsGained;
+                    playerMaxMana += 1 * levelsGained;
+                    playerAttack += 2 * levelsGained;
+                    playerDefense += 2 * levelsGained;
+                }
+            }
         }
     }
 
