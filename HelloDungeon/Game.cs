@@ -28,7 +28,6 @@ namespace HelloDungeon
         bool playerAlive = true;
         string playerRole = "";
         int input = 0;
-        string playerName = "";
 
         public void Run()
         {
@@ -49,24 +48,24 @@ namespace HelloDungeon
             Console.WriteLine("Welcome to the dungeon!");
             Console.WriteLine();
 
-            Console.WriteLine();
-            Console.WriteLine("Are you a Wizard, or a Warrior?");
 
-
-            int input = PlayerTwoChoices("Are you a warrior or a wizard?", "Warrior", "Wizard");
+            int input = PlayerTwoChoices("Are you a Wizard or a Warrior?", "Wizard", "Warrior");
             if (input == 1)
             {
-                playerRole = "Warrior";
-                playerAttack += 2;
-                playerDefense += 2;
-            }
-            else if (input == 2)
-            {
                 playerRole = "Wizard";
-                playerMagic += 2;
+                playerMagic += 3;
                 playerMagicDefense += 2;
                 playerMana += 2;
                 playerMaxMana += 2;
+            }
+            else if (input == 2)
+            {
+                playerRole = "Warrior";
+                playerAttack += 3;
+                playerDefense += 2;
+                playerMaxHealth += 2;
+                playerHealth += 2;
+
             }
             Console.WriteLine("Health: " + playerHealth);
             Console.WriteLine("Mana: " + playerMana);
@@ -231,8 +230,8 @@ namespace HelloDungeon
             while (enemyAlive == true)
             {
                 Console.WriteLine("Your turn!");
-                Console.WriteLine("Your Health: " + playerHealth);
-                Console.WriteLine("Your Mana: " + playerMana);
+                Console.WriteLine("Your Health: " + playerHealth + "/" + playerMaxHealth);
+                Console.WriteLine("Your Mana: " + playerMana + "/" + playerMaxMana);
                 input = PlayerTwoChoices("What type of attack will you do?", "Melee", "Magic");
                 if (input == 1)
                 {
@@ -377,7 +376,7 @@ namespace HelloDungeon
                 // If enemyID is 1, the enemy is a Slime.
                 if (enemyID == 1)
                 {
-                    SetEnemyStats("Slime", 10, 0, 2, 0, 2000, 0, 2);
+                    SetEnemyStats("Slime", 10, 0, 2, 0, 2000, 0, 3);
                     return;
                 }
                 else if (enemyID == 2)
@@ -387,7 +386,7 @@ namespace HelloDungeon
                 }
                 else
                 {
-                    SetEnemyStats("CoolTestEnemy", 1, 5, 1, 1, 2, 1, 100);
+                    SetEnemyStats("CoolTestEnemy", 10, 5, 1, 1, 2, 1, 3);
                     return;
                 }
             }
@@ -418,7 +417,7 @@ namespace HelloDungeon
             // print the amount of exp gained
             Console.WriteLine("You gained +" + expGained + " experience!");
 
-            // ok now actually give the exp now
+            // ok now actually give the exp
             playerExp += expGained;
 
             // while your exp is more than the amount needed to level up, level up
@@ -433,12 +432,11 @@ namespace HelloDungeon
                 Console.WriteLine("You leveled up to level " + playerLevel + "!");
                 playerExp -= playerNeededExpToLevel;
 
-                // and finally, mulitiply the needed exp by 2
-                playerNeededExpToLevel *= 2;
-                playerNeededExpToLevel -= 2;
+                // and finally, add 5 to the needed exp to level
+                playerNeededExpToLevel += 5;
             }
 
-            // increase the player's stats based on how many levels were gained
+            // increase the player's stats based on how many levels were gained and the player's class- er, role
             if (levelsGained > 0)
             {
                 if (playerRole == "Wizard")
