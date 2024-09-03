@@ -38,9 +38,8 @@ namespace HelloDungeon
             }
 
 
-            
 
-
+            Console.Clear();
             Console.WriteLine("Hello, " + playerName + "!");
             Console.WriteLine();
             Console.WriteLine("Welcome to the dungeon!");
