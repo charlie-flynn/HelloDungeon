@@ -11,6 +11,7 @@ namespace HelloDungeon
     internal class Game
     {
 
+        string playerName = "";
         int playerExp = 0;
         int playerNeededExpToLevel = 3;
         int playerLevel = 1;
@@ -29,7 +30,7 @@ namespace HelloDungeon
         public void Run()
         {
             Console.WriteLine("What's your name, adventurer?");
-            string? playerName = Console.ReadLine();
+            playerName = Console.ReadLine();
             while (string.IsNullOrWhiteSpace(playerName))
             {
                 Console.WriteLine("Sorry, what didya say?");
@@ -365,7 +366,7 @@ namespace HelloDungeon
             {
                 /* 
                  * Okay youre gonna hate me for making 8 arguments for the set enemy stats function but look.
-                 * I have no idea how else to do it. sorry ):
+                 * I have no idea how else to do it aside from copy-pasting code. sorry ):
                  * Anyways, the order is as follows:
                  * string setName, float setHealth, float setMana, int setAttack, int setDefense, int setMagic, int setMagicDefense, int setExpDrop
                  */
@@ -380,6 +381,10 @@ namespace HelloDungeon
                 {
                     SetEnemyStats("Mimic", 15, 0, 5, 5, 0, 0, 10);
                     return;
+                }
+                else if (enemyID == 3)
+                {
+                    SetEnemyStats("Molten Sphinx", 25, 4, 5, 5, 10, 1, 13);
                 }
                 else
                 {
