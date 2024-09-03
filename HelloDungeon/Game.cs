@@ -10,7 +10,12 @@ namespace HelloDungeon
 {
     internal class Game
     {
+
+        int playerExp = 0;
+        int playerNeededExpToLevel = 2;
+        int playerLevel = 1;
         float playerHealth = 10.0f;
+        float playerMaxHealth = 10.0f;
         float playerMana = 5.0f;
         float playerMaxMana = 5.0f;
         int playerAttack = 3;
@@ -71,9 +76,10 @@ namespace HelloDungeon
             Console.WriteLine("Proximity to Nearest Living Skeleton: " + playerProximityToNearestLivingSkeleton + " meters");
             Console.WriteLine("Player Role: " + playerRole);
 
+            Combat(42);
+
             Console.WriteLine("Gray bricks line the walls of the dungeon,"
                 + " and dust and dread permeate the air.");
-            Combat(42);
 
             input = PlayerTwoChoices("There are two doors on opposite walls from each other. Which do you choose?", "Left", "Right");
             if (input == 1)
@@ -116,9 +122,6 @@ namespace HelloDungeon
                         Console.WriteLine("As you turn the corner, you stumble into a small, green slime.");
                         Console.WriteLine("It squelches with an immense rage that has been stewing for years upon years.");
                         Combat(1);
-
-
-                        // combat will happen eventually dw about it rn
                     }
                 }
             else if (input == 2)
@@ -212,8 +215,10 @@ namespace HelloDungeon
             int enemyDefense = 0;
             int enemyMagic = 0;
             int enemyMagicDefense = 0;
+            int expDrop = 0;
             float damageDealt = 0.0f;
             bool enemyAlive = true;
+            int levelsGained = 0;
 
 
             // This function uses the enemyID to find the Enemy's stats
@@ -244,8 +249,19 @@ namespace HelloDungeon
                 }
                 if (enemyHealth <= 0)
                 {
-                    enemyAlive = false;
                     Console.WriteLine("The " + enemyName + " was defeated!");
+                    Console.WriteLine("You gained +" + expDrop + " experience!");
+                    playerExp += expDrop;
+                    enemyAlive = false;
+                    while (playerExp >= playerNeededExpToLevel)
+                    {
+                        playerLevel++;
+                        levelsGained++;
+                        Console.WriteLine("You leveled up to level " + playerLevel + "!");
+                        playerExp -= playerNeededExpToLevel;
+                        playerNeededExpToLevel *= 2;
+                        playerNeededExpToLevel -= 1;
+                    }
                 }
                 else
                 {
@@ -254,7 +270,7 @@ namespace HelloDungeon
                     Console.Clear();
 
                     // enemy decides what kind of attack to do
-                    if (enemyAttack > enemyMagic && enemyMana > 0)
+                    if (enemyAttack < enemyMagic && enemyMana > 0)
                     {
                         DamageRoll(true, enemyMagic, playerMagicDefense, 1, "casts a spell!");
                     }
@@ -269,10 +285,7 @@ namespace HelloDungeon
                         Console.WriteLine("You have been defeated!");
                         Console.WriteLine();
                         Console.WriteLine("GAME OVER");
-                        Console.WriteLine("Restart the program to try again!");
-                        Console.ReadLine();
-                        Environment.Exit(1);
-                        return;
+                        Environment.Exit(13);
                     }
                 }
             }
@@ -310,12 +323,12 @@ namespace HelloDungeon
                         }
                         else
                         {
-                            Console.WriteLine("You tried to cast a spell, but you didn't have enough mana!");
+                            Console.WriteLine("But it failed! You didn't have enough mana!");
                             return;
                         }
                     }
                 }
-                else if (playerMana <= playerMaxMana && isAttackingPlayer == false)
+                else if (playerMana < playerMaxMana && isAttackingPlayer == false)
                 {
                     playerMana += playerMaxMana / 4;
                     Console.WriteLine("You regenerated some mana!");
@@ -342,9 +355,16 @@ namespace HelloDungeon
                     enemyHealth -= damageDealt;
                 }
 
+                // if the player's mana is more than their max mana, set their mana to their max mana
                 if (playerMana > playerMaxMana)
                 {
                     playerMana = playerMaxMana;
+                }
+
+                // same thing here but for health
+                if (playerHealth > playerMaxHealth)
+                {
+                    playerHealth = playerMaxHealth;
                 }
 
                 //return
@@ -358,33 +378,33 @@ namespace HelloDungeon
             void FindEnemy(int enemyID)
             {
                 /* 
-                 * Okay youre gonna hate me for making 7 arguments for the set enemy stats function but look.
+                 * Okay youre gonna hate me for making 8 arguments for the set enemy stats function but look.
                  * I have no idea how else to do it. sorry ):
                  * Anyways, the order is as follows:
-                 * string setName, float setHealth, float setMana, int setAttack, int setDefense, int setMagic, int setMagicDefense
+                 * string setName, float setHealth, float setMana, int setAttack, int setDefense, int setMagic, int setMagicDefense, int setExpDrop
                  */
 
                 // If enemyID is 1, the enemy is a Slime.
                 if (enemyID == 1)
                 {
-                    SetEnemyStats("Slime", 10, 0, 2, 0, 2000, 0);
+                    SetEnemyStats("Slime", 10, 0, 2, 0, 2000, 0, 2);
                     return;
                 }
                 else if (enemyID == 2)
                 {
-                    SetEnemyStats("Mimic", 15, 0, 5, 5, 0, 0);
+                    SetEnemyStats("Mimic", 15, 0, 5, 5, 0, 0, 10);
                     return;
                 }
                 else
                 {
-                    SetEnemyStats("CoolTestEnemy", 100, 10, 1, 1, 1, 1);
+                    SetEnemyStats("CoolTestEnemy", 1, 5, 1, 1, 2, 1, 100);
                     return;
                 }
             }
 
 
 
-            void SetEnemyStats(string setName, float setHealth, float setMana, int setAttack, int setDefense, int setMagic, int setMagicDefense)
+            void SetEnemyStats(string setName, float setHealth, float setMana, int setAttack, int setDefense, int setMagic, int setMagicDefense, int setExpDrop)
             {
                 enemyName = setName;
                 enemyHealth = setHealth;
@@ -393,6 +413,7 @@ namespace HelloDungeon
                 enemyDefense = setDefense;
                 enemyMagic = setMagic;
                 enemyMagicDefense = setMagicDefense;
+                expDrop = setExpDrop;
                 return;
             }
 
