@@ -11,26 +11,26 @@ namespace HelloDungeon
 {
     internal class Game
     {
-        bool runDebugCombat = false;
+        bool runDebugCombat = true;
 
 
         struct Stats
         {
-        public string name = "";
-        public string role = "";
-        public int exp = 0;
-        public int expToLevel = 3;
-        public int level = 1;
-        public float health = 10.0f;
-        public float maxHealth = 10.0f;
-        public float mana = 5.0f;
-        public float maxMana = 5.0f;
-        public int attack = 3;
-        public int defense = 3;
-        public int magic = 3;
-        public int magicDefense = 3;
-        public int gold = 3;
-        public bool alive = true;
+            public string name = "";
+            public string role = "";
+            public int exp = 0;
+            public int expToLevel = 3;
+            public int level = 1;
+            public float health = 10.0f;
+            public float maxHealth = 10.0f;
+            public float mana = 5.0f;
+            public float maxMana = 5.0f;
+            public int attack = 3;
+            public int defense = 3;
+            public int magic = 3;
+            public int magicDefense = 3;
+            public int gold = 3;
+            public bool alive = true;
 
             // player stats
             public Stats
@@ -100,7 +100,7 @@ namespace HelloDungeon
             }
         }
 
-        Stats player = new Stats(name: "",role: "", 0, 3, 1, 10, 10, 3, 3, 4, 3, 4, 3, 3);
+        Stats player = new Stats(name: "", role: "", 0, 3, 1, 10, 10, 3, 3, 4, 3, 4, 3, 3);
 
 
 
@@ -133,7 +133,28 @@ namespace HelloDungeon
                 this.item4 = item4;
             }
         }
-        
+
+        struct Item
+        {
+            public int itemID;
+            public bool isConsumable;
+            public string itemName;
+            public string itemDescription;
+            public Item
+                (
+                int itemID,
+                bool isConsumable,
+                string itemName,
+                string itemDescription
+                )
+            {
+                this.itemID = itemID;
+                this.isConsumable = isConsumable;
+                this.itemName = itemName;
+                this.itemDescription = itemDescription;
+            }
+        }
+
         int input = 0;
 
         public void Run()
@@ -384,8 +405,10 @@ namespace HelloDungeon
                     // set input recieved to 3
                     inputRecieved = 3;
                 }
+                // if it's option 4
                 else if (input == "4" || input == option4)
                 {
+                    // set input to 4
                     inputRecieved = 4;
                 }
                 // if its none of them, however
@@ -486,7 +509,10 @@ namespace HelloDungeon
 
             void DamageRoll(bool isAttackingPlayer, int attackingStat, int defendingStat, float manaCost, string attackDescription)
             {
+                float damageCalculated = 0.0f;
                 int damageDealt = 0;
+                int damageRoll = 0;
+                float damageMult = 0;
 
                 // if the attack targets the player, print "The enemyName" amd then the attack description
                 // otherwise, print "You" and then the attack description
@@ -538,7 +564,23 @@ namespace HelloDungeon
                 }
 
                 // Attack - defense = damage
-                damageDealt = attackingStat - defendingStat;
+                damageCalculated = attackingStat - defendingStat;
+
+                // roll a d20 to decide the damage multiplier
+                damageRoll = RandomNumberGenerator.GetInt32(1, 6);
+
+                // add 2 and then divide it by 5, giving a minimum of 0.6, and a max of 1.6
+                damageMult = damageRoll;
+                damageMult += 2;
+                damageMult /= 5;
+
+                // multiply the damage calculated by the damage roll
+                damageCalculated *= damageMult;
+
+                // convert that into an integer, thus rounding it down
+                damageDealt = (int)damageCalculated;
+
+
 
                 // if the damage is 0 or less, the damage is set to 1
                 if (damageDealt <= 0)
@@ -572,11 +614,10 @@ namespace HelloDungeon
 
                 //return
                 return;
+
             }
 
      
-
-
 
             void FindEnemy(int enemyID)
             {
@@ -590,7 +631,7 @@ namespace HelloDungeon
                 // If enemyID is 1, the enemy is a Slime.
                 if (enemyID == 1)
                 {
-                    SetEnemyStats("Slime", 10, 0, 2, 0, 2000, 0, 3);
+                    SetEnemyStats("Slime", 10, 0, 4, 0, 2000, 0, 3);
                     return;
                 }
                 // if it's 2, it is a mimic
@@ -605,7 +646,7 @@ namespace HelloDungeon
                 }
                 else
                 {
-                    SetEnemyStats("CoolTestEnemy", 10, 1, 1000, 1, 1, 1, 5);
+                    SetEnemyStats("CoolTestEnemy", 10, 1, 1, 1, 1, 1, 5);
                     return;
                 }
             }
@@ -684,8 +725,6 @@ namespace HelloDungeon
 
                 // print the player's stats as they are now
                 PrintPlayerStats();
-
-                Console.ReadKey();
                 Console.Clear();
             }
         }
