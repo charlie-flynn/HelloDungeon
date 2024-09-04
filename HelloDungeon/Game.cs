@@ -9,10 +9,25 @@ using System.Threading.Tasks;
 
 namespace HelloDungeon
 {
+    /*
+     * HelloDungeon should have:
+     *  - Use of variables (gl not doing that)
+     *  - Use of functions
+     *  - The use of a struct
+     *  - A function overload
+     * 
+     * You should also have
+     * - Follow proper naming convention
+     * - Your project should run with no errors (warnings are okay!)
+     * - Your code should be commented to a reasonable standard
+     * 
+     * 
+     */
+
     internal class Game
     {
         bool runDebugCombat = true;
-
+        
 
         struct Stats
         {
@@ -231,13 +246,21 @@ namespace HelloDungeon
                                 Console.WriteLine("Alas, the chest was a Mimic!");
                                 Console.WriteLine("That was pretty obvious, though.");
                                 Combat(2);
+                                // change the input to 2 to let the player into the hallway earlier
                                 input = 2;
-                                Console.WriteLine("Lucky for you, the Mimic dropped a treasure!");
+                                Console.WriteLine("Lucky for you, the Mimic dropped some treasure!");
 
-                                // new item!
+                                // gives the player +5 gold
+                                Console.WriteLine("You got +5 Gold!");
+                                player.gold += 5;
+
+
+                                // create a non-consumable item named enchanted blade with that description
                                 Item enchantedSword = new Item(1, false, "Enchanted Blade", "A sword enchanted by a kinda lame ancient deity long ago."
                                     + " Gives +3 Attack, +3 Magic.");
-                            GivePlayerItem(enchantedSword.itemID, enchantedSword.isConsumable, enchantedSword.itemName, enchantedSword.itemDescription);
+
+                                // then print the name and description, and apply its effects.
+                                GivePlayerItem(enchantedSword.itemID, enchantedSword.isConsumable, enchantedSword.itemName, enchantedSword.itemDescription);
                             }
                             else if (input == 2)
                             {
@@ -518,6 +541,7 @@ namespace HelloDungeon
                 float damageCalculated = 0.0f;
                 int damageDealt = 0;
                 int damageRoll = 0;
+                int critRoll = 0;
                 float damageMult = 0;
 
                 // if the attack targets the player, print "The enemyName" amd then the attack description
@@ -572,19 +596,34 @@ namespace HelloDungeon
                 // Attack - defense = damage
                 damageCalculated = attackingStat - defendingStat;
 
-                // roll a d20 to decide the damage multiplier
-                damageRoll = RandomNumberGenerator.GetInt32(1, 6);
 
-                // add 2 and then divide it by 5, giving a minimum of 0.6, and a max of 1.6
+                critRoll = RandomNumberGenerator.GetInt32(1, 12);
+
+                // if you land a 1 in 12 chance, damage is tripled and also say it :3
+                if (critRoll == 12)
+                {
+                    Console.WriteLine("A critical hit!");
+                    damageCalculated *= 3;
+                }
+                else
+                {
+                // roll a d20 to decide the damage multiplier
+                damageRoll = RandomNumberGenerator.GetInt32(1, 5);
+
+                // add 2 and then divide it by 5, giving a minimum of 0.6, and a max of 1.4
                 damageMult = damageRoll;
                 damageMult += 2;
                 damageMult /= 5;
 
                 // multiply the damage calculated by the damage roll
                 damageCalculated *= damageMult;
+                }
+                
 
                 // convert that into an integer, thus rounding it down
                 damageDealt = (int)damageCalculated;
+
+
 
 
 
@@ -643,7 +682,7 @@ namespace HelloDungeon
                 // if it's 2, it is a mimic
                 else if (enemyID == 2)
                 {
-                    SetEnemyStats("Mimic", 15, 0, 10, 5, 0, 0, 10);
+                    SetEnemyStats("Mimic", 20, 0, 10, 5, 0, 0, 10);
                     return;
                 }
                 else if (enemyID == 3)
@@ -652,7 +691,7 @@ namespace HelloDungeon
                 }
                 else
                 {
-                    SetEnemyStats("CoolTestEnemy", 10, 1, 1, 1, 1, 1, 5);
+                    SetEnemyStats("CoolTestEnemy", 1000, 1, 1, 1, 1, 1, 5);
                     return;
                 }
             }
@@ -661,6 +700,8 @@ namespace HelloDungeon
 
             void SetEnemyStats(string setName, float setHealth, float setMana, int setAttack, int setDefense, int setMagic, int setMagicDefense, int setExpDrop)
             {
+
+                // set alllll of da enemy's stats
                 enemy.name = setName;
                 enemy.health = setHealth;
                 enemy.maxHealth = setHealth;
@@ -671,6 +712,8 @@ namespace HelloDungeon
                 enemy.magic = setMagic;
                 enemy.magicDefense = setMagicDefense;
                 enemy.exp = setExpDrop;
+
+                // and then return
                 return;
             }
 
@@ -738,14 +781,14 @@ namespace HelloDungeon
         void PrintPlayerStats()
         {
             Console.WriteLine(player.name + " the " + player.role + "'s stats!");
-            Console.WriteLine("Level: " + player.level);
-            Console.WriteLine("Experience: " + player.exp + "/" + player.expToLevel);
-            Console.WriteLine("Health: " + player.health + "/" + player.maxHealth);
-            Console.WriteLine("Mana: " + player.mana + "/" + player.maxMana);
-            Console.WriteLine("Gold: " + player.gold);
-            Console.WriteLine("Attack: " + player.attack);
-            Console.WriteLine("Defense: " + player.defense);
-            Console.WriteLine("Magic: " + player.magic);
+            Console.WriteLine("Level:         " + player.level);
+            Console.WriteLine("Experience:    " + player.exp + "/" + player.expToLevel);
+            Console.WriteLine("Health:        " + player.health + "/" + player.maxHealth);
+            Console.WriteLine("Mana:          " + player.mana + "/" + player.maxMana);
+            Console.WriteLine("Gold:          " + player.gold);
+            Console.WriteLine("Attack:        " + player.attack);
+            Console.WriteLine("Defense:       " + player.defense);
+            Console.WriteLine("Magic:         " + player.magic);
             Console.WriteLine("Magic Defense: " + player.magicDefense);
             Console.ReadKey();
             return;
@@ -764,8 +807,14 @@ namespace HelloDungeon
             ApplyItemEffect(itemID, isConsumable);
             Console.ReadKey();
             Console.Clear();
-
-            PrintPlayerStats();
+            
+            // if the item is not consumable, print the player's stats
+            if (isConsumable == false)
+            {
+                PrintPlayerStats();
+                Console.Clear();
+            }
+            
 
 
             return;
