@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -100,13 +101,43 @@ namespace HelloDungeon
         }
 
         Stats player = new Stats(name: "",role: "", 0, 3, 1, 10, 10, 3, 3, 4, 3, 4, 3, 3);
+
+
+
+        /// <summary>
+        /// stuff for rooms, including 4 spots for ids, a general id for enemy rooms, event rooms, etc.
+        /// </summary>
+        struct Room
+        {
+            public int id = 0;
+            public int type = 0;
+            public int item1 = 0;
+            public int item2 = 0;
+            public int item3 = 0;
+            public int item4 = 0;
+            public Room
+                (
+                int id,
+                int type,
+                int item1,
+                int item2,
+                int item3,
+                int item4
+                )
+            {
+                this.id = id;
+                this.type = type;
+                this.item1 = item1;
+                this.item2 = item2;
+                this.item3 = item3;
+                this.item4 = item4;
+            }
+        }
         
         int input = 0;
 
         public void Run()
         {
-
-
             Console.WriteLine("What's your name, adventurer?");
             player.name = Console.ReadLine();
             while (string.IsNullOrWhiteSpace(player.name))
@@ -124,7 +155,7 @@ namespace HelloDungeon
             Console.WriteLine();
 
             
-            int input = PlayerTwoChoices("Are you a Wizard or a Warrior?", "Wizard", "Warrior");
+            int input = PlayerChoices("Are you a Wizard or a Warrior?", "Wizard", "Warrior");
             if (input == 1)
             {
                 player.role = "Wizard";
@@ -142,16 +173,9 @@ namespace HelloDungeon
                 player.health += 2;
 
             }
-            Console.WriteLine("Level: " + player.level);
-            Console.WriteLine("Experience: " + player.exp + "/" + player.expToLevel);
-            Console.WriteLine("Health: " + player.health + "/" + player.maxHealth);
-            Console.WriteLine("Mana: " + player.mana + "/" + player.maxMana);
-            Console.WriteLine("Gold: " + player.gold);
-            Console.WriteLine("Attack: " + player.attack);
-            Console.WriteLine("Defense: " + player.defense);
-            Console.WriteLine("Magic: " + player.magic);
-            Console.WriteLine("Magic Defense: " + player.magicDefense);
-            Console.WriteLine("Player Role: " + player.role);
+
+            PrintPlayerStats();
+            Console.Clear();
 
             if (runDebugCombat == true)
             {
@@ -166,7 +190,7 @@ namespace HelloDungeon
             Combat(1);
 
             Console.WriteLine("Now that the slime is gone, you can focus on what's important: choosing a door.");
-            input = PlayerTwoChoices("There are two doors on opposite walls from each other. Which do you choose?", "Left", "Right");
+            input = PlayerChoices("There are two doors on opposite walls from each other. Which do you choose?", "Left", "Right");
             if (input == 1)
             {
                 Console.WriteLine("You enter the left door.");
@@ -174,13 +198,13 @@ namespace HelloDungeon
                 Console.WriteLine("Cracked stone bricks continue to line the walls."
                     + " You feel a dreadful presence somewhere in these halls.");
                 Console.WriteLine("Nonetheless, you must perservere. You come across a fork in your path.");
-                input = PlayerTwoChoices("One path leads to a strange chest, and the other certainly leads you closer to a Living Skeleton." + 
+                input = PlayerChoices("One path leads to a strange chest, and the other certainly leads you closer to a Living Skeleton." + 
                     "Which way do you choose?", "Straight", "Left");
                     if (input == 1)
                     {
                         Console.WriteLine("You approach the chest with the same caution you'd give a wild animal.");
                         Console.WriteLine("You see a bit of clear fluid around the lid...");
-                        input = PlayerTwoChoices("Are you certain you wish to open this chest?", "Yes", "No");
+                        input = PlayerChoices("Are you certain you wish to open this chest?", "Yes", "No");
                             if (input == 1)
                             {
                                 Console.WriteLine("Alas, the chest was a Mimic!");
@@ -207,7 +231,7 @@ namespace HelloDungeon
                 Console.WriteLine("Dust and dread are replaced by ash and flame. Magma pours around you, but never on you.");
                 Console.WriteLine("You feel a general lack of dreadful presences in this direction.");
                 Console.WriteLine("Soon enough, you come across a fork in your path.");
-                input = PlayerTwoChoices("Straight ahead is a Sphinx, encrusted in magma. To the right is a very tall door." + 
+                input = PlayerChoices("Straight ahead is a Sphinx, encrusted in magma. To the right is a very tall door." + 
                     "Which way do you go?", "Straight", "Right");
                     if (input == 1)
                     {
@@ -239,7 +263,7 @@ namespace HelloDungeon
            
                     }
                 }
-        int PlayerTwoChoices(string description, string option1, string option2)
+        int PlayerChoices(string description, string option1, string option2)
         {
             string input = "";
             int inputRecieved = 0;
@@ -278,10 +302,107 @@ namespace HelloDungeon
             Console.Clear();
             return inputRecieved;
         }
+
+        int PlayerChoices(string description, string option1, string option2, string option3)
+        {
+            string input = "";
+            int inputRecieved = 0;
+
+            // while loop to prevent invalid input
+            while (inputRecieved != 1 && inputRecieved != 2 && inputRecieved != 3)
+            {
+                // Print options
+                Console.WriteLine(description);
+                Console.WriteLine("1: " + option1 + " | 2: " + option2 + " | 3:" + option3);
+                Console.Write("> ");
+
+                // Get input from player cause theyre so cool
+                input = Console.ReadLine();
+
+                // if player selected the first option
+                if (input == "1" || input == option1)
+                {
+                    // set input recieved to the first option
+                    inputRecieved = 1;
+                }
+                // if they chose the second option
+                else if (input == "2" || input == option2)
+                {
+                    // set it to the second option :3
+                    inputRecieved = 2;
+                }
+                // if its option 3
+                else if (input == "3" || input == option3)
+                {
+                    // set input recieved to 3
+                    inputRecieved = 3;
+                }
+                // if its none of them, however
+                else
+                {
+                    // display error
+                    Console.WriteLine("Invalid Input");
+                    Console.ReadKey();
+                }
+            }
+            Console.Clear();
+            return inputRecieved;
+        }
+
+        // ok i think you get the point now
+        int PlayerChoices(string description, string option1, string option2, string option3, string option4)
+        {
+            string input = "";
+            int inputRecieved = 0;
+
+            // while loop to prevent invalid input
+            while (inputRecieved != 1 && inputRecieved != 2 && inputRecieved != 3)
+            {
+                // Print options
+                Console.WriteLine(description);
+                Console.WriteLine("1: " + option1 + " | 2: " + option2 + " | 3:" + option3 + " | 4:" + option4);
+                Console.Write("> ");
+
+                // Get input from player cause theyre so cool
+                input = Console.ReadLine();
+
+                // if player selected the first option
+                if (input == "1" || input == option1)
+                {
+                    // set input recieved to the first option
+                    inputRecieved = 1;
+                }
+                // if they chose the second option
+                else if (input == "2" || input == option2)
+                {
+                    // set it to the second option :3
+                    inputRecieved = 2;
+                }
+                // if its option 3
+                else if (input == "3" || input == option3)
+                {
+                    // set input recieved to 3
+                    inputRecieved = 3;
+                }
+                else if (input == "4" || input == option4)
+                {
+                    inputRecieved = 4;
+                }
+                // if its none of them, however
+                else
+                {
+                    // display error
+                    Console.WriteLine("Invalid Input");
+                    Console.ReadKey();
+                }
+            }
+            Console.Clear();
+            return inputRecieved;
+        }
+
         void Combat(int enemyID)
         {
             // Declare the base enemy stats real quick
-
             Stats enemy = new Stats("", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, true);
 
 
@@ -302,7 +423,7 @@ namespace HelloDungeon
                 Console.WriteLine("Your turn!");
                 Console.WriteLine("Your Health: " + player.health + "/" + player.maxHealth);
                 Console.WriteLine("Your Mana: " + player.mana + "/" + player.maxMana);
-                input = PlayerTwoChoices("What type of attack will you do?", "Melee", "Magic");
+                input = PlayerChoices("What will you do?", "Melee", "Magic");
 
                 // if you pick a melee attack, you do an attack using your attack stat against the enemy's defense stat
                 if (input == 1)
@@ -562,20 +683,27 @@ namespace HelloDungeon
                 player.mana = player.maxMana;
 
                 // print the player's stats as they are now
-                Console.WriteLine("Level: " + player.level);
-                Console.WriteLine("Experience: " + player.exp + "/" + player.expToLevel);
-                Console.WriteLine("Health: " + player.health + "/" + player.maxHealth);
-                Console.WriteLine("Mana: " + player.mana + "/" + player.maxMana);
-                Console.WriteLine("Gold: " + player.gold);
-                Console.WriteLine("Attack: " + player.attack);
-                Console.WriteLine("Defense: " + player.defense);
-                Console.WriteLine("Magic: " + player.magic);
-                Console.WriteLine("Magic Defense: " + player.magicDefense);
-                Console.WriteLine("Player Role: " + player.role);
+                PrintPlayerStats();
 
                 Console.ReadKey();
                 Console.Clear();
             }
+        }
+
+        void PrintPlayerStats()
+        {
+            Console.WriteLine(player.name + " the " + player.role + "'s stats!");
+            Console.WriteLine("Level: " + player.level);
+            Console.WriteLine("Experience: " + player.exp + "/" + player.expToLevel);
+            Console.WriteLine("Health: " + player.health + "/" + player.maxHealth);
+            Console.WriteLine("Mana: " + player.mana + "/" + player.maxMana);
+            Console.WriteLine("Gold: " + player.gold);
+            Console.WriteLine("Attack: " + player.attack);
+            Console.WriteLine("Defense: " + player.defense);
+            Console.WriteLine("Magic: " + player.magic);
+            Console.WriteLine("Magic Defense: " + player.magicDefense);
+            Console.ReadKey();
+            return;
         }
     }
 
