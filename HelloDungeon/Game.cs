@@ -211,6 +211,8 @@ namespace HelloDungeon
             PrintPlayerStats();
             Console.Clear();
 
+            SphinxRiddles();
+
             if (runDebugCombat == true)
             {
             Combat(42);
@@ -284,6 +286,9 @@ namespace HelloDungeon
                         Console.WriteLine("You approach the molten Sphinx with great caution.");
                         Console.WriteLine("The Sphinx immediately fixes its gaze upon you.");
                         Console.WriteLine("''HUMAN,'' It bellows. ''TO PASS THROUGH YOU MUST ANSWER MY RIDDLES.''");
+                        Console.WriteLine("''IF YOU FAIL, YOU SHALL PERISH.''");
+                        Console.ReadKey();
+                        SphinxRiddles();
                         /*
                         -- I walk on two legs in the morning, two legs in the evening, and two legs in the afternoon. What am I?
                         A: Chicken
@@ -311,6 +316,55 @@ namespace HelloDungeon
             void SphinxRiddles()
             {
 
+                // generate a random sequence of riddles
+                int riddle1 = RandomNumberGenerator.GetInt32(1, 9);
+                int riddle2 = RandomNumberGenerator.GetInt32(1, 9);
+                int riddle3 = RandomNumberGenerator.GetInt32(1, 9);
+                int riddleNumber = 1;
+                int riddleID = 0;
+
+                // if any of the riddles are the same, try again!
+                while (riddle1 == riddle2 || riddle2 == riddle3 || riddle3 == riddle1)
+                {
+                    riddle1 = RandomNumberGenerator.GetInt32(1, 9);
+                    riddle2 = RandomNumberGenerator.GetInt32(1, 9);
+                    riddle3 = RandomNumberGenerator.GetInt32(1, 9);
+                }
+                while (riddleNumber != 3)
+                {
+                    PrintRiddle(riddleNumber);
+                }
+
+
+
+
+                void PrintRiddle(int riddleNumber)
+                {
+                    if (riddleNumber == 1)
+                    {
+                        riddleID = riddle1;
+                    }
+                    else if (riddleNumber == 2)
+                    {
+                        riddleID = riddle2;
+                    }
+                    else if (riddle3 == 3)
+                    {
+                        riddleID = riddle3;
+                    }
+
+
+
+
+                    if (riddleID == 1)
+                    {
+                        input = PlayerChoices("''I HAVE A BANK BUT NO MONEY, AND A CHANNEL BUT NO TELEVISION. WHAT AM I?''", "TV", "Crab", "River", "Tears");
+                    }
+                    else if (riddleID == 2)
+                    {
+                        input = PlayerChoices("''WHY.''")
+                    }
+                }
             }
                 }
         int PlayerChoices(string description, string option1, string option2)
