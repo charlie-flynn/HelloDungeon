@@ -231,7 +231,13 @@ namespace HelloDungeon
                                 Console.WriteLine("Alas, the chest was a Mimic!");
                                 Console.WriteLine("That was pretty obvious, though.");
                                 Combat(2);
+                                input = 2;
+                                Console.WriteLine("Lucky for you, the Mimic dropped a treasure!");
 
+                                // new item!
+                                Item enchantedSword = new Item(1, false, "Enchanted Blade", "A sword enchanted by a kinda lame ancient deity long ago."
+                                    + " Gives +3 Attack, +3 Magic.");
+                            GivePlayerItem(enchantedSword.itemID, enchantedSword.isConsumable, enchantedSword.itemName, enchantedSword.itemDescription);
                             }
                             else if (input == 2)
                             {
@@ -742,6 +748,45 @@ namespace HelloDungeon
             Console.WriteLine("Magic: " + player.magic);
             Console.WriteLine("Magic Defense: " + player.magicDefense);
             Console.ReadKey();
+            return;
+        }
+
+
+
+        void GivePlayerItem(int itemID, bool isConsumable, string itemName, string itemDescription)
+        {
+
+            // print the item name, then item description
+            Console.WriteLine("You got the " + itemName + "!");
+            Console.WriteLine("Description: " + itemDescription);
+
+            // apply the item's effects, if it isn't consumable
+            ApplyItemEffect(itemID, isConsumable);
+            Console.ReadKey();
+            Console.Clear();
+
+            PrintPlayerStats();
+
+
+            return;
+        }
+
+        void ApplyItemEffect(int itemID, bool isConsumable)
+        {
+
+            // if the item is consumable, add it to your inventory
+            if (isConsumable == true)
+            {
+
+            }
+
+            // otherwise, comb through all the item ids to find the right match for the effect
+            else if (itemID == 1)
+            {
+                player.attack += 3;
+                player.magic += 3;
+                return;
+            }
             return;
         }
     }
