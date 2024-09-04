@@ -10,38 +10,115 @@ namespace HelloDungeon
 {
     internal class Game
     {
-        bool runDebugCombat = true;
+        bool runDebugCombat = false;
 
-        string playerName = "";
-        int playerExp = 0;
-        int playerNeededExpToLevel = 3;
-        int playerLevel = 1;
-        float playerHealth = 10.0f;
-        float playerMaxHealth = 10.0f;
-        float playerMana = 5.0f;
-        float playerMaxMana = 5.0f;
-        int playerAttack = 3;
-        int playerDefense = 3;
-        int playerMagic = 3;
-        int playerMagicDefense = 3;
-        int playerGold = 3;
-        string playerRole = "";
+
+        struct Stats
+        {
+        public string name = "";
+        public string role = "";
+        public int exp = 0;
+        public int expToLevel = 3;
+        public int level = 1;
+        public float health = 10.0f;
+        public float maxHealth = 10.0f;
+        public float mana = 5.0f;
+        public float maxMana = 5.0f;
+        public int attack = 3;
+        public int defense = 3;
+        public int magic = 3;
+        public int magicDefense = 3;
+        public int gold = 3;
+        public bool alive = true;
+
+            // player stats
+            public Stats
+                (
+                string name,
+                string role,
+                int exp,
+                int expToLevel,
+                int level,
+                float health,
+                float maxHealth,
+                float mana,
+                float maxMana,
+                int attack,
+                int defense,
+                int magic,
+                int magicDefense,
+                int gold
+                )
+            {
+                this.name = name;
+                this.role = role;
+                this.exp = exp;
+                this.expToLevel = expToLevel;
+                this.level = level;
+                this.health = health;
+                this.maxHealth = maxHealth;
+                this.mana = mana;
+                this.maxMana = maxMana;
+                this.attack = attack;
+                this.defense = defense;
+                this.magic = magic;
+                this.magicDefense = magicDefense;
+                this.gold = gold;
+            }
+
+
+            // enemy stats
+            public Stats
+                (
+                string name,
+                int exp,
+                float health,
+                float maxHealth,
+                float mana,
+                float maxMana,
+                int attack,
+                int defense,
+                int magic,
+                int magicDefense,
+                int gold,
+                bool alive
+                )
+            {
+                this.name = name;
+                this.exp = exp;
+                this.health = health;
+                this.maxHealth = maxHealth;
+                this.mana = mana;
+                this.maxMana = maxMana;
+                this.attack = attack;
+                this.defense = defense;
+                this.magic = magic;
+                this.magicDefense = magicDefense;
+                this.gold = gold;
+                this.alive = alive;
+            }
+        }
+
+        Stats player = new Stats(name: "",role: "", 0, 3, 1, 10, 10, 3, 3, 4, 3, 4, 3, 3);
+        
         int input = 0;
 
         public void Run()
         {
+
+
             Console.WriteLine("What's your name, adventurer?");
-            playerName = Console.ReadLine();
-            while (string.IsNullOrWhiteSpace(playerName))
+            player.name = Console.ReadLine();
+            while (string.IsNullOrWhiteSpace(player.name))
             {
                 Console.WriteLine("Sorry, what didya say?");
-                playerName = Console.ReadLine();
+                player.name = Console.ReadLine();
             }
 
 
 
             Console.Clear();
-            Console.WriteLine("Hello, " + playerName + "!");
+            Console.WriteLine("Hello, " + player.name + "!");
             Console.WriteLine();
             Console.WriteLine("Welcome to the dungeon!");
             Console.WriteLine();
@@ -50,31 +127,31 @@ namespace HelloDungeon
             int input = PlayerTwoChoices("Are you a Wizard or a Warrior?", "Wizard", "Warrior");
             if (input == 1)
             {
-                playerRole = "Wizard";
-                playerMagic += 3;
-                playerMagicDefense += 2;
-                playerMana += 2;
-                playerMaxMana += 2;
+                player.role = "Wizard";
+                player.magic += 3;
+                player.magicDefense += 2;
+                player.mana += 2;
+                player.maxMana += 2;
             }
             else if (input == 2)
             {
-                playerRole = "Warrior";
-                playerAttack += 3;
-                playerDefense += 2;
-                playerMaxHealth += 2;
-                playerHealth += 2;
+                player.role = "Warrior";
+                player.attack += 3;
+                player.defense += 2;
+                player.maxHealth += 2;
+                player.health += 2;
 
             }
-            Console.WriteLine("Level: " + playerLevel);
-            Console.WriteLine("Experience: " + playerExp + "/" + playerNeededExpToLevel);
-            Console.WriteLine("Health: " + playerHealth + "/" + playerMaxHealth);
-            Console.WriteLine("Mana: " + playerMana + "/" + playerMaxMana);
-            Console.WriteLine("Gold: " + playerGold);
-            Console.WriteLine("Attack: " + playerAttack);
-            Console.WriteLine("Defense: " + playerDefense);
-            Console.WriteLine("Magic: " + playerMagic);
-            Console.WriteLine("Magic Defense: " + playerMagicDefense);
-            Console.WriteLine("Player Role: " + playerRole);
+            Console.WriteLine("Level: " + player.level);
+            Console.WriteLine("Experience: " + player.exp + "/" + player.expToLevel);
+            Console.WriteLine("Health: " + player.health + "/" + player.maxHealth);
+            Console.WriteLine("Mana: " + player.mana + "/" + player.maxMana);
+            Console.WriteLine("Gold: " + player.gold);
+            Console.WriteLine("Attack: " + player.attack);
+            Console.WriteLine("Defense: " + player.defense);
+            Console.WriteLine("Magic: " + player.magic);
+            Console.WriteLine("Magic Defense: " + player.magicDefense);
+            Console.WriteLine("Player Role: " + player.role);
 
             if (runDebugCombat == true)
             {
@@ -84,7 +161,11 @@ namespace HelloDungeon
 
             Console.WriteLine("Gray bricks line the walls of the dungeon,"
                 + " and dust and dread permeate the air.");
+            Console.WriteLine("A slime is stewing on the ground. It seems to be digesting something.");
+            Console.WriteLine("It notices you. It seems to me that you must battle it.");
+            Combat(1);
 
+            Console.WriteLine("Now that the slime is gone, you can focus on what's important: choosing a door.");
             input = PlayerTwoChoices("There are two doors on opposite walls from each other. Which do you choose?", "Left", "Right");
             if (input == 1)
             {
@@ -200,16 +281,8 @@ namespace HelloDungeon
         void Combat(int enemyID)
         {
             // Declare the base enemy stats real quick
-            string enemyName = "";
-            float enemyHealth = 0.0f;
-            float enemyMana = 0.0f;
-            int enemyAttack = 0;
-            int enemyDefense = 0;
-            int enemyMagic = 0;
-            int enemyMagicDefense = 0;
-            int expDrop = 0;
-            float damageDealt = 0.0f;
-            bool enemyAlive = true;
+
+            Stats enemy = new Stats("", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, true);
 
 
             // This function uses the enemyID to find the Enemy's stats
@@ -217,61 +290,62 @@ namespace HelloDungeon
 
 
             // announce the beginning of combat
-            Console.WriteLine("The " + enemyName + " approaches!");
+            Console.WriteLine("The " + enemy.name + " approaches!");
             Console.WriteLine("COMBAT START!");
             Console.ReadKey();
             Console.Clear();
 
 
             // combat loop
-            while (enemyAlive == true)
+            while (enemy.alive == true)
             {
                 Console.WriteLine("Your turn!");
-                Console.WriteLine("Your Health: " + playerHealth + "/" + playerMaxHealth);
-                Console.WriteLine("Your Mana: " + playerMana + "/" + playerMaxMana);
+                Console.WriteLine("Your Health: " + player.health + "/" + player.maxHealth);
+                Console.WriteLine("Your Mana: " + player.mana + "/" + player.maxMana);
                 input = PlayerTwoChoices("What type of attack will you do?", "Melee", "Magic");
 
                 // if you pick a melee attack, you do an attack using your attack stat against the enemy's defense stat
                 if (input == 1)
                 {
-                    DamageRoll(false, playerAttack, enemyDefense, 0, "attack!");
+                    DamageRoll(false, player.attack, enemy.defense, 0, "attack!");
                 }
 
                 // otherwise, you do an attack using your magic stat against the enemy's magic stat
                 else if (input == 2)
                 {
-                    DamageRoll(false, playerMagic, enemyMagicDefense, 1, "cast a spell!");
+                    DamageRoll(false, player.magic, enemy.magicDefense, 1, "cast a spell!");
                 }
 
                 // check if the enemy has died
-                if (enemyHealth <= 0)
+                if (enemy.health <= 0)
                 {
                     // enemy is not alive, print that fact out
-                    enemyAlive = false;
-                    Console.WriteLine("The " + enemyName + " was defeated!");
+                    enemy.alive = false;
+                    Console.WriteLine("The " + enemy.name + " was defeated!");
 
                     //finally, give experience to the player
-                    GivePlayerExp(expDrop);
+                    GivePlayerExp(enemy.exp);
                 }
 
-                // if they haven't, print their health and let them attack
+                // if they haven't, print the enemy's health and let them attack
                 else
                 {
-                    Console.WriteLine("Enemy Health: " + enemyHealth);
+                    Console.WriteLine("Enemy Health: " + enemy.health + "/" + enemy.maxHealth);
                     Console.ReadKey();
                     Console.Clear();
 
                     // enemy decides what kind of attack to do
-                    if (enemyAttack < enemyMagic && enemyMana > 0)
+                    if (enemy.attack < enemy.magic && enemy.mana > 0)
                     {
-                        DamageRoll(true, enemyMagic, playerMagicDefense, 1, "casts a spell!");
+                        DamageRoll(true, enemy.magic, player.magicDefense, 1, "casts a spell!");
                     }
                     else
                     {
-                        DamageRoll(true, enemyAttack, playerDefense, 0, "attacks!");
+                        DamageRoll(true, enemy.attack, player.defense, 0, "attacks!");
                     }
 
-                    if (playerHealth <= 0)
+                    // if the player is dead, print that out and then end the program
+                    if (player.health <= 0)
                     {
                         Console.WriteLine("You have been defeated!");
                         Console.WriteLine();
@@ -282,8 +356,8 @@ namespace HelloDungeon
             }
 
             // at the end of combat, player health and mana are healed to max
-            playerHealth = playerMaxHealth;
-            playerMana = playerMaxMana;
+            player.health = player.maxHealth;
+            player.mana = player.maxMana;
 
             return;
 
@@ -291,12 +365,13 @@ namespace HelloDungeon
 
             void DamageRoll(bool isAttackingPlayer, int attackingStat, int defendingStat, float manaCost, string attackDescription)
             {
+                int damageDealt = 0;
 
                 // if the attack targets the player, print "The enemyName" amd then the attack description
                 // otherwise, print "You" and then the attack description
                 if (isAttackingPlayer == true)
                 {
-                    Console.WriteLine("The " + enemyName + " " + attackDescription);
+                    Console.WriteLine("The " + enemy.name + " " + attackDescription);
                 }
                 else
                 {
@@ -308,28 +383,36 @@ namespace HelloDungeon
                 {
                     if (isAttackingPlayer == true)
                     {
-                        enemyMana -= manaCost;
-                        Console.WriteLine("The " + enemyName + " used " + manaCost + " mana.");
+                        enemy.mana -= manaCost;
+                        Console.WriteLine("The " + enemy.name + " used " + manaCost + " mana.");
                     }
                     else
                     {
-                        if (playerMana >= manaCost)
+                        if (player.mana >= manaCost)
                         {
-                            playerMana -= manaCost;
+                            player.mana -= manaCost;
                             Console.WriteLine("You used " + manaCost + " mana.");
                         }
                         else
                         {
                             Console.WriteLine("But it failed! You didn't have enough mana!");
+                            if (player.mana > player.maxMana)
+                            {
+                                player.mana = player.maxMana;
+                            }
+                            if (player.health > player.maxHealth)
+                            {
+                                player.health = player.maxHealth;
+                            }
                             return;
                         }
                     }
                 }
 
                 // if it doesn't cost mana and the player is not at max mana, regenerate some of the player's mana
-                else if (playerMana < playerMaxMana && isAttackingPlayer == false)
+                else if (player.mana < player.maxMana && isAttackingPlayer == false)
                 {
-                    playerMana += playerMaxMana / 4;
+                    player.mana += player.maxMana / 4;
                     Console.WriteLine("You regenerated some mana!");
                 }
 
@@ -346,24 +429,24 @@ namespace HelloDungeon
                 if (isAttackingPlayer == true)
                 {
                     Console.WriteLine("You take " + damageDealt + " damage!");
-                    playerHealth -= damageDealt;
+                    player.health -= damageDealt;
                 }
                 else
                 {
-                    Console.WriteLine("The " + enemyName + " takes " + damageDealt + " damage!");
-                    enemyHealth -= damageDealt;
+                    Console.WriteLine("The " + enemy.name + " takes " + damageDealt + " damage!");
+                    enemy.health -= damageDealt;
                 }
 
                 // if the player's mana is more than their max mana, set their mana to their max mana
-                if (playerMana > playerMaxMana)
+                if (player.mana > player.maxMana)
                 {
-                    playerMana = playerMaxMana;
+                    player.mana = player.maxMana;
                 }
 
                 // same thing here but for health
-                if (playerHealth > playerMaxHealth)
+                if (player.health > player.maxHealth)
                 {
-                    playerHealth = playerMaxHealth;
+                    player.health = player.maxHealth;
                 }
 
                 //return
@@ -389,9 +472,10 @@ namespace HelloDungeon
                     SetEnemyStats("Slime", 10, 0, 2, 0, 2000, 0, 3);
                     return;
                 }
+                // if it's 2, it is a mimic
                 else if (enemyID == 2)
                 {
-                    SetEnemyStats("Mimic", 15, 0, 5, 5, 0, 0, 10);
+                    SetEnemyStats("Mimic", 15, 0, 10, 5, 0, 0, 10);
                     return;
                 }
                 else if (enemyID == 3)
@@ -400,7 +484,7 @@ namespace HelloDungeon
                 }
                 else
                 {
-                    SetEnemyStats("CoolTestEnemy", 10, 5, 1, 1, 2, 1, 5);
+                    SetEnemyStats("CoolTestEnemy", 10, 1, 1000, 1, 1, 1, 5);
                     return;
                 }
             }
@@ -409,20 +493,22 @@ namespace HelloDungeon
 
             void SetEnemyStats(string setName, float setHealth, float setMana, int setAttack, int setDefense, int setMagic, int setMagicDefense, int setExpDrop)
             {
-                enemyName = setName;
-                enemyHealth = setHealth;
-                enemyMana = setMana;
-                enemyAttack = setAttack;
-                enemyDefense = setDefense;
-                enemyMagic = setMagic;
-                enemyMagicDefense = setMagicDefense;
-                expDrop = setExpDrop;
+                enemy.name = setName;
+                enemy.health = setHealth;
+                enemy.maxHealth = setHealth;
+                enemy.mana = setMana;
+                enemy.maxMana = setMana;
+                enemy.attack = setAttack;
+                enemy.defense = setDefense;
+                enemy.magic = setMagic;
+                enemy.magicDefense = setMagicDefense;
+                enemy.exp = setExpDrop;
                 return;
             }
 
 
         }
-
+        
         void GivePlayerExp(int expGained)
         {
             int levelsGained = 0;
@@ -430,62 +516,62 @@ namespace HelloDungeon
 
             // print the amount of exp gained amd then give the player the exp
             Console.WriteLine("You gained +" + expGained + " experience!");
-            playerExp += expGained;
+            player.exp += expGained;
 
             // while your exp is more than the amount needed to level up, level up
-            while (playerExp >= playerNeededExpToLevel)
+            while (player.exp >= player.expToLevel)
             {
                 // increment the player's level
                 // and also keep track of how many times you do that
-                playerLevel++;
+                player.level++;
                 levelsGained++;
 
                 // print a message for every time you level up and also deduct the exp
-                Console.WriteLine("You leveled up to level " + playerLevel + "!");
-                playerExp -= playerNeededExpToLevel;
+                Console.WriteLine("You leveled up to level " + player.level + "!");
+                player.exp -= player.expToLevel;
 
                 // and finally, add 5 to the needed exp to level
-                playerNeededExpToLevel += 5;
+                player.expToLevel += 5;
             }
 
             // increase the player's stats based on how many levels were gained and the player's class- er, role
             if (levelsGained > 0)
             {
                 Console.ReadKey();
-                if (playerRole == "Wizard")
+                if (player.role == "Wizard")
                 {
-                    playerMaxHealth += 1 * levelsGained;
-                    playerMagic += 2 * levelsGained;
-                    playerMagicDefense += 2 * levelsGained;
-                    playerMaxMana += 2 * levelsGained;
-                    playerAttack += 1 * levelsGained;
-                    playerDefense += 1 * levelsGained;
+                    player.maxHealth += 1 * levelsGained;
+                    player.magic += 2 * levelsGained;
+                    player.magicDefense += 2 * levelsGained;
+                    player.maxMana += 2 * levelsGained;
+                    player.attack += 1 * levelsGained;
+                    player.defense += 1 * levelsGained;
                 }
                 else
                 {
-                    playerMaxHealth += 2 * levelsGained;
-                    playerMagic += 1 * levelsGained;
-                    playerMagicDefense += 1 * levelsGained;
-                    playerMaxMana += 1 * levelsGained;
-                    playerAttack += 2 * levelsGained;
-                    playerDefense += 2 * levelsGained;
+                    player.maxHealth += 2 * levelsGained;
+                    player.magic += 1 * levelsGained;
+                    player.magicDefense += 1 * levelsGained;
+                    player.maxMana += 1 * levelsGained;
+                    player.attack += 2 * levelsGained;
+                    player.defense += 2 * levelsGained;
                 }
 
                 // set player's health and mana to their new maximum
-                playerHealth = playerMaxHealth;
-                playerMana = playerMaxMana;
+                player.health = player.maxHealth;
+                player.mana = player.maxMana;
 
                 // print the player's stats as they are now
-                Console.WriteLine("Level: " + playerLevel);
-                Console.WriteLine("Experience: " + playerExp + "/" + playerNeededExpToLevel);
-                Console.WriteLine("Health: " + playerHealth + "/" + playerMaxHealth);
-                Console.WriteLine("Mana: " + playerMana + "/" + playerMaxMana);
-                Console.WriteLine("Gold: " + playerGold);
-                Console.WriteLine("Attack: " + playerAttack);
-                Console.WriteLine("Defense: " + playerDefense);
-                Console.WriteLine("Magic: " + playerMagic);
-                Console.WriteLine("Magic Defense: " + playerMagicDefense);
-                Console.WriteLine("Player Role: " + playerRole);
+                Console.WriteLine("Level: " + player.level);
+                Console.WriteLine("Experience: " + player.exp + "/" + player.expToLevel);
+                Console.WriteLine("Health: " + player.health + "/" + player.maxHealth);
+                Console.WriteLine("Mana: " + player.mana + "/" + player.maxMana);
+                Console.WriteLine("Gold: " + player.gold);
+                Console.WriteLine("Attack: " + player.attack);
+                Console.WriteLine("Defense: " + player.defense);
+                Console.WriteLine("Magic: " + player.magic);
+                Console.WriteLine("Magic Defense: " + player.magicDefense);
+                Console.WriteLine("Player Role: " + player.role);
 
                 Console.ReadKey();
                 Console.Clear();
