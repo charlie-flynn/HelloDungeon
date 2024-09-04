@@ -13,20 +13,18 @@ namespace HelloDungeon
      * HelloDungeon should have:
      *  - Use of variables (gl not doing that)
      *  - Use of functions
-     *  - The use of a struct
-     *  - A function overload
+     *  - Use of a struct
+     *  - Use A function overload
      * 
      * You should also have
      * - Follow proper naming convention
      * - Your project should run with no errors (warnings are okay!)
      * - Your code should be commented to a reasonable standard
-     * 
-     * 
      */
 
     internal class Game
     {
-        bool runDebugCombat = true;
+        bool runDebugCombat = false;
         
 
         struct Stats
@@ -246,11 +244,9 @@ namespace HelloDungeon
                                 Console.WriteLine("Alas, the chest was a Mimic!");
                                 Console.WriteLine("That was pretty obvious, though.");
                                 Combat(2);
-                                // change the input to 2 to let the player into the hallway earlier
+                                // change the input to 2 to let the player into the hallway from earlier
                                 input = 2;
                                 Console.WriteLine("Lucky for you, the Mimic dropped some treasure!");
-
-                                // gives the player +5 gold
                                 Console.WriteLine("You got +5 Gold!");
                                 player.gold += 5;
 
@@ -312,6 +308,10 @@ namespace HelloDungeon
                     }
            
                     }
+            void SphinxRiddles()
+            {
+
+            }
                 }
         int PlayerChoices(string description, string option1, string option2)
         {
@@ -596,10 +596,14 @@ namespace HelloDungeon
                 // Attack - defense = damage
                 damageCalculated = attackingStat - defendingStat;
 
+                if (damageCalculated <= 0)
+                {
+                    damageCalculated = 1;
+                }
 
-                critRoll = RandomNumberGenerator.GetInt32(1, 12);
 
-                // if you land a 1 in 12 chance, damage is tripled and also say it :3
+                // if you land a 1 in 12 chance, damage is tripled instead of a different damage roll and also says somethin about it
+                critRoll = RandomNumberGenerator.GetInt32(1, 13);
                 if (critRoll == 12)
                 {
                     Console.WriteLine("A critical hit!");
@@ -607,7 +611,7 @@ namespace HelloDungeon
                 }
                 else
                 {
-                // roll a d20 to decide the damage multiplier
+                // roll a d5 to decide the damage multiplier
                 damageRoll = RandomNumberGenerator.GetInt32(1, 5);
 
                 // add 2 and then divide it by 5, giving a minimum of 0.6, and a max of 1.4
