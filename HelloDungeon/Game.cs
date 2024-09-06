@@ -331,13 +331,23 @@ namespace HelloDungeon
                     riddle2 = RandomNumberGenerator.GetInt32(1, 9);
                     riddle3 = RandomNumberGenerator.GetInt32(1, 9);
                 }
-                // while you still have riddles left to complete, give the player a riddle
-                while (riddleCompletionTracker != 4 || riddleFailed == false)
+                // while you still have riddles left to complete or until you fail, give the player a riddle
+                while (riddleCompletionTracker < 4 && riddleFailed == false)
                 {
                     riddleFailed = PrintRiddle(riddleCompletionTracker);
                 }
 
 
+                if (riddleFailed == true)
+                {
+                    Console.WriteLine("aw man");
+                }
+                else
+                {
+                    Console.WriteLine("i cant stop winning!");
+                }
+
+                
 
 
                 bool PrintRiddle(int riddleNumber)
@@ -350,7 +360,7 @@ namespace HelloDungeon
                     {
                         riddleID = riddle2;
                     }
-                    else if (riddle3 == 3)
+                    else if (riddleNumber == 3)
                     {
                         riddleID = riddle3;
                     }
@@ -366,7 +376,7 @@ namespace HelloDungeon
                         {
                             Console.WriteLine("''CORRECT.''");
                             Console.WriteLine("''THE RIVER HAS A BANK AND A CHANNEL, BUT NO MONEY OR TELEVISION.''");
-                            riddleNumber++;
+                            riddleCompletionTracker++;
                             return false;
                         }
                         else
@@ -384,7 +394,7 @@ namespace HelloDungeon
                         {
                             Console.WriteLine("''CORRECT.''");
                             Console.WriteLine("''THE PIANO HAS MANY, MANY KEYS, BUT CAN NEVER OPEN A LOCK.''");
-                            riddleNumber++;
+                            riddleCompletionTracker++;
                             return false;
                         }
                         else
@@ -402,7 +412,7 @@ namespace HelloDungeon
                         {
                             Console.WriteLine("''CORRECT.''");
                             Console.WriteLine("''THE MOMENT YOU DIE, YOU WILL NEVER BAT AN EYE AGAIN.''");
-                            riddleNumber++;
+                            riddleCompletionTracker++;
                             return false;
                         }
                         else
@@ -421,7 +431,7 @@ namespace HelloDungeon
                         {
                             Console.WriteLine("''CORRECT.''");
                             Console.WriteLine("''NINE PLUS TEN EQUALS NINETEEN.''");
-                            riddleNumber++;
+                            riddleCompletionTracker++;
                             return false;
                         }
                         else if (input == 2)
@@ -444,7 +454,7 @@ namespace HelloDungeon
                         {
                             Console.WriteLine("''CORRECT.''");
                             Console.WriteLine("''THE SEMICOLON SYMBOLIZES THE END OF A LINE OF CODE.''");
-                            riddleNumber++;
+                            riddleCompletionTracker++;
                             return false;
                         }
                         else
@@ -463,7 +473,7 @@ namespace HelloDungeon
                         {
                             Console.WriteLine("''CORRECT.''");
                             Console.WriteLine("''THE HORSE'S NAME WAS FRIDAY.''");
-                            riddleNumber++;
+                            riddleCompletionTracker++;
                             return false;
                         }
                         else
@@ -481,13 +491,30 @@ namespace HelloDungeon
                         {
                             Console.WriteLine("''CORRECT.''");
                             Console.WriteLine("''I REALLY LIKE PURPLE. :)''");
-                            riddleNumber++;
+                            riddleCompletionTracker++;
                             return false;
                         }
                         else
                         {
                             Console.WriteLine("''INCORRECT.''");
                             Console.WriteLine("''THE ANSWER WAS PURPLE, BECAUSE I REALLY LIKE PURPLE. :)''");
+                            return true;
+                        }
+                    }
+                    else if (riddleID == 8)
+                    {
+                        input = PlayerChoices("''PLACEHOLDER RIDDLE''", "Correct Answer", "Incorrect Answer", "Wrong Answer", "Not the Right Answer");
+                        if (input == 1)
+                        {
+                            Console.WriteLine("''CORRECT.''");
+                            Console.WriteLine("''THAT'S THE RIGHT ANSWER''");
+                            riddleCompletionTracker++;
+                            return false;
+                        }
+                        else
+                        {
+                            Console.WriteLine("''INCORRECT.''");
+                            Console.WriteLine("''THE ANSWER WAS THE CORRECT ANSWER, IT IS THE RIGHT ANSWER.''");
                             return true;
                         }
                     }
@@ -588,7 +615,7 @@ namespace HelloDungeon
             int inputRecieved = 0;
 
             // while loop to prevent invalid input
-            while (inputRecieved != 1 && inputRecieved != 2 && inputRecieved != 3)
+            while (inputRecieved != 1 && inputRecieved != 2 && inputRecieved != 3 && inputRecieved != 4)
             {
                 // Print options
                 Console.WriteLine(description);
