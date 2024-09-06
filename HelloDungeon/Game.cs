@@ -491,6 +491,7 @@ namespace HelloDungeon
                             return true;
                         }
                     }
+                    return false;
                 }
             }
                 }
