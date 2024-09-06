@@ -340,7 +340,9 @@ namespace HelloDungeon
 
                 if (riddleFailed == true)
                 {
-                    Console.WriteLine("aw man");
+                    Console.WriteLine("The Molten Sphinx looks at you, its petrifying gaze piercing into your mind.");
+                    Console.WriteLine("''YOU HAVE FAILED, HUMAN. FOR THAT, YOU MUST PERISH.''");
+                    Combat(3);
                 }
                 else
                 {
@@ -352,6 +354,8 @@ namespace HelloDungeon
 
                 bool PrintRiddle(int riddleNumber)
                 {
+
+                    // if riddle number is 1, load up riddle1. if it's 2, load up riddle2. if it's 3, riddle3
                     if (riddleNumber == 1)
                     {
                         riddleID = riddle1;
@@ -368,6 +372,7 @@ namespace HelloDungeon
 
 
                     // checks the riddle id for the riddle you want to be given
+                    // i.e. if the riddle id was 4 itd load up riddle #4
                     if (riddleID == 1)
                     {
                         input = PlayerChoices("''I HAVE A BANK BUT NO MONEY, AND A CHANNEL BUT NO TELEVISION. WHAT AM I?''", 
@@ -900,7 +905,7 @@ namespace HelloDungeon
                 }
                 else if (enemyID == 3)
                 {
-                    SetEnemyStats("Molten Sphinx", 25, 4, 5, 5, 10, 1, 13);
+                    SetEnemyStats("Molten Sphinx", 25, 4, 5, 5, 10, 1, 20);
                 }
                 else
                 {
