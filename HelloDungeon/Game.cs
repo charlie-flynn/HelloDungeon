@@ -320,7 +320,8 @@ namespace HelloDungeon
                 int riddle1 = RandomNumberGenerator.GetInt32(1, 9);
                 int riddle2 = RandomNumberGenerator.GetInt32(1, 9);
                 int riddle3 = RandomNumberGenerator.GetInt32(1, 9);
-                int riddleNumber = 1;
+                int riddleCompletionTracker = 1;
+                bool riddleFailed = false;
                 int riddleID = 0;
 
                 // if any of the riddles are the same, try again!
@@ -330,15 +331,16 @@ namespace HelloDungeon
                     riddle2 = RandomNumberGenerator.GetInt32(1, 9);
                     riddle3 = RandomNumberGenerator.GetInt32(1, 9);
                 }
-                while (riddleNumber != 3)
+                // while you still have riddles left to complete, give the player a riddle
+                while (riddleCompletionTracker != 4 || riddleFailed == false)
                 {
-                    PrintRiddle(riddleNumber);
+                    riddleFailed = PrintRiddle(riddleCompletionTracker);
                 }
 
 
 
 
-                void PrintRiddle(int riddleNumber)
+                bool PrintRiddle(int riddleNumber)
                 {
                     if (riddleNumber == 1)
                     {
@@ -355,14 +357,139 @@ namespace HelloDungeon
 
 
 
-
+                    // checks the riddle id for the riddle you want to be given
                     if (riddleID == 1)
                     {
-                        input = PlayerChoices("''I HAVE A BANK BUT NO MONEY, AND A CHANNEL BUT NO TELEVISION. WHAT AM I?''", "TV", "Crab", "River", "Tears");
+                        input = PlayerChoices("''I HAVE A BANK BUT NO MONEY, AND A CHANNEL BUT NO TELEVISION. WHAT AM I?''", 
+                            "TV", "Crab", "River", "Tears");
+                        if (input == 3)
+                        {
+                            Console.WriteLine("''CORRECT.''");
+                            Console.WriteLine("''THE RIVER HAS A BANK AND A CHANNEL, BUT NO MONEY OR TELEVISION.''");
+                            riddleNumber++;
+                            return false;
+                        }
+                        else
+                        {
+                            Console.WriteLine("''INCORRECT.''");
+                            Console.WriteLine("''THE ANSWER WAS THE RIVER, FOR IT HAS A BANK AND A CHANNEL, BUT NO MONEY OR TELEVISION.''");
+                            return true;
+                        }
                     }
                     else if (riddleID == 2)
                     {
-                        input = PlayerChoices("''WHY.''")
+                        input = PlayerChoices("''I HAVE DOZENS OF KEYS, BUT I CANNOT OPEN ANY LOCKS. WHAT AM I?''", 
+                            "Piano", "Tablet", "Keyring", "Ant");
+                        if (input == 1)
+                        {
+                            Console.WriteLine("''CORRECT.''");
+                            Console.WriteLine("''THE PIANO HAS MANY, MANY KEYS, BUT CAN NEVER OPEN A LOCK.''");
+                            riddleNumber++;
+                            return false;
+                        }
+                        else
+                        {
+                            Console.WriteLine("''INCORRECT.''");
+                            Console.WriteLine("''THE ANSWER WAS THE PIANO, FOR DESPITE ITS MANY, MANY KEYS, IT CAN NEVER OPEN A LOCK.''");
+                            return true;
+                        }
+                    }
+                    else if (riddleID == 3)
+                    {
+                        input = PlayerChoices("''ALL MOURN WHEN IT HAPPENS TO OTHERS, BUT WHEN IT HAPPENS TO YOU, YOU WON'T BAT AN EYE. WHAT AM I?''", 
+                            "Housefire", "Death", "Wolves Invasion", "Big Ant");
+                        if (input == 2)
+                        {
+                            Console.WriteLine("''CORRECT.''");
+                            Console.WriteLine("''THE MOMENT YOU DIE, YOU WILL NEVER BAT AN EYE AGAIN.''");
+                            riddleNumber++;
+                            return false;
+                        }
+                        else
+                        {
+                            Console.WriteLine("''INCORRECT.''");
+                            Console.WriteLine("''THE ANSWER WAS DEATH, FOR THE MOMENT YOU DIE, YOU WILL NEVER BAT AN EYE AGAIN.''");
+                            return true;
+                        }
+
+                    }
+                    else if (riddleID == 4)
+                    {
+                        input = PlayerChoices("''WHAT'S 9+10?''", 
+                            "19", "21", "12", "14");
+                        if (input == 1)
+                        {
+                            Console.WriteLine("''CORRECT.''");
+                            Console.WriteLine("''NINE PLUS TEN EQUALS NINETEEN.''");
+                            riddleNumber++;
+                            return false;
+                        }
+                        else if (input == 2)
+                        {
+                            Console.WriteLine("''YOU STUPID.''");
+                            return true;
+                        }
+                        else
+                        {
+                            Console.WriteLine("''INCORRECT.''");
+                            Console.WriteLine("''THE CORRECT ANSWER WAS NINETEEN, FOR NINE PLUS TEN EQUALS NINETEEN.''");
+                            return true;
+                        }
+                    }
+                    else if (riddleID == 5)
+                    {
+                        input = PlayerChoices("''I AM AN ALL-IMPORTANT PIECE OF THIS WORLD, SYMBOLIZING AN END OF THE LINE. WHAT AM I?''",
+                            "Skull", "GAME OVER", "Exclamation Point", "Semicolon");
+                        if (input == 4)
+                        {
+                            Console.WriteLine("''CORRECT.''");
+                            Console.WriteLine("''THE SEMICOLON SYMBOLIZES THE END OF A LINE OF CODE.''");
+                            riddleNumber++;
+                            return false;
+                        }
+                        else
+                        {
+                            Console.WriteLine("''INCORRECT.''");
+                            Console.WriteLine("''THE ANSWER WAS THE SEMICOLON, FOR IT SYMBOLIZES THE END OF A LINE OF CODE.''");
+                            return true;
+                        }
+                    }
+                    else if (riddleID == 6)
+                    {
+                        input = PlayerChoices("''A KNIGHT RIDES INTO A TOWN ON FRIDAY. HE STAYS THREE DAYS AND THREE NIGHTS, AND LEAVES ON FRIDAY." + 
+                            " HOW IS THAT POSSIBLE?''", 
+                            "Time Paradox", "Horse's Name", "Three Knights", "Knight's Name");
+                        if (input == 2)
+                        {
+                            Console.WriteLine("''CORRECT.''");
+                            Console.WriteLine("''THE HORSE'S NAME WAS FRIDAY.''");
+                            riddleNumber++;
+                            return false;
+                        }
+                        else
+                        {
+                            Console.WriteLine("''INCORRECT.''");
+                            Console.WriteLine("''THE ANSWER WAS THE HORSE'S NAME, FOR THE HORSE WAS NAMED FRIDAY''");
+                            return true;
+                        }
+                    }
+                    else if (riddleID == 7)
+                    {
+                        input = PlayerChoices("''WHAT IS MY FAVORITE COLOR?''", 
+                            "Red", "Orange", "Green", "Purple");
+                        if (input == 4)
+                        {
+                            Console.WriteLine("''CORRECT.''");
+                            Console.WriteLine("''I REALLY LIKE PURPLE. :)''");
+                            riddleNumber++;
+                            return false;
+                        }
+                        else
+                        {
+                            Console.WriteLine("''INCORRECT.''");
+                            Console.WriteLine("''THE ANSWER WAS PURPLE, BECAUSE I REALLY LIKE PURPLE. :)''");
+                            return true;
+                        }
                     }
                 }
             }
@@ -417,7 +544,7 @@ namespace HelloDungeon
             {
                 // Print options
                 Console.WriteLine(description);
-                Console.WriteLine("1: " + option1 + " | 2: " + option2 + " | 3:" + option3);
+                Console.WriteLine("1: " + option1 + " | 2: " + option2 + " | 3: " + option3);
                 Console.Write("> ");
 
                 // Get input from player cause theyre so cool
@@ -464,7 +591,7 @@ namespace HelloDungeon
             {
                 // Print options
                 Console.WriteLine(description);
-                Console.WriteLine("1: " + option1 + " | 2: " + option2 + " | 3:" + option3 + " | 4:" + option4);
+                Console.WriteLine("1: " + option1 + " | 2: " + option2 + " | 3: " + option3 + " | 4: " + option4);
                 Console.Write("> ");
 
                 // Get input from player cause theyre so cool
