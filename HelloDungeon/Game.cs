@@ -271,6 +271,7 @@ namespace HelloDungeon
                         Console.WriteLine("As you turn the corner, a Shambling Zombie shambles towards you.");
                         Console.WriteLine("It shambles, in a menacing fashion.");
                         Combat(4);
+                        Console.WriteLine("Now that the zombie shambles no more, you continue down the hall.");
                     }
                 }
                 else if (input == 2)
@@ -874,9 +875,7 @@ namespace HelloDungeon
                     player.health = player.maxHealth;
                 }
 
-                //return
                 return;
-
             }
 
      
@@ -1003,6 +1002,7 @@ namespace HelloDungeon
         void PrintPlayerStats()
         {
             // yeah this does what you'd expect it to
+            // that being printing the player's stats
             Console.WriteLine(player.name + " the " + player.role + "'s stats!");
             Console.WriteLine("Level:         " + player.level);
             Console.WriteLine("Experience:    " + player.exp + "/" + player.expToLevel);
