@@ -215,70 +215,72 @@ namespace HelloDungeon
             {
             Combat(42);
             }
-            
 
-            Console.WriteLine("Gray bricks line the walls of the dungeon,"
-                + " and dust and dread permeate the air.");
-            Console.WriteLine("A slime is stewing on the ground. It seems to be digesting something.");
-            Console.WriteLine("It notices you. It seems to me that you must battle it.");
-            Combat(1);
 
-            Console.WriteLine("Now that the slime is gone, you can focus on what's important: choosing a door.");
-            input = PlayerChoices("There are two doors on opposite walls from each other. Which do you choose?", "Left", "Right");
-            if (input == 1)
-            {
-                Console.WriteLine("You enter the left door.");
-                Console.WriteLine("The scent of dust and dread is far stronger beyond this door.");
-                Console.WriteLine("Cracked stone bricks continue to line the walls."
-                    + " You feel a dreadful presence somewhere in these halls.");
-                Console.WriteLine("Nonetheless, you must perservere. You come across a fork in your path.");
-                input = PlayerChoices("One path leads to a strange chest, and the other certainly leads you closer to a Living Skeleton." + 
-                    "Which way do you choose?", "Straight", "Left");
+
+
+                Console.WriteLine("Gray bricks line the walls of the dungeon,"
+                    + " and dust and dread permeate the air.");
+                Console.WriteLine("A slime is stewing on the ground. It seems to be digesting something.");
+                Console.WriteLine("It notices you. It seems that you must battle it.");
+                Combat(1);
+
+                Console.WriteLine("Now that the slime is gone, you can focus on what's important: choosing a door.");
+                input = PlayerChoices("There are two doors on opposite walls from each other. Which do you choose?", "Left", "Right");
+                if (input == 1)
+                {
+                    Console.WriteLine("You enter the left door.");
+                    Console.WriteLine("The scent of dust and dread is far stronger beyond this door.");
+                    Console.WriteLine("Cracked stone bricks continue to line the walls."
+                        + " You feel a dreadful presence somewhere in these halls.");
+                    Console.WriteLine("Nonetheless, you must perservere. You come across a fork in your path.");
+                    Console.WriteLine("One path leads to a strange chest, and the other certainly leads you closer to a Living Skeleton.");
+                    input = PlayerChoices("Which way do you choose?", "Straight", "Left");
                     if (input == 1)
                     {
                         Console.WriteLine("You approach the chest with the same caution you'd give a wild animal.");
                         Console.WriteLine("You see a bit of clear fluid around the lid...");
                         input = PlayerChoices("Are you certain you wish to open this chest?", "Yes", "No");
-                            if (input == 1)
-                            {
-                                Console.WriteLine("Alas, the chest was a Mimic!");
-                                Console.WriteLine("That was pretty obvious, though.");
-                                Combat(2);
-                                // change the input to 2 to let the player into the hallway from earlier
-                                input = 2;
-                                Console.WriteLine("Lucky for you, the Mimic dropped some treasure!");
-                                Console.WriteLine("You got +5 Gold!");
-                                player.gold += 5;
+                        if (input == 1)
+                        {
+                            Console.WriteLine("Alas, the chest was a Mimic!");
+                            Console.WriteLine("That was pretty obvious, though.");
+                            Combat(2);
+                            // change the input to 2 to let the player into the hallway from earlier
+                            input = 2;
+                            Console.WriteLine("Lucky for you, the Mimic dropped some treasure!");
+                            Console.WriteLine("You got +5 Gold!");
+                            player.gold += 5;
 
 
-                                // create a non-consumable item named enchanted blade with that description
-                                Item enchantedSword = new Item(1, false, "Enchanted Blade", "A sword enchanted by a kinda lame ancient deity long ago."
-                                    + " Gives +3 Attack, +3 Magic.");
+                            // create a non-consumable item named enchanted blade with that description
+                            Item enchantedSword = new Item(1, false, "Enchanted Blade", "A sword enchanted by a kinda lame ancient deity long ago."
+                                + " Gives +3 Attack, +3 Magic.");
 
-                                // then print the name and description, and apply its effects.
-                                GivePlayerItem(enchantedSword.itemID, enchantedSword.isConsumable, enchantedSword.itemName, enchantedSword.itemDescription);
-                            }
-                            else if (input == 2)
-                            {
-                                Console.WriteLine("You turn around, then go down the hallway that is now to your right.");
-                            }
+                            // then print the name and description, and apply its effects.
+                            GivePlayerItem(enchantedSword.itemID, enchantedSword.isConsumable, enchantedSword.itemName, enchantedSword.itemDescription);
+                        }
+                        if (input == 2)
+                        {
+                            Console.WriteLine("You turn around, then go down the hallway that was to your left earlier.");
+                        }
 
                     }
                     if (input == 2)
                     {
-                        Console.WriteLine("As you turn the corner, you stumble into a small, green slime.");
-                        Console.WriteLine("It squelches with an immense rage that has been stewing for years upon years.");
-                        Combat(1);
+                        Console.WriteLine("As you turn the corner, a Shambling Zombie shambles towards you.");
+                        Console.WriteLine("It shambles, in a menacing fashion.");
+                        Combat(4);
                     }
                 }
-            else if (input == 2)
-            {
-                Console.WriteLine("You enter the right door.");
-                Console.WriteLine("Dust and dread are replaced by ash and flame. Magma pours around you, but never on you.");
-                Console.WriteLine("You feel a general lack of dreadful presences in this direction.");
-                Console.WriteLine("Soon enough, you come across a fork in your path.");
-                input = PlayerChoices("Straight ahead is a Sphinx, encrusted in magma. To the right is a very tall door." + 
-                    "Which way do you go?", "Straight", "Right");
+                else if (input == 2)
+                {
+                    Console.WriteLine("You enter the right door.");
+                    Console.WriteLine("Dust and dread are replaced by ash and flame. Magma pours around you, but never on you.");
+                    Console.WriteLine("You feel a general lack of dreadful presences in this direction.");
+                    Console.WriteLine("Soon enough, you come across a fork in your path.");
+                    input = PlayerChoices("Straight ahead is a Sphinx, encrusted in magma. To the right is a very tall door." +
+                        "Which way do you go?", "Straight", "Right");
                     if (input == 1)
                     {
                         Console.WriteLine("You approach the molten Sphinx with great caution.");
@@ -292,230 +294,230 @@ namespace HelloDungeon
                     else if (input == 2)
                     {
                         Console.WriteLine("The moment you touch the doorknob, the door falls over like a domino away from you.");
-                        Console.WriteLine("I dont know whats behind this other than a lever code thing");
-                        Console.WriteLine("uhhh HEY LOOK AT THIS -> left left right ");
-                        Console.WriteLine("wait right a slime");
+                        Console.WriteLine("Around the corner of the hallway was a Shambling Zombie.");
+                        Console.WriteLine("It shambles towards you in a menacing fashion.");
+                        Combat(4);
                     }
-           
-                    }
-            void SphinxRiddles()
-            {
 
-                // generate a random sequence of riddles
-                int riddle1 = RandomNumberGenerator.GetInt32(1, 9);
-                int riddle2 = RandomNumberGenerator.GetInt32(1, 9);
-                int riddle3 = RandomNumberGenerator.GetInt32(1, 9);
-                int riddleCompletionTracker = 1;
-                bool riddleFailed = false;
-                int riddleID = 0;
-
-                // if any of the riddles are the same, try again!
-                while (riddle1 == riddle2 || riddle2 == riddle3 || riddle3 == riddle1)
-                {
-                    riddle1 = RandomNumberGenerator.GetInt32(1, 9);
-                    riddle2 = RandomNumberGenerator.GetInt32(1, 9);
-                    riddle3 = RandomNumberGenerator.GetInt32(1, 9);
                 }
-                // while you still have riddles left to complete or until you fail, give the player a riddle
-                while (riddleCompletionTracker < 4 && riddleFailed == false)
-                {
-                    riddleFailed = PrintRiddle(riddleCompletionTracker);
-                }
-
-                // if you failed the riddle, you engage in combat with the sphinx
-                if (riddleFailed == true)
-                {
-                    Console.WriteLine("The Molten Sphinx looks at you, its petrifying gaze piercing into your mind.");
-                    Console.WriteLine("''YOU HAVE FAILED, HUMAN. FOR THAT, YOU MUST PERISH.''");
-                    Console.ReadKey();
-                    Combat(3);
-                }
-                // if you passed, you get experience for your swag money riddle skills
-                else
-                {
-                    Console.WriteLine("The Molten Sphinx looks at you, its gaze not one of malice, but of pride.");
-                    Console.WriteLine("''YOU HAVE PASSED, HUMAN. FOR THAT, YOU SHALL RECEIVE MY GIFT OF KNOWLEDGE''");
-                    Console.ReadKey();
-                    GivePlayerExp(25);
-                }
-
-                
-
-
-                bool PrintRiddle(int riddleNumber)
+                void SphinxRiddles()
                 {
 
-                    // if riddle number is 1, load up riddle1. if it's 2, load up riddle2. if it's 3, riddle3
-                    if (riddleNumber == 1)
+                    // generate a random sequence of riddles
+                    int riddle1 = RandomNumberGenerator.GetInt32(1, 9);
+                    int riddle2 = RandomNumberGenerator.GetInt32(1, 9);
+                    int riddle3 = RandomNumberGenerator.GetInt32(1, 9);
+                    int riddleCompletionTracker = 1;
+                    bool riddleFailed = false;
+                    int riddleID = 0;
+
+                    // if any of the riddles are the same, try again!
+                    while (riddle1 == riddle2 || riddle2 == riddle3 || riddle3 == riddle1)
                     {
-                        riddleID = riddle1;
+                        riddle1 = RandomNumberGenerator.GetInt32(1, 9);
+                        riddle2 = RandomNumberGenerator.GetInt32(1, 9);
+                        riddle3 = RandomNumberGenerator.GetInt32(1, 9);
                     }
-                    else if (riddleNumber == 2)
+                    // while you still have riddles left to complete or until you fail, give the player a riddle
+                    while (riddleCompletionTracker < 4 && riddleFailed == false)
                     {
-                        riddleID = riddle2;
+                        riddleFailed = PrintRiddle(riddleCompletionTracker);
                     }
-                    else if (riddleNumber == 3)
+
+                    // if you failed the riddle, you engage in combat with the sphinx
+                    if (riddleFailed == true)
                     {
-                        riddleID = riddle3;
+                        Console.WriteLine("The Molten Sphinx looks at you, its petrifying gaze piercing into your mind.");
+                        Console.WriteLine("''YOU HAVE FAILED, HUMAN. FOR THAT, YOU MUST PERISH.''");
+                        Console.ReadKey();
+                        Combat(3);
+                    }
+                    // if you passed, you get experience for your swag money riddle skills
+                    else
+                    {
+                        Console.WriteLine("The Molten Sphinx looks at you, its gaze not one of malice, but of pride.");
+                        Console.WriteLine("''YOU HAVE PASSED, HUMAN. FOR THAT, YOU SHALL RECEIVE MY GIFT OF KNOWLEDGE''");
+                        Console.ReadKey();
+                        GivePlayerExp(25);
                     }
 
 
 
-                    // checks the riddle id for the riddle you want to be given
-                    // i.e. if the riddle id was 4 itd load up riddle #4
-                    if (riddleID == 1)
+
+                    bool PrintRiddle(int riddleNumber)
                     {
-                        input = PlayerChoices("''I HAVE A BANK BUT NO MONEY, AND A CHANNEL BUT NO TELEVISION. WHAT AM I?''", 
-                            "TV", "Crab", "River", "Tears");
-                        if (input == 3)
+
+                        // if riddle number is 1, load up riddle1. if it's 2, load up riddle2. if it's 3, riddle3
+                        if (riddleNumber == 1)
                         {
-                            Console.WriteLine("''CORRECT.''");
-                            Console.WriteLine("''THE RIVER HAS A BANK AND A CHANNEL, BUT NO MONEY OR TELEVISION.''");
-                            riddleCompletionTracker++;
-                            return false;
+                            riddleID = riddle1;
                         }
-                        else
+                        else if (riddleNumber == 2)
                         {
-                            Console.WriteLine("''INCORRECT.''");
-                            Console.WriteLine("''THE ANSWER WAS THE RIVER, FOR IT HAS A BANK AND A CHANNEL, BUT NO MONEY OR TELEVISION.''");
-                            return true;
+                            riddleID = riddle2;
                         }
-                    }
-                    else if (riddleID == 2)
-                    {
-                        input = PlayerChoices("''I HAVE DOZENS OF KEYS, BUT I CANNOT OPEN ANY LOCKS. WHAT AM I?''", 
-                            "Piano", "Tablet", "Keyring", "Ant");
-                        if (input == 1)
+                        else if (riddleNumber == 3)
                         {
-                            Console.WriteLine("''CORRECT.''");
-                            Console.WriteLine("''THE PIANO HAS MANY, MANY KEYS, BUT CAN NEVER OPEN A LOCK.''");
-                            riddleCompletionTracker++;
-                            return false;
-                        }
-                        else
-                        {
-                            Console.WriteLine("''INCORRECT.''");
-                            Console.WriteLine("''THE ANSWER WAS THE PIANO, FOR DESPITE ITS MANY, MANY KEYS, IT CAN NEVER OPEN A LOCK.''");
-                            return true;
-                        }
-                    }
-                    else if (riddleID == 3)
-                    {
-                        input = PlayerChoices("''ALL MOURN WHEN IT HAPPENS TO OTHERS, BUT WHEN IT HAPPENS TO YOU, YOU WON'T BAT AN EYE. WHAT AM I?''", 
-                            "Housefire", "Death", "Wolves Invasion", "Big Ant");
-                        if (input == 2)
-                        {
-                            Console.WriteLine("''CORRECT.''");
-                            Console.WriteLine("''THE MOMENT YOU DIE, YOU WILL NEVER BAT AN EYE AGAIN.''");
-                            riddleCompletionTracker++;
-                            return false;
-                        }
-                        else
-                        {
-                            Console.WriteLine("''INCORRECT.''");
-                            Console.WriteLine("''THE ANSWER WAS DEATH, FOR THE MOMENT YOU DIE, YOU WILL NEVER BAT AN EYE AGAIN.''");
-                            return true;
+                            riddleID = riddle3;
                         }
 
+
+
+                        // checks the riddle id for the riddle you want to be given
+                        // i.e. if the riddle id was 4 itd load up riddle #4
+                        if (riddleID == 1)
+                        {
+                            input = PlayerChoices("''I HAVE A BANK BUT NO MONEY, AND A CHANNEL BUT NO TELEVISION. WHAT AM I?''",
+                                "TV", "Crab", "River", "Tears");
+                            if (input == 3)
+                            {
+                                Console.WriteLine("''CORRECT.''");
+                                Console.WriteLine("''THE RIVER HAS A BANK AND A CHANNEL, BUT NO MONEY OR TELEVISION.''");
+                                riddleCompletionTracker++;
+                                return false;
+                            }
+                            else
+                            {
+                                Console.WriteLine("''INCORRECT.''");
+                                Console.WriteLine("''THE ANSWER WAS THE RIVER, FOR IT HAS A BANK AND A CHANNEL, BUT NO MONEY OR TELEVISION.''");
+                                return true;
+                            }
+                        }
+                        else if (riddleID == 2)
+                        {
+                            input = PlayerChoices("''I HAVE DOZENS OF KEYS, BUT I CANNOT OPEN ANY LOCKS. WHAT AM I?''",
+                                "Piano", "Tablet", "Keyring", "Ant");
+                            if (input == 1)
+                            {
+                                Console.WriteLine("''CORRECT.''");
+                                Console.WriteLine("''THE PIANO HAS MANY, MANY KEYS, BUT CAN NEVER OPEN A LOCK.''");
+                                riddleCompletionTracker++;
+                                return false;
+                            }
+                            else
+                            {
+                                Console.WriteLine("''INCORRECT.''");
+                                Console.WriteLine("''THE ANSWER WAS THE PIANO, FOR DESPITE ITS MANY, MANY KEYS, IT CAN NEVER OPEN A LOCK.''");
+                                return true;
+                            }
+                        }
+                        else if (riddleID == 3)
+                        {
+                            input = PlayerChoices("''ALL MOURN WHEN IT HAPPENS TO OTHERS, BUT WHEN IT HAPPENS TO YOU, YOU WON'T BAT AN EYE. WHAT AM I?''",
+                                "Housefire", "Death", "Wolves Invasion", "Big Ant");
+                            if (input == 2)
+                            {
+                                Console.WriteLine("''CORRECT.''");
+                                Console.WriteLine("''THE MOMENT YOU DIE, YOU WILL NEVER BAT AN EYE AGAIN.''");
+                                riddleCompletionTracker++;
+                                return false;
+                            }
+                            else
+                            {
+                                Console.WriteLine("''INCORRECT.''");
+                                Console.WriteLine("''THE ANSWER WAS DEATH, FOR THE MOMENT YOU DIE, YOU WILL NEVER BAT AN EYE AGAIN.''");
+                                return true;
+                            }
+
+                        }
+                        else if (riddleID == 4)
+                        {
+                            input = PlayerChoices("''WHAT'S 9+10?''",
+                                "19", "21", "12", "14");
+                            if (input == 1)
+                            {
+                                Console.WriteLine("''CORRECT.''");
+                                Console.WriteLine("''NINE PLUS TEN EQUALS NINETEEN.''");
+                                riddleCompletionTracker++;
+                                return false;
+                            }
+                            else if (input == 2)
+                            {
+                                Console.WriteLine("''YOU STUPID.''");
+                                return true;
+                            }
+                            else
+                            {
+                                Console.WriteLine("''INCORRECT.''");
+                                Console.WriteLine("''THE CORRECT ANSWER WAS NINETEEN, FOR NINE PLUS TEN EQUALS NINETEEN.''");
+                                return true;
+                            }
+                        }
+                        else if (riddleID == 5)
+                        {
+                            input = PlayerChoices("''I AM AN ALL-IMPORTANT PIECE OF THIS WORLD, SYMBOLIZING AN END OF THE LINE. WHAT AM I?''",
+                                "Skull", "GAME OVER", "Exclamation Point", "Semicolon");
+                            if (input == 4)
+                            {
+                                Console.WriteLine("''CORRECT.''");
+                                Console.WriteLine("''THE SEMICOLON SYMBOLIZES THE END OF A LINE OF CODE.''");
+                                riddleCompletionTracker++;
+                                return false;
+                            }
+                            else
+                            {
+                                Console.WriteLine("''INCORRECT.''");
+                                Console.WriteLine("''THE ANSWER WAS THE SEMICOLON, FOR IT SYMBOLIZES THE END OF A LINE OF CODE.''");
+                                return true;
+                            }
+                        }
+                        else if (riddleID == 6)
+                        {
+                            input = PlayerChoices("''A KNIGHT RIDES INTO A TOWN ON FRIDAY. HE STAYS THREE DAYS AND THREE NIGHTS, AND LEAVES ON FRIDAY." +
+                                " HOW IS THAT POSSIBLE?''",
+                                "Time Paradox", "Horse's Name", "Three Knights", "Knight's Name");
+                            if (input == 2)
+                            {
+                                Console.WriteLine("''CORRECT.''");
+                                Console.WriteLine("''THE HORSE'S NAME WAS FRIDAY.''");
+                                riddleCompletionTracker++;
+                                return false;
+                            }
+                            else
+                            {
+                                Console.WriteLine("''INCORRECT.''");
+                                Console.WriteLine("''THE ANSWER WAS THE HORSE'S NAME, FOR THE HORSE WAS NAMED FRIDAY''");
+                                return true;
+                            }
+                        }
+                        else if (riddleID == 7)
+                        {
+                            input = PlayerChoices("''WHAT IS MY FAVORITE COLOR?''",
+                                "Red", "Orange", "Green", "Purple");
+                            if (input == 4)
+                            {
+                                Console.WriteLine("''CORRECT.''");
+                                Console.WriteLine("''I REALLY LIKE PURPLE. :)''");
+                                riddleCompletionTracker++;
+                                return false;
+                            }
+                            else
+                            {
+                                Console.WriteLine("''INCORRECT.''");
+                                Console.WriteLine("''THE ANSWER WAS PURPLE, BECAUSE I REALLY LIKE PURPLE. :)''");
+                                return true;
+                            }
+                        }
+                        else if (riddleID == 8)
+                        {
+                            input = PlayerChoices("''PLACEHOLDER RIDDLE''", "Correct Answer", "Incorrect Answer", "Wrong Answer", "Not the Right Answer");
+                            if (input == 1)
+                            {
+                                Console.WriteLine("''CORRECT.''");
+                                Console.WriteLine("''THAT'S THE RIGHT ANSWER''");
+                                riddleCompletionTracker++;
+                                return false;
+                            }
+                            else
+                            {
+                                Console.WriteLine("''INCORRECT.''");
+                                Console.WriteLine("''THE ANSWER WAS THE CORRECT ANSWER, IT IS THE RIGHT ANSWER.''");
+                                return true;
+                            }
+                        }
+                        return false;
                     }
-                    else if (riddleID == 4)
-                    {
-                        input = PlayerChoices("''WHAT'S 9+10?''", 
-                            "19", "21", "12", "14");
-                        if (input == 1)
-                        {
-                            Console.WriteLine("''CORRECT.''");
-                            Console.WriteLine("''NINE PLUS TEN EQUALS NINETEEN.''");
-                            riddleCompletionTracker++;
-                            return false;
-                        }
-                        else if (input == 2)
-                        {
-                            Console.WriteLine("''YOU STUPID.''");
-                            return true;
-                        }
-                        else
-                        {
-                            Console.WriteLine("''INCORRECT.''");
-                            Console.WriteLine("''THE CORRECT ANSWER WAS NINETEEN, FOR NINE PLUS TEN EQUALS NINETEEN.''");
-                            return true;
-                        }
-                    }
-                    else if (riddleID == 5)
-                    {
-                        input = PlayerChoices("''I AM AN ALL-IMPORTANT PIECE OF THIS WORLD, SYMBOLIZING AN END OF THE LINE. WHAT AM I?''",
-                            "Skull", "GAME OVER", "Exclamation Point", "Semicolon");
-                        if (input == 4)
-                        {
-                            Console.WriteLine("''CORRECT.''");
-                            Console.WriteLine("''THE SEMICOLON SYMBOLIZES THE END OF A LINE OF CODE.''");
-                            riddleCompletionTracker++;
-                            return false;
-                        }
-                        else
-                        {
-                            Console.WriteLine("''INCORRECT.''");
-                            Console.WriteLine("''THE ANSWER WAS THE SEMICOLON, FOR IT SYMBOLIZES THE END OF A LINE OF CODE.''");
-                            return true;
-                        }
-                    }
-                    else if (riddleID == 6)
-                    {
-                        input = PlayerChoices("''A KNIGHT RIDES INTO A TOWN ON FRIDAY. HE STAYS THREE DAYS AND THREE NIGHTS, AND LEAVES ON FRIDAY." + 
-                            " HOW IS THAT POSSIBLE?''", 
-                            "Time Paradox", "Horse's Name", "Three Knights", "Knight's Name");
-                        if (input == 2)
-                        {
-                            Console.WriteLine("''CORRECT.''");
-                            Console.WriteLine("''THE HORSE'S NAME WAS FRIDAY.''");
-                            riddleCompletionTracker++;
-                            return false;
-                        }
-                        else
-                        {
-                            Console.WriteLine("''INCORRECT.''");
-                            Console.WriteLine("''THE ANSWER WAS THE HORSE'S NAME, FOR THE HORSE WAS NAMED FRIDAY''");
-                            return true;
-                        }
-                    }
-                    else if (riddleID == 7)
-                    {
-                        input = PlayerChoices("''WHAT IS MY FAVORITE COLOR?''", 
-                            "Red", "Orange", "Green", "Purple");
-                        if (input == 4)
-                        {
-                            Console.WriteLine("''CORRECT.''");
-                            Console.WriteLine("''I REALLY LIKE PURPLE. :)''");
-                            riddleCompletionTracker++;
-                            return false;
-                        }
-                        else
-                        {
-                            Console.WriteLine("''INCORRECT.''");
-                            Console.WriteLine("''THE ANSWER WAS PURPLE, BECAUSE I REALLY LIKE PURPLE. :)''");
-                            return true;
-                        }
-                    }
-                    else if (riddleID == 8)
-                    {
-                        input = PlayerChoices("''PLACEHOLDER RIDDLE''", "Correct Answer", "Incorrect Answer", "Wrong Answer", "Not the Right Answer");
-                        if (input == 1)
-                        {
-                            Console.WriteLine("''CORRECT.''");
-                            Console.WriteLine("''THAT'S THE RIGHT ANSWER''");
-                            riddleCompletionTracker++;
-                            return false;
-                        }
-                        else
-                        {
-                            Console.WriteLine("''INCORRECT.''");
-                            Console.WriteLine("''THE ANSWER WAS THE CORRECT ANSWER, IT IS THE RIGHT ANSWER.''");
-                            return true;
-                        }
-                    }
-                    return false;
                 }
-            }
                 }
         int PlayerChoices(string description, string option1, string option2)
         {
@@ -656,6 +658,12 @@ namespace HelloDungeon
             return inputRecieved;
         }
 
+
+
+        /// <summary>
+        /// The combat loop of the game, which includes multiple functions within it for damage rolls, getting the enemy's stats, etc.
+        /// </summary>
+        /// <param name="enemyID"></param>
         void Combat(int enemyID)
         {
             // Declare the base enemy stats real quick
@@ -704,7 +712,7 @@ namespace HelloDungeon
                     GivePlayerExp(enemy.exp);
                 }
 
-                // if they haven't, print the enemy's health and let them attack
+                // if they haven't died, print the enemy's health and let them attack
                 else
                 {
                     Console.WriteLine("Enemy Health: " + enemy.health + "/" + enemy.maxHealth);
@@ -739,7 +747,7 @@ namespace HelloDungeon
             return;
 
 
-
+            
             void DamageRoll(bool isAttackingPlayer, int attackingStat, int defendingStat, float manaCost, string attackDescription)
             {
                 float damageCalculated = 0.0f;
@@ -897,6 +905,10 @@ namespace HelloDungeon
                 else if (enemyID == 3)
                 {
                     SetEnemyStats("Molten Sphinx", 25, 4, 5, 5, 10, 1, 25);
+                }
+                else if (enemyID == 4)
+                {
+                    SetEnemyStats("Shambling Zombie", 25, 0, 10, 4, 0, 3, 8);
                 }
                 else
                 {
