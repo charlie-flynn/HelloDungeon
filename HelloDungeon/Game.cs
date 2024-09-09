@@ -118,7 +118,7 @@ namespace HelloDungeon
 
 
         /// <summary>
-        /// stuff for rooms, including 4 spots for ids, a general id for enemy rooms, event rooms, etc.
+        /// stuff for rooms, including 4 spots for item ids, a general id for enemy rooms, event rooms, etc.
         /// </summary>
         struct Room
         {
@@ -403,7 +403,7 @@ namespace HelloDungeon
                         }
                         else if (riddleID == 3)
                         {
-                            input = PlayerChoices("''ALL MOURN WHEN IT HAPPENS TO OTHERS, BUT WHEN IT HAPPENS TO YOU, YOU WON'T BAT AN EYE. WHAT AM I?''",
+                            input = PlayerChoices("''ALL MOURN WHEN I HAPPEN TO OTHERS, BUT WHEN I HAPPEN TO YOU, YOU WON'T BAT AN EYE. WHAT AM I?''",
                                 "Housefire", "Death", "Wolves Invasion", "Big Ant");
                             if (input == 2)
                             {
@@ -735,7 +735,8 @@ namespace HelloDungeon
                         Console.WriteLine("You have been defeated!");
                         Console.WriteLine();
                         Console.WriteLine("GAME OVER");
-                        Environment.Exit(13);
+                        Console.ReadKey();
+                        Environment.Exit(0);
                     }
                 }
             }
@@ -892,7 +893,7 @@ namespace HelloDungeon
                 // If enemyID is 1, the enemy is a Slime.
                 if (enemyID == 1)
                 {
-                    SetEnemyStats("Slime", 10, 0, 4, 0, 2000, 0, 3);
+                    SetEnemyStats("Slime", 10, 0, 4, 0, 20000, 0, 3);
                     return;
                 }
                 // if it's 2, it is a mimic
@@ -904,7 +905,7 @@ namespace HelloDungeon
                 // so on and so forth
                 else if (enemyID == 3)
                 {
-                    SetEnemyStats("Molten Sphinx", 25, 4, 5, 5, 10, 1, 25);
+                    SetEnemyStats("Molten Sphinx", 25, 2, 9, 5, 10, 1, 25);
                 }
                 else if (enemyID == 4)
                 {
