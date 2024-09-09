@@ -211,8 +211,6 @@ namespace HelloDungeon
             PrintPlayerStats();
             Console.Clear();
 
-            SphinxRiddles();
-
             if (runDebugCombat == true)
             {
             Combat(42);
@@ -288,21 +286,8 @@ namespace HelloDungeon
                         Console.WriteLine("''HUMAN,'' It bellows. ''TO PASS THROUGH YOU MUST ANSWER MY RIDDLES.''");
                         Console.WriteLine("''IF YOU FAIL, YOU SHALL PERISH.''");
                         Console.ReadKey();
+                        Console.Clear();
                         SphinxRiddles();
-                        /*
-                        -- I walk on two legs in the morning, two legs in the evening, and two legs in the afternoon. What am I?
-                        A: Chicken
-                        -- I have a bank but no money, and a channel but no television. What am I?
-                        A: River
-                        -- 2 / x = 1
-                        A: 2
-                        -- FOUR BAJILLION AND TWO - 1
-                        A: FOUR BAJILLION AND ONE
-                        --
-                        A:
-                        --
-                        A:
-                        */
                     }
                     else if (input == 2)
                     {
@@ -337,16 +322,21 @@ namespace HelloDungeon
                     riddleFailed = PrintRiddle(riddleCompletionTracker);
                 }
 
-
+                // if you failed the riddle, you engage in combat with the sphinx
                 if (riddleFailed == true)
                 {
                     Console.WriteLine("The Molten Sphinx looks at you, its petrifying gaze piercing into your mind.");
                     Console.WriteLine("''YOU HAVE FAILED, HUMAN. FOR THAT, YOU MUST PERISH.''");
+                    Console.ReadKey();
                     Combat(3);
                 }
+                // if you passed, you get experience for your swag money riddle skills
                 else
                 {
-                    Console.WriteLine("i cant stop winning!");
+                    Console.WriteLine("The Molten Sphinx looks at you, its gaze not one of malice, but of pride.");
+                    Console.WriteLine("''YOU HAVE PASSED, HUMAN. FOR THAT, YOU SHALL RECEIVE MY GIFT OF KNOWLEDGE''");
+                    Console.ReadKey();
+                    GivePlayerExp(25);
                 }
 
                 
@@ -903,9 +893,10 @@ namespace HelloDungeon
                     SetEnemyStats("Mimic", 20, 0, 10, 5, 0, 0, 10);
                     return;
                 }
+                // so on and so forth
                 else if (enemyID == 3)
                 {
-                    SetEnemyStats("Molten Sphinx", 25, 4, 5, 5, 10, 1, 20);
+                    SetEnemyStats("Molten Sphinx", 25, 4, 5, 5, 10, 1, 25);
                 }
                 else
                 {
@@ -947,7 +938,7 @@ namespace HelloDungeon
             Console.WriteLine("You gained +" + expGained + " experience!");
             player.exp += expGained;
 
-            // while your exp is more than the amount needed to level up, level up
+            // while your exp is more than or equal to the amount needed to level up, level up
             while (player.exp >= player.expToLevel)
             {
                 // increment the player's level
@@ -998,6 +989,7 @@ namespace HelloDungeon
 
         void PrintPlayerStats()
         {
+            // yeah this does what you'd expect it to
             Console.WriteLine(player.name + " the " + player.role + "'s stats!");
             Console.WriteLine("Level:         " + player.level);
             Console.WriteLine("Experience:    " + player.exp + "/" + player.expToLevel);
