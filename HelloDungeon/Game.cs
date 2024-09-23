@@ -26,7 +26,9 @@ namespace HelloDungeon
     {
         bool runDebugCombat = false;
         
-
+        /// <summary>
+        /// struct for player stats
+        /// </summary>
         struct Stats
         {
             public string name = "";
@@ -80,6 +82,9 @@ namespace HelloDungeon
             }
         }
 
+        /// <summary>
+        /// struct for enemy stats thats so much cooler
+        /// </summary>
         struct Enemy
         {
             public string enemyName;
@@ -194,15 +199,18 @@ namespace HelloDungeon
             Combat(CoolTestEnemy);
             }
 
+            // here's a list of Every Enemy Ever! except the cool test enemy hes too cool
+            Enemy slime = new Enemy("Slime", 3, 10, 10, 0, 0, 5, 1, 0, 1, true);
+            Enemy shamblingZombie = new Enemy("Shambling Zombie", 10, 20, 20, 0, 0, 8, 5, 0, 8, true);
+            Enemy mimic = new Enemy("Mimic", 15, 15, 15, 0, 0, 12, 4, 0, 2, true);
+            Enemy moltenSphinx = new Enemy("Molten Sphinx", 25, 25, 25, 2, 2, 4, 3, 14, 3, true);
 
-            Enemy shamblingZombie = new Enemy("Shambling Zombie", 10, 20, 20, 0, 0, 5, 2, 0, 4, true);
-
-                Console.WriteLine("Gray bricks line the walls of the dungeon,"
+            Console.WriteLine("Gray bricks line the walls of the dungeon,"
                     + " and dust and dread permeate the air.");
                 Console.WriteLine("A slime is stewing on the ground. It seems to be digesting something.");
                 Console.WriteLine("It notices you. It seems that you must battle it.");
 
-            Enemy slime = new Enemy("Slime", 3, 10, 10, 0, 0, 5, 1, 0, 1, true);
+            
                 Combat(slime);
 
                 Console.WriteLine("Now that the slime is gone, you can focus on what's important: choosing a door.");
@@ -225,8 +233,8 @@ namespace HelloDungeon
                         {
                             Console.WriteLine("Alas, the chest was a Mimic!");
                             Console.WriteLine("That was pretty obvious, though.");
-                            Enemy Mimic = new Enemy("Mimic", 15, 15, 15, 0, 0, 8, 4, 0, 2, true);
-                            Combat(Mimic);
+                            
+                            Combat(mimic);
                             Console.WriteLine("Lucky for you, the Mimic dropped some treasure!");
                             Console.WriteLine("You got +5 Gold!");
                             player.gold += 5;
@@ -322,7 +330,6 @@ namespace HelloDungeon
                         Console.WriteLine("''YOU HAVE FAILED, HUMAN. FOR THAT, YOU MUST PERISH.''");
                         Console.ReadKey();
 
-                    Enemy moltenSphinx = new Enemy("Molten Sphinx", 25, 25, 25, 2, 2, 4, 3, 14, 3, true);
                         Combat(moltenSphinx);
                     }
                     // if you passed, you get experience for your swag money riddle skills
@@ -655,12 +662,6 @@ namespace HelloDungeon
 
         void Combat(Enemy enemy)
         {
-            // set the enemy's health and mana back to max if this enemy was reused
-            enemy.enemyHealth = enemy.enemyMaxHealth;
-            enemy.enemyMana = enemy.enemyMaxMana;
-
-
-
             // announce the beginning of combat
             Console.WriteLine("The " + enemy.enemyName + " approaches!");
             Console.WriteLine("COMBAT START!");
@@ -682,7 +683,7 @@ namespace HelloDungeon
                     DamageRoll(false, player.attack, enemy.enemyDefense, 0, "attack!");
                 }
 
-                // otherwise, you do an attack using your magic stat against the enemy's magic stat
+                // otherwise, you do an attack using your magic stat against the enemy's magic defense stat
                 else if (input == 2)
                 {
                     DamageRoll(false, player.magic, enemy.enemyMagicDefense, 1, "cast a spell!");
