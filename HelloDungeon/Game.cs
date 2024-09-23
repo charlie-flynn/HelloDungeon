@@ -45,7 +45,6 @@ namespace HelloDungeon
             public int gold = 3;
             public bool alive = true;
 
-            // player stats
             public Stats
                 (
                 string name,
@@ -79,73 +78,51 @@ namespace HelloDungeon
                 this.magicDefense = magicDefense;
                 this.gold = gold;
             }
+        }
 
-
-            // enemy stats
-            public Stats
+        struct Enemy
+        {
+            public string enemyName;
+            public int enemyExpDrop;
+            public float enemyHealth;
+            public float enemyMaxHealth;
+            public float enemyMana;
+            public float enemyMaxMana;
+            public int enemyAttack;
+            public int enemyDefense;
+            public int enemyMagic;
+            public int enemyMagicDefense;
+            public bool enemyIsAlive;
+            public Enemy
                 (
-                string name,
-                int exp,
-                float health,
-                float maxHealth,
-                float mana,
-                float maxMana,
-                int attack,
-                int defense,
-                int magic,
-                int magicDefense,
-                int gold,
-                bool alive
+                string enemyName,
+                int enemyExpDrop,
+                float enemyHealth,
+                float enemyMaxHealth,
+                float enemyMana,
+                float enemyMaxMana,
+                int enemyAttack,
+                int enemyDefense,
+                int enemyMagic,
+                int enemyMagicDefense,
+                bool enemyIsAlive
                 )
             {
-                this.name = name;
-                this.exp = exp;
-                this.health = health;
-                this.maxHealth = maxHealth;
-                this.mana = mana;
-                this.maxMana = maxMana;
-                this.attack = attack;
-                this.defense = defense;
-                this.magic = magic;
-                this.magicDefense = magicDefense;
-                this.gold = gold;
-                this.alive = alive;
+                this.enemyName = enemyName;
+                this.enemyExpDrop = enemyExpDrop;
+                this.enemyHealth = enemyHealth;
+                this.enemyMaxHealth = enemyMaxHealth;
+                this.enemyMana = enemyMana;
+                this.enemyMaxMana = enemyMaxMana;
+                this.enemyAttack = enemyAttack;
+                this.enemyDefense = enemyDefense;
+                this.enemyMagic = enemyMagic;
+                this.enemyMagicDefense = enemyMagicDefense;
+                this.enemyIsAlive = enemyIsAlive;
             }
         }
 
         Stats player = new Stats(name: "", role: "", 0, 3, 1, 10, 10, 3, 3, 4, 3, 4, 3, 3);
-
-
-
-        /// <summary>
-        /// stuff for rooms, including 4 spots for item ids, a general id for enemy rooms, event rooms, etc.
-        /// </summary>
-        struct Room
-        {
-            public int id = 0;
-            public int type = 0;
-            public int item1 = 0;
-            public int item2 = 0;
-            public int item3 = 0;
-            public int item4 = 0;
-            public Room
-                (
-                int id,
-                int type,
-                int item1,
-                int item2,
-                int item3,
-                int item4
-                )
-            {
-                this.id = id;
-                this.type = type;
-                this.item1 = item1;
-                this.item2 = item2;
-                this.item3 = item3;
-                this.item4 = item4;
-            }
-        }
 
         struct Item
         {
@@ -213,17 +190,20 @@ namespace HelloDungeon
 
             if (runDebugCombat == true)
             {
-            Combat(42);
+                Enemy CoolTestEnemy = new Enemy("Cool Test Enemy", 999, 5, 5, 2, 2, 1, 0, 2, 0, true);
+            Combat(CoolTestEnemy);
             }
 
 
-
+            Enemy shamblingZombie = new Enemy("Shambling Zombie", 10, 20, 20, 0, 0, 5, 2, 0, 4, true);
 
                 Console.WriteLine("Gray bricks line the walls of the dungeon,"
                     + " and dust and dread permeate the air.");
                 Console.WriteLine("A slime is stewing on the ground. It seems to be digesting something.");
                 Console.WriteLine("It notices you. It seems that you must battle it.");
-                Combat(1);
+
+            Enemy slime = new Enemy("Slime", 3, 10, 10, 0, 0, 5, 1, 0, 1, true);
+                Combat(slime);
 
                 Console.WriteLine("Now that the slime is gone, you can focus on what's important: choosing a door.");
                 input = PlayerChoices("There are two doors on opposite walls from each other. Which do you choose?", "Left", "Right");
@@ -245,9 +225,8 @@ namespace HelloDungeon
                         {
                             Console.WriteLine("Alas, the chest was a Mimic!");
                             Console.WriteLine("That was pretty obvious, though.");
-                            Combat(2);
-                            // change the input to 2 to let the player into the hallway from earlier
-                            input = 2;
+                            Enemy Mimic = new Enemy("Mimic", 15, 15, 15, 0, 0, 8, 4, 0, 2, true);
+                            Combat(Mimic);
                             Console.WriteLine("Lucky for you, the Mimic dropped some treasure!");
                             Console.WriteLine("You got +5 Gold!");
                             player.gold += 5;
@@ -258,21 +237,15 @@ namespace HelloDungeon
                                 + " Gives +3 Attack, +3 Magic.");
 
                             // then print the name and description, and apply its effects.
-                            GivePlayerItem(enchantedSword.itemID, enchantedSword.isConsumable, enchantedSword.itemName, enchantedSword.itemDescription);
+                            GivePlayerItem(enchantedSword);
+                            Console.WriteLine("Now that the Mimic is gone...");
                         }
-                        if (input == 2)
-                        {
-                            Console.WriteLine("You turn around, then go down the hallway that was to your left earlier.");
-                        }
-
+                       Console.WriteLine("You turn around, then go down the hallway that was to your left earlier.");
                     }
-                    if (input == 2)
-                    {
                         Console.WriteLine("As you turn the corner, a Shambling Zombie shambles towards you.");
                         Console.WriteLine("It shambles, in a menacing fashion.");
-                        Combat(4);
+                        Combat(shamblingZombie);
                         Console.WriteLine("Now that the zombie shambles no more, you continue down the hall.");
-                    }
                 }
                 else if (input == 2)
                 {
@@ -281,7 +254,7 @@ namespace HelloDungeon
                     Console.WriteLine("You feel a general lack of dreadful presences in this direction.");
                     Console.WriteLine("Soon enough, you come across a fork in your path.");
                     input = PlayerChoices("Straight ahead is a Sphinx, encrusted in magma. To the right is a very tall door." +
-                        "Which way do you go?", "Straight", "Right");
+                        " Which way do you go?", "Straight", "Right");
                     if (input == 1)
                     {
                         Console.WriteLine("You approach the molten Sphinx with great caution.");
@@ -291,13 +264,30 @@ namespace HelloDungeon
                         Console.ReadKey();
                         Console.Clear();
                         SphinxRiddles();
+                        Console.WriteLine("Now that you've taken care of the sphinx, you can move deeper into the dungeon.");
+                        
                     }
                     else if (input == 2)
                     {
                         Console.WriteLine("The moment you touch the doorknob, the door falls over like a domino away from you.");
                         Console.WriteLine("Around the corner of the hallway was a Shambling Zombie.");
                         Console.WriteLine("It shambles towards you in a menacing fashion.");
-                        Combat(4);
+
+                        Combat(shamblingZombie);
+
+                        Console.WriteLine("Now that the Shambling Zombie has been taken care of, you proceed down the hall.");
+                        Console.WriteLine("The hallway leads to a dead end, but in that dead end is a message.");
+                        Console.WriteLine("''DOWN, UP, DOWN''");
+                        Console.WriteLine("Strange... Anyways, you turn around and go back down the hall, to approach the Molten Sphinx.");
+
+                        Console.ReadLine();
+                        Console.Clear();
+
+                        Console.WriteLine("The moment you exit the hallway, the Sphinx fixes its gaze upon you.");
+                        Console.WriteLine("''HUMAN,'' It bellows. ''TO PASS THROUGH YOU MUST ANSWER MY RIDDLES.''");
+                        Console.WriteLine("''IF YOU FAIL, YOU SHALL PERISH.''");
+                        SphinxRiddles();
+                        Console.WriteLine("Now that you've taken care of the sphinx, you can move deeper into the dungeon.");
                     }
 
                 }
@@ -331,7 +321,9 @@ namespace HelloDungeon
                         Console.WriteLine("The Molten Sphinx looks at you, its petrifying gaze piercing into your mind.");
                         Console.WriteLine("''YOU HAVE FAILED, HUMAN. FOR THAT, YOU MUST PERISH.''");
                         Console.ReadKey();
-                        Combat(3);
+
+                    Enemy moltenSphinx = new Enemy("Molten Sphinx", 25, 25, 25, 2, 2, 4, 3, 14, 3, true);
+                        Combat(moltenSphinx);
                     }
                     // if you passed, you get experience for your swag money riddle skills
                     else
@@ -348,7 +340,7 @@ namespace HelloDungeon
                     bool PrintRiddle(int riddleNumber)
                     {
 
-                        // if riddle number is 1, load up riddle1. if it's 2, load up riddle2. if it's 3, riddle3
+                        // if riddle number is 1, load up riddle1. if it's 2, load up riddle2. if it's 3, riddle3, so on and so forth
                         if (riddleNumber == 1)
                         {
                             riddleID = riddle1;
@@ -661,29 +653,23 @@ namespace HelloDungeon
 
 
 
-        /// <summary>
-        /// The combat loop of the game, which includes multiple functions within it for damage rolls, getting the enemy's stats, etc.
-        /// </summary>
-        /// <param name="enemyID"></param>
-        void Combat(int enemyID)
+        void Combat(Enemy enemy)
         {
-            // Declare the base enemy stats real quick
-            Stats enemy = new Stats("", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, true);
+            // set the enemy's health and mana back to max if this enemy was reused
+            enemy.enemyHealth = enemy.enemyMaxHealth;
+            enemy.enemyMana = enemy.enemyMaxMana;
 
-
-            // This function uses the enemyID to find the Enemy's stats
-            FindEnemy(enemyID);
 
 
             // announce the beginning of combat
-            Console.WriteLine("The " + enemy.name + " approaches!");
+            Console.WriteLine("The " + enemy.enemyName + " approaches!");
             Console.WriteLine("COMBAT START!");
             Console.ReadKey();
             Console.Clear();
 
 
             // combat loop
-            while (enemy.alive == true)
+            while (enemy.enemyIsAlive == true)
             {
                 Console.WriteLine("Your turn!");
                 Console.WriteLine("Your Health: " + player.health + "/" + player.maxHealth);
@@ -693,41 +679,41 @@ namespace HelloDungeon
                 // if you pick a melee attack, you do an attack using your attack stat against the enemy's defense stat
                 if (input == 1)
                 {
-                    DamageRoll(false, player.attack, enemy.defense, 0, "attack!");
+                    DamageRoll(false, player.attack, enemy.enemyDefense, 0, "attack!");
                 }
 
                 // otherwise, you do an attack using your magic stat against the enemy's magic stat
                 else if (input == 2)
                 {
-                    DamageRoll(false, player.magic, enemy.magicDefense, 1, "cast a spell!");
+                    DamageRoll(false, player.magic, enemy.enemyMagicDefense, 1, "cast a spell!");
                 }
 
                 // check if the enemy has died
-                if (enemy.health <= 0)
+                if (enemy.enemyHealth <= 0)
                 {
                     // enemy is not alive, print that fact out
-                    enemy.alive = false;
-                    Console.WriteLine("The " + enemy.name + " was defeated!");
+                    enemy.enemyIsAlive = false;
+                    Console.WriteLine("The " + enemy.enemyName + " was defeated!");
 
                     //finally, give experience to the player
-                    GivePlayerExp(enemy.exp);
+                    GivePlayerExp(enemy.enemyExpDrop);
                 }
 
                 // if they haven't died, print the enemy's health and let them attack
                 else
                 {
-                    Console.WriteLine("Enemy Health: " + enemy.health + "/" + enemy.maxHealth);
+                    Console.WriteLine("Enemy Health: " + enemy.enemyHealth + "/" + enemy.enemyMaxHealth);
                     Console.ReadKey();
                     Console.Clear();
 
                     // enemy decides what kind of attack to do
-                    if (enemy.attack < enemy.magic && enemy.mana > 0)
+                    if (enemy.enemyAttack < enemy.enemyMagic && enemy.enemyMana > 0)
                     {
-                        DamageRoll(true, enemy.magic, player.magicDefense, 1, "casts a spell!");
+                        DamageRoll(true, enemy.enemyMagic, player.magicDefense, 1, "casts a spell!");
                     }
                     else
                     {
-                        DamageRoll(true, enemy.attack, player.defense, 0, "attacks!");
+                        DamageRoll(true, enemy.enemyAttack, player.defense, 0, "attacks!");
                     }
 
                     // if the player is dead, print that out and then end the program
@@ -762,7 +748,7 @@ namespace HelloDungeon
                 // otherwise, print "You" and then the attack description
                 if (isAttackingPlayer == true)
                 {
-                    Console.WriteLine("The " + enemy.name + " " + attackDescription);
+                    Console.WriteLine("The " + enemy.enemyName + " " + attackDescription);
                 }
                 else
                 {
@@ -774,8 +760,8 @@ namespace HelloDungeon
                 {
                     if (isAttackingPlayer == true)
                     {
-                        enemy.mana -= manaCost;
-                        Console.WriteLine("The " + enemy.name + " used " + manaCost + " mana.");
+                        enemy.enemyMana -= manaCost;
+                        Console.WriteLine("The " + enemy.enemyName + " used " + manaCost + " mana.");
                     }
                     else
                     {
@@ -859,8 +845,8 @@ namespace HelloDungeon
                 }
                 else
                 {
-                    Console.WriteLine("The " + enemy.name + " takes " + damageDealt + " damage!");
-                    enemy.health -= damageDealt;
+                    Console.WriteLine("The " + enemy.enemyName + " takes " + damageDealt + " damage!");
+                    enemy.enemyHealth -= damageDealt;
                 }
 
                 // if the player's mana is more than their max mana, set their mana to their max mana
@@ -877,68 +863,6 @@ namespace HelloDungeon
 
                 return;
             }
-
-     
-
-            void FindEnemy(int enemyID)
-            {
-                /* 
-                 * Okay youre gonna hate me for making 8 arguments for the set enemy stats function but look.
-                 * I have no idea how else to do it aside from copy-pasting code. sorry ):
-                 * Anyways, the order is as follows:
-                 * string setName, float setHealth, float setMana, int setAttack, int setDefense, int setMagic, int setMagicDefense, int setExpDrop
-                 */
-
-                // If enemyID is 1, the enemy is a Slime.
-                if (enemyID == 1)
-                {
-                    SetEnemyStats("Slime", 10, 0, 4, 0, 20000, 0, 3);
-                    return;
-                }
-                // if it's 2, it is a mimic
-                else if (enemyID == 2)
-                {
-                    SetEnemyStats("Mimic", 20, 0, 10, 5, 0, 0, 10);
-                    return;
-                }
-                // so on and so forth
-                else if (enemyID == 3)
-                {
-                    SetEnemyStats("Molten Sphinx", 25, 2, 9, 5, 10, 1, 25);
-                }
-                else if (enemyID == 4)
-                {
-                    SetEnemyStats("Shambling Zombie", 25, 0, 10, 4, 0, 3, 8);
-                }
-                else
-                {
-                    SetEnemyStats("CoolTestEnemy", 1000, 1, 1, 1, 1, 1, 5);
-                    return;
-                }
-            }
-
-
-
-            void SetEnemyStats(string setName, float setHealth, float setMana, int setAttack, int setDefense, int setMagic, int setMagicDefense, int setExpDrop)
-            {
-
-                // set alllll of da enemy's stats
-                enemy.name = setName;
-                enemy.health = setHealth;
-                enemy.maxHealth = setHealth;
-                enemy.mana = setMana;
-                enemy.maxMana = setMana;
-                enemy.attack = setAttack;
-                enemy.defense = setDefense;
-                enemy.magic = setMagic;
-                enemy.magicDefense = setMagicDefense;
-                enemy.exp = setExpDrop;
-
-                // and then return
-                return;
-            }
-
-
         }
         
         void GivePlayerExp(int expGained)
@@ -1019,20 +943,20 @@ namespace HelloDungeon
 
 
 
-        void GivePlayerItem(int itemID, bool isConsumable, string itemName, string itemDescription)
+        void GivePlayerItem(Item item)
         {
 
             // print the item name, then item description
-            Console.WriteLine("You got the " + itemName + "!");
-            Console.WriteLine("Description: " + itemDescription);
+            Console.WriteLine("You got the " + item.itemName + "!");
+            Console.WriteLine("Description: " + item.itemDescription);
 
             // apply the item's effects, if it isn't consumable
-            ApplyItemEffect(itemID, isConsumable);
+            ApplyItemEffect(item.itemID, item.isConsumable, false);
             Console.ReadKey();
             Console.Clear();
             
             // if the item is not consumable, print the player's stats
-            if (isConsumable == false)
+            if (item.isConsumable == false)
             {
                 PrintPlayerStats();
                 Console.Clear();
@@ -1043,7 +967,7 @@ namespace HelloDungeon
             return;
         }
 
-        void ApplyItemEffect(int itemID, bool isConsumable)
+        void ApplyItemEffect(int itemID, bool isConsumable, bool IsBeingConsumed)
         {
 
             // if the item is consumable, add it to your inventory
