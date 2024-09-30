@@ -24,12 +24,10 @@ namespace HelloDungeon
 
     internal class Game
     {
-        bool runDebugCombat = false;
-        
         /// <summary>
         /// struct for player stats
         /// </summary>
-        struct Stats
+        struct PlayerStats
         {
             public string name = "";
             public string role = "";
@@ -47,7 +45,7 @@ namespace HelloDungeon
             public int gold = 3;
             public bool alive = true;
 
-            public Stats
+            public PlayerStats
                 (
                 string name,
                 string role,
@@ -127,8 +125,11 @@ namespace HelloDungeon
             }
         }
 
-        Stats player = new Stats(name: "", role: "", 0, 3, 1, 10, 10, 3, 3, 4, 3, 4, 3, 3);
+        PlayerStats player = new PlayerStats(name: "", role: "", 0, 3, 1, 10, 10, 3, 3, 4, 3, 4, 3, 3);
 
+        /// <summary>
+        /// struct for items
+        /// </summary>
         struct Item
         {
             public int itemID;
@@ -170,7 +171,7 @@ namespace HelloDungeon
             Console.WriteLine("Welcome to the dungeon!");
             Console.WriteLine();
 
-            
+            // make the player choose their class and increase their base stats based on what they chose
             int input = PlayerChoices("Are you a Wizard or a Warrior?", "Wizard", "Warrior");
             if (input == 1)
             {
@@ -193,13 +194,9 @@ namespace HelloDungeon
             PrintPlayerStats();
             Console.Clear();
 
-            if (runDebugCombat == true)
-            {
-                Enemy CoolTestEnemy = new Enemy("Cool Test Enemy", 999, 5, 5, 2, 2, 1, 0, 2, 0, true);
-            Combat(CoolTestEnemy);
-            }
+            // here's a list of Every Enemy Ever!
 
-            // here's a list of Every Enemy Ever! except the cool test enemy hes too cool
+            // order of stats is name, experience it drops, health, max health, mana, max mana, attack, defense, magic attack, magic defense, if its dead
             Enemy slime = new Enemy("Slime", 3, 10, 10, 0, 0, 5, 1, 0, 1, true);
             Enemy shamblingZombie = new Enemy("Shambling Zombie", 10, 20, 20, 0, 0, 8, 5, 0, 8, true);
             Enemy mimic = new Enemy("Mimic", 15, 15, 15, 0, 0, 12, 4, 0, 2, true);
@@ -240,11 +237,9 @@ namespace HelloDungeon
                             player.gold += 5;
 
 
-                            // create a non-consumable item named enchanted blade with that description
+                            // create a non-consumable item named enchanted blade with that description, then print that stuff and apply its effects
                             Item enchantedSword = new Item(1, false, "Enchanted Blade", "A sword enchanted by a kinda lame ancient deity long ago."
                                 + " Gives +3 Attack, +3 Magic.");
-
-                            // then print the name and description, and apply its effects.
                             GivePlayerItem(enchantedSword);
                             Console.WriteLine("Now that the Mimic is gone...");
                         }
@@ -347,7 +342,7 @@ namespace HelloDungeon
                     bool PrintRiddle(int riddleNumber)
                     {
 
-                        // if riddle number is 1, load up riddle1. if it's 2, load up riddle2. if it's 3, riddle3, so on and so forth
+                        // if riddle number is 1, load up riddle1. if it's 2, load up riddle2. if it's 3, riddle3.
                         if (riddleNumber == 1)
                         {
                             riddleID = riddle1;
@@ -365,6 +360,7 @@ namespace HelloDungeon
 
                         // checks the riddle id for the riddle you want to be given
                         // i.e. if the riddle id was 4 itd load up riddle #4
+                        // if they get the riddle right, increment their progress
                         if (riddleID == 1)
                         {
                             input = PlayerChoices("''I HAVE A BANK BUT NO MONEY, AND A CHANNEL BUT NO TELEVISION. WHAT AM I?''",
@@ -614,42 +610,32 @@ namespace HelloDungeon
             // while loop to prevent invalid input
             while (inputRecieved != 1 && inputRecieved != 2 && inputRecieved != 3 && inputRecieved != 4)
             {
-                // Print options
+                // Print options, then get the player's input
                 Console.WriteLine(description);
                 Console.WriteLine("1: " + option1 + " | 2: " + option2 + " | 3: " + option3 + " | 4: " + option4);
                 Console.Write("> ");
-
-                // Get input from player cause theyre so cool
                 input = Console.ReadLine();
 
-                // if player selected the first option
+                // if player inputted 1, set inputrecieved to 1. if player inputted 2, set input recieved to 2, etc. etc.
                 if (input == "1" || input == option1)
                 {
-                    // set input recieved to the first option
                     inputRecieved = 1;
                 }
-                // if they chose the second option
                 else if (input == "2" || input == option2)
                 {
-                    // set it to the second option :3
                     inputRecieved = 2;
                 }
-                // if its option 3
                 else if (input == "3" || input == option3)
                 {
-                    // set input recieved to 3
                     inputRecieved = 3;
                 }
-                // if it's option 4
                 else if (input == "4" || input == option4)
                 {
-                    // set input to 4
                     inputRecieved = 4;
                 }
-                // if its none of them, however
                 else
                 {
-                    // display error
+                    // if they didnt input any of the options, print an error
                     Console.WriteLine("Invalid Input");
                     Console.ReadKey();
                 }
@@ -689,14 +675,12 @@ namespace HelloDungeon
                     DamageRoll(false, player.magic, enemy.enemyMagicDefense, 1, "cast a spell!");
                 }
 
-                // check if the enemy has died
+                // if the enemy's health is less than or equal to 0, print out the fact that they have died and give the player exp
                 if (enemy.enemyHealth <= 0)
                 {
-                    // enemy is not alive, print that fact out
                     enemy.enemyIsAlive = false;
                     Console.WriteLine("The " + enemy.enemyName + " was defeated!");
 
-                    //finally, give experience to the player
                     GivePlayerExp(enemy.enemyExpDrop);
                 }
 
@@ -707,7 +691,6 @@ namespace HelloDungeon
                     Console.ReadKey();
                     Console.Clear();
 
-                    // enemy decides what kind of attack to do
                     if (enemy.enemyAttack < enemy.enemyMagic && enemy.enemyMana > 0)
                     {
                         DamageRoll(true, enemy.enemyMagic, player.magicDefense, 1, "casts a spell!");
@@ -757,6 +740,7 @@ namespace HelloDungeon
                 }
 
                 // if the attack costs mana, deduct the cost from the mana from whoever is using that attack
+                // if the player didnt have enough mana, print that out and dont do that.
                 if (manaCost > 0.0f)
                 {
                     if (isAttackingPlayer == true)
@@ -787,16 +771,15 @@ namespace HelloDungeon
                     }
                 }
 
-                // if it doesn't cost mana and the player is not at max mana, regenerate some of the player's mana
+                // if it doesn't cost mana and the player is not at max mana, regenerate a fourth of the player's mana
                 else if (player.mana < player.maxMana && isAttackingPlayer == false)
                 {
                     player.mana += player.maxMana / 4;
                     Console.WriteLine("You regenerated some mana!");
                 }
 
-                // Attack - defense = damage
+                // Attack - defense = damage, with a minimum of 1
                 damageCalculated = attackingStat - defendingStat;
-
                 if (damageCalculated <= 0)
                 {
                     damageCalculated = 1;
@@ -812,20 +795,16 @@ namespace HelloDungeon
                 }
                 else
                 {
-                // roll a d5 to decide the damage multiplier
-                damageRoll = RandomNumberGenerator.GetInt32(1, 5);
-
-                // add 2 and then divide it by 5, giving a minimum of 0.6, and a max of 1.4
-                damageMult = damageRoll;
-                damageMult += 2;
-                damageMult /= 5;
-
-                // multiply the damage calculated by the damage roll
-                damageCalculated *= damageMult;
+                    // roll a d5, add 2 to the result and then divide it by 5, to get a damage multiplier with a minimum of 0.6, and a max of 1.4 
+                    damageRoll = RandomNumberGenerator.GetInt32(1, 5);
+                    damageMult = damageRoll;
+                    damageMult += 2;
+                    damageMult /= 5;
+                    damageCalculated *= damageMult;
                 }
                 
 
-                // convert that into an integer, thus rounding it down
+                // truncate the damage by turning it into an integer
                 damageDealt = (int)damageCalculated;
 
 
@@ -850,13 +829,11 @@ namespace HelloDungeon
                     enemy.enemyHealth -= damageDealt;
                 }
 
-                // if the player's mana is more than their max mana, set their mana to their max mana
+                // if the player's mana and/or health is more than their max mana/health, set their mana/health to their max mana/health
                 if (player.mana > player.maxMana)
                 {
                     player.mana = player.maxMana;
                 }
-
-                // same thing here but for health
                 if (player.health > player.maxHealth)
                 {
                     player.health = player.maxHealth;
@@ -876,18 +853,13 @@ namespace HelloDungeon
             player.exp += expGained;
 
             // while your exp is more than or equal to the amount needed to level up, level up
+            // and print out a message for each time you level up
             while (player.exp >= player.expToLevel)
             {
-                // increment the player's level
-                // and also keep track of how many times you do that
                 player.level++;
                 levelsGained++;
-
-                // print a message for every time you level up and also deduct the exp
                 Console.WriteLine("You leveled up to level " + player.level + "!");
                 player.exp -= player.expToLevel;
-
-                // and finally, add 5 to the needed exp to level
                 player.expToLevel += 5;
             }
 
@@ -914,11 +886,9 @@ namespace HelloDungeon
                     player.defense += 2 * levelsGained;
                 }
 
-                // set player's health and mana to their new maximum
+                // set player's health and mana to their new maximum, then print out their new stats
                 player.health = player.maxHealth;
                 player.mana = player.maxMana;
-
-                // print the player's stats as they are now
                 PrintPlayerStats();
                 Console.Clear();
             }
@@ -956,14 +926,15 @@ namespace HelloDungeon
             Console.ReadKey();
             Console.Clear();
             
-            // if the item is not consumable, print the player's stats
+            // if the item is not consumable, print the player's stats cuz they probably got changed
             if (item.isConsumable == false)
             {
                 PrintPlayerStats();
                 Console.Clear();
             }
             
-
+            // there would be an inventory system but i forgot to actually implement it ngl
+            // eh, doesnt matter too much cuz i never added any consumable items
 
             return;
         }
@@ -978,6 +949,7 @@ namespace HelloDungeon
             }
 
             // otherwise, comb through all the item ids to find the right match for the effect
+            // there's only one right now though. but if there was more items there would be more here
             else if (itemID == 1)
             {
                 player.attack += 3;
