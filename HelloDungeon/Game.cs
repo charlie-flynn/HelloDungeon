@@ -202,14 +202,17 @@ namespace HelloDungeon
             Enemy mimic = new Enemy("Mimic", 15, 15, 15, 0, 0, 12, 4, 0, 2, true);
             Enemy moltenSphinx = new Enemy("Molten Sphinx", 25, 25, 25, 2, 2, 4, 3, 14, 3, true);
 
+
+            // initiate combat with a slime
             Console.WriteLine("Gray bricks line the walls of the dungeon,"
                     + " and dust and dread permeate the air.");
-                Console.WriteLine("A slime is stewing on the ground. It seems to be digesting something.");
-                Console.WriteLine("It notices you. It seems that you must battle it.");
+            Console.WriteLine("A slime is stewing on the ground. It seems to be digesting something.");
+            Console.WriteLine("It notices you. It seems that you must battle it.");
+            Combat(slime);
 
-            
-                Combat(slime);
-
+            // after combat, prompt player to choose between two doors
+            // the left one leads them to mimic hallway
+            // the right one leads them to sphinx riddles
                 Console.WriteLine("Now that the slime is gone, you can focus on what's important: choosing a door.");
                 input = PlayerChoices("There are two doors on opposite walls from each other. Which do you choose?", "Left", "Right");
                 if (input == 1)
@@ -221,6 +224,9 @@ namespace HelloDungeon
                     Console.WriteLine("Nonetheless, you must perservere. You come across a fork in your path.");
                     Console.WriteLine("One path leads to a strange chest, and the other certainly leads you closer to a Living Skeleton.");
                     input = PlayerChoices("Which way do you choose?", "Straight", "Left");
+                // mimic hallway choiche
+                // if the player goes straight, lead them to mimic
+                // if they go left, lead them to Shambling Zombie (altho they'll always encounter shambling zombie either way)
                     if (input == 1)
                     {
                         Console.WriteLine("You approach the chest with the same caution you'd give a wild animal.");
@@ -235,7 +241,7 @@ namespace HelloDungeon
                             Console.WriteLine("Lucky for you, the Mimic dropped some treasure!");
                             Console.WriteLine("You got +5 Gold!");
                             player.gold += 5;
-
+                            // if the player beats the mimic, they get treasure!
 
                             // create a non-consumable item named enchanted blade with that description, then print that stuff and apply its effects
                             Item enchantedSword = new Item(1, false, "Enchanted Blade", "A sword enchanted by a kinda lame ancient deity long ago."
@@ -245,6 +251,7 @@ namespace HelloDungeon
                         }
                        Console.WriteLine("You turn around, then go down the hallway that was to your left earlier.");
                     }
+                    // initiate combat with shambling zombie. afterwards go deeper into the dungeon which doesnt exist
                         Console.WriteLine("As you turn the corner, a Shambling Zombie shambles towards you.");
                         Console.WriteLine("It shambles, in a menacing fashion.");
                         Combat(shamblingZombie);
@@ -252,6 +259,9 @@ namespace HelloDungeon
                 }
                 else if (input == 2)
                 {
+                // sphinx choiche
+                // if you go straight, answer the sphinx's riddles
+                // if you take a right, you must fight the Shambling Zombie
                     Console.WriteLine("You enter the right door.");
                     Console.WriteLine("Dust and dread are replaced by ash and flame. Magma pours around you, but never on you.");
                     Console.WriteLine("You feel a general lack of dreadful presences in this direction.");
@@ -272,12 +282,14 @@ namespace HelloDungeon
                     }
                     else if (input == 2)
                     {
+                    // shambling zombie combat
                         Console.WriteLine("The moment you touch the doorknob, the door falls over like a domino away from you.");
                         Console.WriteLine("Around the corner of the hallway was a Shambling Zombie.");
                         Console.WriteLine("It shambles towards you in a menacing fashion.");
 
                         Combat(shamblingZombie);
 
+                    // afterwards, initiate sphinx riddles after giving the player clues to a lever puzzle that doesnt exist
                         Console.WriteLine("Now that the Shambling Zombie has been taken care of, you proceed down the hall.");
                         Console.WriteLine("The hallway leads to a dead end, but in that dead end is a message.");
                         Console.WriteLine("''DOWN, UP, DOWN''");
@@ -318,7 +330,7 @@ namespace HelloDungeon
                         riddleFailed = PrintRiddle(riddleCompletionTracker);
                     }
 
-                    // if you failed the riddle, you engage in combat with the sphinx
+                    // if you failed the riddle, you engage in combat with the sphinx. but if you pass, you gain exp for your epic riddle skillz
                     if (riddleFailed == true)
                     {
                         Console.WriteLine("The Molten Sphinx looks at you, its petrifying gaze piercing into your mind.");
@@ -327,7 +339,6 @@ namespace HelloDungeon
 
                         Combat(moltenSphinx);
                     }
-                    // if you passed, you get experience for your swag money riddle skills
                     else
                     {
                         Console.WriteLine("The Molten Sphinx looks at you, its gaze not one of malice, but of pride.");
@@ -358,9 +369,9 @@ namespace HelloDungeon
 
 
 
-                        // checks the riddle id for the riddle you want to be given
+                        // checks the riddle id for the riddle that must be given
                         // i.e. if the riddle id was 4 itd load up riddle #4
-                        // if they get the riddle right, increment their progress
+                        // if the player gets the riddle right, increment their progress
                         if (riddleID == 1)
                         {
                             input = PlayerChoices("''I HAVE A BANK BUT NO MONEY, AND A CHANNEL BUT NO TELEVISION. WHAT AM I?''",
@@ -496,7 +507,7 @@ namespace HelloDungeon
                         }
                         else if (riddleID == 8)
                         {
-                            input = PlayerChoices("''PLACEHOLDER RIDDLE''", "Correct Answer", "Incorrect Answer", "Wrong Answer", "Not the Right Answer");
+                            input = PlayerChoices("''WHICH IS THE CORRECT ANSWER?''", "Correct Answer", "Incorrect Answer", "Wrong Answer", "Not the Right Answer");
                             if (input == 1)
                             {
                                 Console.WriteLine("''CORRECT.''");
@@ -523,30 +534,24 @@ namespace HelloDungeon
             // while loop to prevent invalid input
             while (inputRecieved != 1 && inputRecieved != 2)
             {
-                // Print options
+                // Print options and get input from the player
                 Console.WriteLine(description);
                 Console.WriteLine("1: " + option1 + " | 2: " + option2);
                 Console.Write("> ");
-
-                // Get input from player cause theyre so cool
                 input = Console.ReadLine();
 
-                // if player selected the first option
+                // if the player inputted a number or the name of an option, set inputrecieved to said option
                 if (input == "1" || input == option1)
                 {
-                    // set input recieved to the first option
                     inputRecieved = 1;
                 }
-                // if they chose the second option
                 else if (input == "2" || input == option2)
                 {
-                    // set it to the second option :3
                     inputRecieved = 2;
                 }
-                // if its neither, however
+                // if the input was not a valid option, display an error
                 else
                 {
-                    // display error
                     Console.WriteLine("Invalid Input");
                     Console.ReadKey();
                 }
@@ -563,36 +568,27 @@ namespace HelloDungeon
             // while loop to prevent invalid input
             while (inputRecieved != 1 && inputRecieved != 2 && inputRecieved != 3)
             {
-                // Print options
+                // Print options and get input from the player
                 Console.WriteLine(description);
                 Console.WriteLine("1: " + option1 + " | 2: " + option2 + " | 3: " + option3);
                 Console.Write("> ");
-
-                // Get input from player cause theyre so cool
                 input = Console.ReadLine();
 
-                // if player selected the first option
+                // if player selected a valid option, set inputrecieved to said option
                 if (input == "1" || input == option1)
                 {
-                    // set input recieved to the first option
                     inputRecieved = 1;
                 }
-                // if they chose the second option
                 else if (input == "2" || input == option2)
                 {
-                    // set it to the second option :3
                     inputRecieved = 2;
                 }
-                // if its option 3
                 else if (input == "3" || input == option3)
                 {
-                    // set input recieved to 3
                     inputRecieved = 3;
                 }
-                // if its none of them, however
                 else
                 {
-                    // display error
                     Console.WriteLine("Invalid Input");
                     Console.ReadKey();
                 }
