@@ -1,6 +1,6 @@
 C# Coding Practice for AIE
 
-Download the program by clicking [here!](https://github.com/charlie-flynn/HelloDungeon/releases)
+Download the program [here!](https://github.com/charlie-flynn/HelloDungeon/releases)
 
 Then right-click the .ZIP, and click Extract All.
 
