@@ -1,5 +1,11 @@
 C# Coding Practice for AIE
 
+Download the program by clicking [here!](https://github.com/charlie-flynn/HelloDungeon/releases)
+
+Then right-click the .ZIP, and click Extract All.
+
+Afterwards, you're good to run the executable (.exe) file in the folder!
+
 How to play!
 
 When the game prompts you to make a decision, type in either the word (or words) or number assigned to the choice you wish to make.
