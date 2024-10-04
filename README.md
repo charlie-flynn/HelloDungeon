@@ -1,8 +1,8 @@
 C# Coding Practice for AIE
 
-Download the program [here!](https://github.com/charlie-flynn/HelloDungeon/releases)
+Download the program [here,](https://github.com/charlie-flynn/HelloDungeon/releases) then clicking on the .zip file at the top of the Assets list to download it!
 
-Then right-click the .ZIP, and click Extract All.
+Then right-click the .ZIP that is in your Downloads folder, and click Extract All.
 
 Afterwards, you're good to run the executable (.exe) file in the folder!
 
