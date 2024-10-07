@@ -224,7 +224,7 @@ namespace HelloDungeon
                     Console.WriteLine("Nonetheless, you must perservere. You come across a fork in your path.");
                     Console.WriteLine("One path leads to a strange chest, and the other certainly leads you closer to a Living Skeleton.");
                     input = PlayerChoices("Which way do you choose?", "Straight", "Left");
-                // mimic hallway choiche
+                // mimic hallway choice
                 // if the player goes straight, lead them to mimic
                 // if they go left, lead them to Shambling Zombie (altho they'll always encounter shambling zombie either way)
                     if (input == 1)
@@ -240,10 +240,11 @@ namespace HelloDungeon
                             Combat(mimic);
                             Console.WriteLine("Lucky for you, the Mimic dropped some treasure!");
                             Console.WriteLine("You got +5 Gold!");
-                            player.gold += 5;
-                            // if the player beats the mimic, they get treasure!
+                        // if the player beats the mimic, they get treasure! give em 5 gold :)
+                        player.gold += 5;
+                            
 
-                            // create a non-consumable item named enchanted blade with that description, then print that stuff and apply its effects
+                            // create a item named enchanted blade with that description, then print the name and description and apply its effects
                             Item enchantedSword = new Item(1, false, "Enchanted Blade", "A sword enchanted by a kinda lame ancient deity long ago."
                                 + " Gives +3 Attack, +3 Magic.");
                             GivePlayerItem(enchantedSword);
@@ -251,6 +252,7 @@ namespace HelloDungeon
                         }
                        Console.WriteLine("You turn around, then go down the hallway that was to your left earlier.");
                     }
+                    // after mimic go down shambling zombie hallway, or the player can go directly to it
                     // initiate combat with shambling zombie. afterwards go deeper into the dungeon which doesnt exist
                         Console.WriteLine("As you turn the corner, a Shambling Zombie shambles towards you.");
                         Console.WriteLine("It shambles, in a menacing fashion.");
@@ -259,7 +261,7 @@ namespace HelloDungeon
                 }
                 else if (input == 2)
                 {
-                // sphinx choiche
+                // sphinx choice
                 // if you go straight, answer the sphinx's riddles
                 // if you take a right, you must fight the Shambling Zombie
                     Console.WriteLine("You enter the right door.");
@@ -310,21 +312,20 @@ namespace HelloDungeon
                 {
 
                     // generate a random sequence of riddles
+                    // if any of the riddles are the same, try again!
                     int riddle1 = RandomNumberGenerator.GetInt32(1, 9);
                     int riddle2 = RandomNumberGenerator.GetInt32(1, 9);
                     int riddle3 = RandomNumberGenerator.GetInt32(1, 9);
                     int riddleCompletionTracker = 1;
                     bool riddleFailed = false;
                     int riddleID = 0;
-
-                    // if any of the riddles are the same, try again!
                     while (riddle1 == riddle2 || riddle2 == riddle3 || riddle3 == riddle1)
                     {
                         riddle1 = RandomNumberGenerator.GetInt32(1, 9);
                         riddle2 = RandomNumberGenerator.GetInt32(1, 9);
                         riddle3 = RandomNumberGenerator.GetInt32(1, 9);
                     }
-                    // while you still have riddles left to complete or until you fail, give the player a riddle
+                    // while you still have riddles left to complete or until you fail, give the player riddles
                     while (riddleCompletionTracker < 4 && riddleFailed == false)
                     {
                         riddleFailed = PrintRiddle(riddleCompletionTracker);
@@ -660,12 +661,11 @@ namespace HelloDungeon
                 input = PlayerChoices("What will you do?", "Melee", "Magic");
 
                 // if you pick a melee attack, you do an attack using your attack stat against the enemy's defense stat
+                // otherwise, you do an attack using your magic stat against the enemy's magic defense stat
                 if (input == 1)
                 {
                     DamageRoll(false, player.attack, enemy.enemyDefense, 0, "attack!");
                 }
-
-                // otherwise, you do an attack using your magic stat against the enemy's magic defense stat
                 else if (input == 2)
                 {
                     DamageRoll(false, player.magic, enemy.enemyMagicDefense, 1, "cast a spell!");
@@ -918,7 +918,7 @@ namespace HelloDungeon
             Console.WriteLine("Description: " + item.itemDescription);
 
             // apply the item's effects, if it isn't consumable
-            ApplyItemEffect(item.itemID, item.isConsumable, false);
+            ApplyItemEffect(item.itemID, item.isConsumable);
             Console.ReadKey();
             Console.Clear();
             
@@ -935,18 +935,11 @@ namespace HelloDungeon
             return;
         }
 
-        void ApplyItemEffect(int itemID, bool isConsumable, bool IsBeingConsumed)
+        void ApplyItemEffect(int itemID, bool isConsumable)
         {
-
-            // if the item is consumable, add it to your inventory
-            if (isConsumable == true)
-            {
-
-            }
-
             // otherwise, comb through all the item ids to find the right match for the effect
             // there's only one right now though. but if there was more items there would be more here
-            else if (itemID == 1)
+            if (itemID == 1)
             {
                 player.attack += 3;
                 player.magic += 3;
