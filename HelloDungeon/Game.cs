@@ -24,6 +24,20 @@ namespace HelloDungeon
 
     internal class Game
     {
+
+        private enum Riddle
+        {
+            RIVER_RIDDLE,
+            PIANO_RIDDLE,
+            DEATH_RIDDLE,
+            NINETEEN_RIDDLE,
+            SEMICOLON_RIDDLE,
+            FRIDAY_RIDDLE,
+            PURPLE_RIDDLE,
+            CORRECT_RIDDLE
+        }
+        
+
         /// <summary>
         /// struct for player stats
         /// </summary>
@@ -190,7 +204,7 @@ namespace HelloDungeon
                 player.health += 2;
 
             }
-
+            
             PrintPlayerStats();
             Console.Clear();
 
@@ -310,20 +324,19 @@ namespace HelloDungeon
                 }
                 void SphinxRiddles()
                 {
-
                     // generate a random sequence of riddles
                     // if any of the riddles are the same, try again!
-                    int riddle1 = RandomNumberGenerator.GetInt32(1, 9);
-                    int riddle2 = RandomNumberGenerator.GetInt32(1, 9);
-                    int riddle3 = RandomNumberGenerator.GetInt32(1, 9);
+                    Riddle riddle1 = (Riddle)RandomNumberGenerator.GetInt32(1, 9);
+                    Riddle riddle2 = (Riddle)RandomNumberGenerator.GetInt32(1, 9);
+                    Riddle riddle3 = (Riddle)RandomNumberGenerator.GetInt32(1, 9);
                     int riddleCompletionTracker = 1;
                     bool riddleFailed = false;
-                    int riddleID = 0;
+                    Riddle riddleID = 0;
                     while (riddle1 == riddle2 || riddle2 == riddle3 || riddle3 == riddle1)
                     {
-                        riddle1 = RandomNumberGenerator.GetInt32(1, 9);
-                        riddle2 = RandomNumberGenerator.GetInt32(1, 9);
-                        riddle3 = RandomNumberGenerator.GetInt32(1, 9);
+                        riddle1 = (Riddle)RandomNumberGenerator.GetInt32(1, 9);
+                        riddle2 = (Riddle)RandomNumberGenerator.GetInt32(1, 9);
+                        riddle3 = (Riddle)RandomNumberGenerator.GetInt32(1, 9);
                     }
                     // while you still have riddles left to complete or until you fail, give the player riddles
                     while (riddleCompletionTracker < 4 && riddleFailed == false)
@@ -350,7 +363,7 @@ namespace HelloDungeon
 
 
 
-
+                    
                     bool PrintRiddle(int riddleNumber)
                     {
 
@@ -370,11 +383,12 @@ namespace HelloDungeon
 
 
 
-                        // checks the riddle id for the riddle that must be given
-                        // i.e. if the riddle id was 4 itd load up riddle #4
-                        // if the player gets the riddle right, increment their progress
-                        if (riddleID == 1)
-                        {
+                    // checks the riddle id for the riddle that must be given
+                    // i.e. if the riddle id was 4 itd load up riddle #4
+                    // if the player gets the riddle right, increment their progress
+                    switch (riddleID)
+                    {
+                        case Riddle.RIVER_RIDDLE:
                             input = PlayerChoices("''I HAVE A BANK BUT NO MONEY, AND A CHANNEL BUT NO TELEVISION. WHAT AM I?''",
                                 "TV", "Crab", "River", "Tears");
                             if (input == 3)
@@ -390,9 +404,8 @@ namespace HelloDungeon
                                 Console.WriteLine("''THE ANSWER WAS THE RIVER, FOR IT HAS A BANK AND A CHANNEL, BUT NO MONEY OR TELEVISION.''");
                                 return true;
                             }
-                        }
-                        else if (riddleID == 2)
-                        {
+                            break;
+                        case Riddle.PIANO_RIDDLE:
                             input = PlayerChoices("''I HAVE DOZENS OF KEYS, BUT I CANNOT OPEN ANY LOCKS. WHAT AM I?''",
                                 "Piano", "Tablet", "Keyring", "Ant");
                             if (input == 1)
@@ -408,9 +421,8 @@ namespace HelloDungeon
                                 Console.WriteLine("''THE ANSWER WAS THE PIANO, FOR DESPITE ITS MANY, MANY KEYS, IT CAN NEVER OPEN A LOCK.''");
                                 return true;
                             }
-                        }
-                        else if (riddleID == 3)
-                        {
+                            break;
+                        case Riddle.DEATH_RIDDLE:
                             input = PlayerChoices("''ALL MOURN WHEN I HAPPEN TO OTHERS, BUT WHEN I HAPPEN TO YOU, YOU WON'T BAT AN EYE. WHAT AM I?''",
                                 "Housefire", "Death", "Wolves Invasion", "Big Ant");
                             if (input == 2)
@@ -426,10 +438,8 @@ namespace HelloDungeon
                                 Console.WriteLine("''THE ANSWER WAS DEATH, FOR THE MOMENT YOU DIE, YOU WILL NEVER BAT AN EYE AGAIN.''");
                                 return true;
                             }
-
-                        }
-                        else if (riddleID == 4)
-                        {
+                            break;
+                        case Riddle.NINETEEN_RIDDLE:
                             input = PlayerChoices("''WHAT'S 9+10?''",
                                 "19", "21", "12", "14");
                             if (input == 1)
@@ -450,9 +460,8 @@ namespace HelloDungeon
                                 Console.WriteLine("''THE CORRECT ANSWER WAS NINETEEN, FOR NINE PLUS TEN EQUALS NINETEEN.''");
                                 return true;
                             }
-                        }
-                        else if (riddleID == 5)
-                        {
+                            break;
+                        case Riddle.SEMICOLON_RIDDLE:
                             input = PlayerChoices("''I AM AN ALL-IMPORTANT PIECE OF THIS WORLD, SYMBOLIZING AN END OF THE LINE. WHAT AM I?''",
                                 "Skull", "GAME OVER", "Exclamation Point", "Semicolon");
                             if (input == 4)
@@ -468,9 +477,8 @@ namespace HelloDungeon
                                 Console.WriteLine("''THE ANSWER WAS THE SEMICOLON, FOR IT SYMBOLIZES THE END OF A LINE OF CODE.''");
                                 return true;
                             }
-                        }
-                        else if (riddleID == 6)
-                        {
+                            break;
+                        case Riddle.FRIDAY_RIDDLE:
                             input = PlayerChoices("''A KNIGHT RIDES INTO A TOWN ON FRIDAY. HE STAYS THREE DAYS AND THREE NIGHTS, AND LEAVES ON FRIDAY." +
                                 " HOW IS THAT POSSIBLE?''",
                                 "Time Paradox", "Horse's Name", "Three Knights", "Knight's Name");
@@ -487,9 +495,8 @@ namespace HelloDungeon
                                 Console.WriteLine("''THE ANSWER WAS THE HORSE'S NAME, FOR THE HORSE WAS NAMED FRIDAY''");
                                 return true;
                             }
-                        }
-                        else if (riddleID == 7)
-                        {
+                            break;
+                        case Riddle.PURPLE_RIDDLE:
                             input = PlayerChoices("''WHAT IS MY FAVORITE COLOR?''",
                                 "Red", "Orange", "Green", "Purple");
                             if (input == 4)
@@ -505,9 +512,8 @@ namespace HelloDungeon
                                 Console.WriteLine("''THE ANSWER WAS PURPLE, BECAUSE I REALLY LIKE PURPLE. :)''");
                                 return true;
                             }
-                        }
-                        else if (riddleID == 8)
-                        {
+                            break;
+                        case Riddle.CORRECT_RIDDLE:
                             input = PlayerChoices("''WHICH IS THE CORRECT ANSWER?''", "Correct Answer", "Incorrect Answer", "Wrong Answer", "Not the Right Answer");
                             if (input == 1)
                             {
@@ -522,10 +528,14 @@ namespace HelloDungeon
                                 Console.WriteLine("''THE ANSWER WAS THE CORRECT ANSWER, IT IS THE RIGHT ANSWER.''");
                                 return true;
                             }
-                        }
-                        return false;
+                            break;
+                        default:
+                            return false;
+                            break;
+                    }
                     }
                 }
+
                 }
         int PlayerChoices(string description, string option1, string option2)
         {
@@ -917,7 +927,7 @@ namespace HelloDungeon
             Console.WriteLine("You got the " + item.itemName + "!");
             Console.WriteLine("Description: " + item.itemDescription);
 
-            // apply the item's effects, if it isn't consumable
+            // apply the item's effects
             ApplyItemEffect(item.itemID, item.isConsumable);
             Console.ReadKey();
             Console.Clear();
